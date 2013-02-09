@@ -14,4 +14,9 @@ To get started with the code, you will first need a copy of visual studio 2012, 
 ----
 
 
+http://code.google.com/p/voxilian/source/browse/pictures/vea1.0.p.1.png
+http://code.google.com/p/voxilian/source/browse/pictures/vea1.0.p.2.png
+http://code.google.com/p/voxilian/source/browse/pictures/vea1.0.p.3.png
+
+
 That's it for now.
