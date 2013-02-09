@@ -38,7 +38,7 @@ float DegToRad(float x)
 
 Vector3 cpos;
 Vector3 crot;
-int ky[10];
+int ky[11];
 int mm[2];
 
 void CalculateVoxel()
@@ -123,6 +123,10 @@ void key(int ik,int is)
 	{
 		ky[9]=is;
 	}
+	if(ik=='G')
+	{
+		ky[10]=is;
+	}
 }
 
 void tmove(float* x,float n,float t)
@@ -135,17 +139,23 @@ float ttime()
 	return ((float)clock())/CLOCKS_PER_SEC;
 }
 
+bool ss;
+
 void MMouseMove(int mx,int my)
 {
-	mm[0]=mx-64;
-	mm[1]=my-64;
-	crot.y+=((float)mm[0]/2.0f);
-	crot.x+=((float)mm[1]/2.0f);
-	glfwSetMousePos(64,64);
+	if(ss==false)
+	{
+		mm[0]=mx-64;
+		mm[1]=my-64;
+		crot.y+=((float)mm[0]/2.0f);
+		crot.x+=((float)mm[1]/2.0f);
+		glfwSetMousePos(64,64);
+	}
 }
 
 int main(int argc, char** argv)
 {
+	ss=false;
 	iso=0.1f;
 	float ts;
 	ts=ttime();
@@ -264,6 +274,11 @@ int main(int argc, char** argv)
 			tworld.clear();
 			iso-=0.001f;
 			CalculateVoxel();
+		}
+		if(ky[10]==1)
+		{
+			ss=true;
+			glfwEnable(GLFW_MOUSE_CURSOR);
 		}
 		glEnd();
 		glfwSwapBuffers();
