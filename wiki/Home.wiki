@@ -7,8 +7,11 @@ All documentation of code for this project, specifically orienting around the cl
 
 For starters, this game is based around the idea of Minecraft, so credit goes to Mojang. Head on over to https://minecraft.net/ to see for yourself. The idea behind this is to create a game almost exactly like minecraft, just without all of the blockiness that goes with it.
 
+
 ==Source Code Installation==
 ----
 To get started with the code, you will first need a copy of visual studio 2012, I think you can use express as well, for C++, as that is what this project is developed in. Download the svn via an svn client like TurtoiseSVN by right clicking the file and selecting svn check out, where it will then download the project files to the selected folder for you.
+----
+
 
 That's it for now.
