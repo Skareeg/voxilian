@@ -1,14 +1,27 @@
 #ifndef TH
 #define TH
+#include <iostream>
 #include <math.h>
 #include <vector>
-#include <GL\glfw.h>
-typedef struct
+
+/*typedef struct
 {
 	float x;
 	float y;
 	float z;
-} Vector3;
+} Vector3;*/
+
+class Vector3
+{
+public:
+	float x;
+	float y;
+	float z;
+	Vector3();
+	Vector3 operator+(Vector3);
+	Vector3 operator-(Vector3);
+};
+
 
 typedef struct {
    Vector3 p[3];

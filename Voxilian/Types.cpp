@@ -1,5 +1,28 @@
 #include "Types.h"
 
+Vector3::Vector3()
+{
+	x=0;
+	y=0;
+	z=0;
+}
+Vector3 Vector3::operator+(Vector3 v)
+{
+	Vector3 r;
+	r.x=(this->x+v.x);
+	r.y=(this->y+v.y);
+	r.z=(this->z+v.z);
+	return r;
+}
+Vector3 Vector3::operator-(Vector3 v)
+{
+	Vector3 r;
+	r.x=(this->x-v.x);
+	r.y=(this->y-v.y);
+	r.z=(this->z-v.z);
+	return r;
+}
+
 namespace VMath
 {
 	float Distance(Vector3 v1,Vector3 v2)

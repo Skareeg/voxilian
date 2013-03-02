@@ -418,6 +418,7 @@ Vector3 Normalize(Vector3 v)
 void Voxel::Init(Vector3 position)
 {
 	pos=position;
+	vwrite=VMath::Vector(0,0,0);
 }
 void Voxel::Calculate(float isolevel)
 {
@@ -451,16 +452,41 @@ void Voxel::Calculate(float isolevel)
 			}
 		}
 	}
+	std::cout<<mesh.size()<<" triangles exist now.\n";
 }
 void Voxel::Draw()
 {
-	for(int i = 0;i<mesh.size();i++)
+	//Draw code here.
+}
+void Voxel::VDSphere(Vector3 vpos, float radius, float density, bool solid)
+{
+	//Clear the mesh. May change later to only compute voxels near radius.
+	mesh.clear();
+	//Go through each voxel point.
+	for(int i = 0;i<VoxSize;i++)
 	{
-		glColor3f(1.0f,0.0f,0.0f);
-		glVertex3f(mesh[i].p[0].x,mesh[i].p[0].y,mesh[i].p[0].z);
-		glColor3f(0.0f,1.0f,0.0f);
-		glVertex3f(mesh[i].p[1].x,mesh[i].p[1].y,mesh[i].p[1].z);
-		glColor3f(0.0f,0.0f,1.0f);
-		glVertex3f(mesh[i].p[2].x,mesh[i].p[2].y,mesh[i].p[2].z);
+		for(int j = 0;j<VoxSize;j++)
+		{
+			for(int k = 0;k<VoxSize;k++)
+			{
+				//Get the distance between the player (vpos) and the voxel point.
+				float distance = VMath::Distance(vwrite,VMath::Vector(i,j,k));
+				//If the distance is in the radius, then do this.
+				if(distance<radius)
+				{
+					//If solid is stated true, then subtract the density on all points equally.
+					//Otherwise, subtract it with the power of subtraction closer to the vpos.
+					if(solid==true)
+					{
+						dgrid[i][j][k]-=density;
+					}
+					else
+					{
+						dgrid[i][j][k]-=((1-(distance/radius))*density);
+					}
+				}
+			}
+		}
 	}
+	Calculate(0.5f);
 }
