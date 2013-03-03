@@ -7,9 +7,19 @@
 #include <string>
 #include "Voxel.h"
 #include <ctime>
-#include <OGRE\Ogre.h>
+#include "Types.h"
+#include "GLSYS.h"
+#include "Game.h"
 
 int main(int argc, char** argv)
 {
+	Game gm;
+	gm.Init();
+	while(glS.WindowEscaped()==false)
+	{
+		gm.Render();
+		gm.Run();
+	}
+	gm.End();
 	return 0;
 }

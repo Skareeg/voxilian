@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <GL\glfw.h>
 
 /*typedef struct
 {

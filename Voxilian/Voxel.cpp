@@ -456,7 +456,10 @@ void Voxel::Calculate(float isolevel)
 }
 void Voxel::Draw()
 {
-	//Draw code here.
+	glPushMatrix();
+	glTranslatef(-pos.x,-pos.y,-pos.z);
+	//Draw Code Here.
+	glPopMatrix();
 }
 void Voxel::VDSphere(Vector3 vpos, float radius, float density, bool solid)
 {
