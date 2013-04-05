@@ -11,12 +11,13 @@ For starters, this game is based around the idea of Minecraft, so credit goes to
 ==Source Code Installation==
 ----
 To get started with the code, you will first need a copy of visual studio 2012, I think you can use express as well, for C++, as that is what this project is developed in. Download the svn via an svn client like TurtoiseSVN by right clicking the file and selecting svn check out, where it will then download the project files to the selected folder for you.
-----
 
 
-http://s20.postimage.org/hu6pko7sd/vea1_0_p_1.png
-http://s20.postimage.org/q0ypc8xv1/vea1_0_p_2.png
-http://s20.postimage.org/4328igiul/vea1_0_p_3.png
+These are screenshots from a previous build:
+http://voxilian.googlecode.com/svn/wiki/vea1.0.p.1.png
+http://voxilian.googlecode.com/svn/wiki/vea1.0.p.2.png
+http://voxilian.googlecode.com/svn/wiki/vea1.0.p.3.png
+
 
 
 That's it for now.
