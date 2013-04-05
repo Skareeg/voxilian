@@ -1,6 +1,6 @@
 =Voxilian Indev 1.0.0=
 
-This is the earliest stable build of voxilian. It will require the Visual Studio C++ Runtime Environment to run.
+This is the earliest stable build of Voxilian. It will require the Visual Studio C++ Runtime Environment to run.
 
 It literally has nothing in it but a triangle. A plain. White. Triangle. Hey, at least you can fly right?
 
