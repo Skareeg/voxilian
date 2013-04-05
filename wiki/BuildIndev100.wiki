@@ -1,0 +1,9 @@
+=Voxilian Indev 1.0.0=
+
+This is the earliest stable build of voxilian. It will require the Visual Studio C++ Runtime Environment to run.
+
+It literally has nothing in it but a triangle. A plain. White. Triangle. Hey, at least you can fly right?
+
+The majority of this build occurs in the background, however. This was the first build that contained multiple types of voxels, due to the voxels ability to hold a mesh, rather than just being a cube or just being geometry. I had an issue with to C++ header files including each other. A rookie problem with a rookie solution. I am still learning C++ to this day. I forward declared the VoxelChunk class within Voxel.h, and then include VoxelChunk.h in Voxel.cpp in order to declare its content.
+
+I don't really need a picture here to explain the content of this build. It's a triangle.
