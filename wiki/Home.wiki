@@ -12,12 +12,11 @@ For starters, this game is based around the idea of Minecraft, so credit goes to
 ----
 To get started with the code, you will first need a copy of visual studio 2012, I think you can use express as well, for C++, as that is what this project is developed in. Download the svn via an svn client like TurtoiseSVN by right clicking the file and selecting svn check out, where it will then download the project files to the selected folder for you.
 
+==Build Wiki Listing==
+Indev_1_0_0
+
 
 These are screenshots from a previous build:
 http://voxilian.googlecode.com/svn/wiki/vea1.0.p.1.png
 http://voxilian.googlecode.com/svn/wiki/vea1.0.p.2.png
 http://voxilian.googlecode.com/svn/wiki/vea1.0.p.3.png
-
-
-
-That's it for now.
