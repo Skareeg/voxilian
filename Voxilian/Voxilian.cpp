@@ -13,13 +13,17 @@
 
 int main(int argc, char** argv)
 {
+	std::cout<<"Welcome to Voxilian!\n";
+	system("pause");
 	Game gm;
 	gm.Init();
+	LOG("Game State Initialized.\n");
 	while(glS.WindowEscaped()==false)
 	{
 		gm.Render();
 		gm.Run();
 	}
+	LOG("Game State Terminating.\n");
 	gm.End();
 	return 0;
 }

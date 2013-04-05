@@ -2,7 +2,7 @@
 #define CNKM_H
 
 #include "Types.h"
-#include "Voxel.h"
+#include "VoxelChunk.h"
 #include "Math.h"
 
 #define VXSize 2
@@ -13,7 +13,7 @@ class VoxelManager
 {
 public:
 	//These are the voxel objects. They are vectorized to allow for a large voxel world.
-	std::vector<Voxel> voxels;
+	std::vector<VoxelChunk> voxels;
 
 	//This is the write position for the voxel manager.
 	Vector3 vwrite;

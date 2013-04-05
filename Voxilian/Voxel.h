@@ -3,47 +3,48 @@
 
 #include "Types.h"
 #include "Math.h"
+#include "GLSYS.h"
 
+//This is the threshold value for the chunk.
+#define VoxHold 0.5f
 //This is the standard size of a chunk.
-#define VoxSize 14
+#define VoxSize 10
 
-//This is the MC Algorithm implementor.
-int Polygonise(VoxelCell grid,double isolevel,std::vector<Triangle> *triangles);
-//This interpolates (smooths) out the vectors.
-Vector3 VertexInterp(float isolevel,Vector3 p1,Vector3 p2,float valp1,float valp2);
-//This may or may not be used for normals.
-Vector3 CrossProduct(Vector3 v1,Vector3 v2);
-//This may or may not be used for normals.
-Vector3 Normalize(Vector3 v);
+//These are the types of voxels available.
+#define VOXTYPE_TRIAG 0
+#define VOXTYPE_CUBE 1
+#define VOXTYPE_HEX 2
+
+class VoxelChunk;
 
 class Voxel
 {
 public:
-	//This is the triangular mesh of this voxel.
-	std::vector<Triangle> mesh;
+	//This defines the type of voxel.
+	int nType;
 
 	//This is the density grid.
-	float dgrid[VoxSize][VoxSize][VoxSize];
-
-	//This is the cell grid. It should not be accessed directly.
-	VoxelCell cells[VoxSize-1][VoxSize-1][VoxSize-1];
+	float fDensity;
 
 	//This is the voxels position.
-	Vector3 pos;
+	Vector3 vPosition;
 
-	//This is this voxels local write position.
-	Vector3 vwrite;
+	//These are the voxels neighbors.
+	VoxelChunk* vcVoxelChunk;
+
+	//This is the voxels associated gridcell.
+	VoxelCell vc;
+
+	//This is the triangular mesh of this voxel, if used.
+	std::vector<Triangle> mesh;
 
 	//This is the voxel initiation code. It must be called.
 	void Init(Vector3 position);
 
-	//This is the marching cubes application code. Call to update from the density grid.
-	void Calculate(float isolevel);
+	//This is the MC calcuation code.
+	void Calculate();
 
 	//This is the voxel drawing code.
 	void Draw();
-
-	//This is the code to create spheres in the voxel.
-	void VDSphere(Vector3 vpos, float radius, float density, bool solid);
 };
 #endif

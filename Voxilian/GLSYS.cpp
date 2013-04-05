@@ -1,4 +1,5 @@
 #include "GLSYS.h"
+//Create the external GLSYS drawing system as glS.
 GLSYS glS;
 float GLSYS::Time()
 {
@@ -22,6 +23,7 @@ void GLSYS::Init(bool fullscreen)
 	glfwSetMousePos(64,64);
 	glEnable(GL_DEPTH_TEST);
 	glfwDisable(GLFW_MOUSE_CURSOR);
+	glfwSwapInterval(1);
 }
 bool GLSYS::WindowEscaped()
 {
@@ -34,10 +36,11 @@ void GLSYS::DrawBegin()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	gluPerspective(60.0f,1,0.1,100.0f);
+	glRotatef(180.0f,0,1,0);
 	glRotatef(camera->rot.x,1,0,0);
 	glRotatef(camera->rot.y,0,1,0);
 	glRotatef(camera->rot.z,0,0,1);
-	glTranslatef(camera->pos.x,camera->pos.y,camera->pos.z);
+	gTrans(-camera->pos.x,-camera->pos.y,-camera->pos.z);
 }
 void GLSYS::DrawEnd()
 {
@@ -63,12 +66,13 @@ void GLSYS::FlyInput()
 	float spd;
 	spd=1.5f;
 	camera->rot.y+=MouseDelta.x*0.1f;
-	camera->rot.x+=MouseDelta.y*0.1f;
+	camera->rot.x-=MouseDelta.y*0.1f;
 	if(GetKey('W')==true)
 	{
 		Math::ChF(&camera->pos.z,spd*(cos(Math::DegToRad(camera->rot.y))*cos(Math::DegToRad(camera->rot.x))),TimeScale);
 		Math::ChF(&camera->pos.x,spd*(-sin(Math::DegToRad(camera->rot.y))*cos(Math::DegToRad(camera->rot.x))),TimeScale);
 		Math::ChF(&camera->pos.y,spd*(sin(Math::DegToRad(camera->rot.x))),TimeScale);
+
 	}
 	if(GetKey('S')==true)
 	{
@@ -88,11 +92,11 @@ void GLSYS::FlyInput()
 	}
 	if(GetKey(GLFW_KEY_SPACE)==true)
 	{
-		Math::ChF(&camera->pos.y,-spd,TimeScale);
+		Math::ChF(&camera->pos.y,spd,TimeScale);
 	}
 	if(GetKey(GLFW_KEY_LSHIFT)==true)
 	{
-		Math::ChF(&camera->pos.y,spd,TimeScale);
+		Math::ChF(&camera->pos.y,-spd,TimeScale);
 	}
 }
 bool GLSYS::GetKey(int key)
@@ -109,4 +113,121 @@ void GLSYS::Run()
 	TimeScale=(Time()-TimeDelta);
 	TimeDelta=Time();
 	MouseMove();
+}
+void gTrans(float x,float y,float z)
+{
+	glTranslatef(x,y,z);
+}
+void Draw::Cube(float i,float j,float k)
+{
+	glColor3f(1,0,0);
+	glVertex3f(i,j,-k);
+	glVertex3f(i+1,j,-k);
+	glVertex3f(i+1,j,-k-1);
+	glVertex3f(i+1,j,-k-1);
+	glVertex3f(i,j,-k-1);
+	glVertex3f(i,j,-k);
+
+	glColor3f(1,1,0);
+	glVertex3f(i,j+1,-k);
+	glVertex3f(i+1,j+1,-k);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i,j+1,-k-1);
+	glVertex3f(i,j+1,-k);
+
+	glColor3f(0,1,0);
+	glVertex3f(i,j,-k);
+	glVertex3f(i,j+1,-k);
+	glVertex3f(i,j+1,-k-1);
+	glVertex3f(i,j+1,-k-1);
+	glVertex3f(i,j,-k-1);
+	glVertex3f(i,j,-k);
+
+	glColor3f(0,1,1);
+	glVertex3f(i+1,j,-k);
+	glVertex3f(i+1,j+1,-k);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i+1,j,-k-1);
+	glVertex3f(i+1,j,-k);
+
+	glColor3f(0,0,1);
+	glVertex3f(i,j,-k);
+	glVertex3f(i,j+1,-k);
+	glVertex3f(i+1,j+1,-k);
+	glVertex3f(i+1,j+1,-k);
+	glVertex3f(i+1,j,-k);
+	glVertex3f(i,j,-k);
+
+	glColor3f(1,0,1);
+	glVertex3f(i,j,-k-1);
+	glVertex3f(i,j+1,-k-1);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i+1,j+1,-k-1);
+	glVertex3f(i+1,j,-k-1);
+	glVertex3f(i,j,-k-1);
+}
+void Draw::CubeSide(float i,float j,float k,int* l)
+{
+	if(l[DRAW_CUBE_DOWN]==1)
+	{
+		glColor3f(1,0,0);
+		glVertex3f(i,j,-k);
+		glVertex3f(i+1,j,-k);
+		glVertex3f(i+1,j,-k-1);
+		glVertex3f(i+1,j,-k-1);
+		glVertex3f(i,j,-k-1);
+		glVertex3f(i,j,-k);
+	}
+	if(l[DRAW_CUBE_UP]==1)
+	{
+		glColor3f(1,1,0);
+		glVertex3f(i,j+1,-k);
+		glVertex3f(i+1,j+1,-k);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i,j+1,-k-1);
+		glVertex3f(i,j+1,-k);
+	}
+	if(l[DRAW_CUBE_LEFT]==1)
+	{
+		glColor3f(0,1,0);
+		glVertex3f(i,j,-k);
+		glVertex3f(i,j+1,-k);
+		glVertex3f(i,j+1,-k-1);
+		glVertex3f(i,j+1,-k-1);
+		glVertex3f(i,j,-k-1);
+		glVertex3f(i,j,-k);
+	}
+	if(l[DRAW_CUBE_RIGHT]==1)
+	{
+		glColor3f(0,1,1);
+		glVertex3f(i+1,j,-k);
+		glVertex3f(i+1,j+1,-k);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i+1,j,-k-1);
+		glVertex3f(i+1,j,-k);
+	}
+	if(l[DRAW_CUBE_BACKWARD]==1)
+	{
+		glColor3f(0,0,1);
+		glVertex3f(i,j,-k);
+		glVertex3f(i,j+1,-k);
+		glVertex3f(i+1,j+1,-k);
+		glVertex3f(i+1,j+1,-k);
+		glVertex3f(i+1,j,-k);
+		glVertex3f(i,j,-k);
+	}
+	if(l[DRAW_CUBE_FORWARD]==1)
+	{
+		glColor3f(1,0,1);
+		glVertex3f(i,j,-k-1);
+		glVertex3f(i,j+1,-k-1);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i+1,j+1,-k-1);
+		glVertex3f(i+1,j,-k-1);
+		glVertex3f(i,j,-k-1);
+	}
 }
