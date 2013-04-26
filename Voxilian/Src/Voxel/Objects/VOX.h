@@ -7,9 +7,9 @@
 #include <ctime>
 #include "..\..\Utilities\GLSYS.h"
 
-#define VOX_VOXELSIZE_X 5
-#define VOX_VOXELSIZE_Y 5
-#define VOX_VOXELSIZE_Z 5
+#define VOX_VOXELSIZE_X 16
+#define VOX_VOXELSIZE_Y 16
+#define VOX_VOXELSIZE_Z 16
 
 //GLFW HAZZ MULTITHREADZING SUPPORRRTTTTTTZZZZZZ?!?
 
@@ -74,7 +74,6 @@ namespace Spacial
 		VIndex(VIndex* v);
 		VIndex(int i,int j,int k);
 	};
-	static VIndex* VINDEX(int i,int j,int k);
 	class VCell
 	{
 	public:
@@ -86,40 +85,9 @@ namespace Spacial
 	{
 	public:
 		void Init();
-		int GetLocation(int x,int y);
+		float GetLocation(Vector3 vpos);
 	};
 
-	class Manager
-	{
-	public:
-		WorldGen generator;
-		Vector3* cpos;
-		float mindist;
-		float maxdist;
-		vector<VIndex*> registry;
-		vector<Chunk*> chunks;
-		vector<Chunk*> destroy;
-		vector<Chunk*> create;
-		void Init(Vector3* cm);
-		void Update();
-		GLFWthread mainthread;
-		GLFWthread renderthread;
-		void Render();
-	};
-	class Chunk : public Transform
-	{
-	public:
-		int state;
-		Manager* manager;
-		Voxel*** voxels;
-		VIndex* vindex;
-		vector<Voxel*> updatevoxels;
-		Chunk(Manager* manage, VIndex* vind);
-		void Init();
-		void Destroy();
-		void Update();
-		void Render();
-	};
 	class Voxel : public Transform
 	{
 	public:
@@ -129,9 +97,51 @@ namespace Spacial
 		float v_temperature;
 		int v_vtype;
 		VIndex vind;
+		Chunk* neighbors[3][3][3];
+		bool neiexists[3][3][3];
 		void Init(Chunk* c,VIndex vpos);
 		void Calculate();
 		void Render();
+	};
+	class Chunk : public Transform
+	{
+	public:
+		int state;
+		Manager* manager;
+		Voxel*** voxels;/*[VOX_VOXELSIZE_X][VOX_VOXELSIZE_Y][VOX_VOXELSIZE_Z]*/
+		VIndex vindex;
+		vector<Voxel*> updatevoxels;
+		Chunk* neighbors[3][3][3];
+		bool neiexists[3][3][3];
+		Chunk(Manager* manage, VIndex* vind);
+		void Init();
+		void Destroy();
+		void Update();
+		void Calculate();
+		void Render();
+	};
+	class Manager
+	{
+	public:
+		WorldGen generator;
+		Vector3* cpos;
+		float mindist;
+		float maxdist;
+		vector<VIndex*> registry;
+		vector<Chunk> chunks;
+		vector<VIndex*> destroy;
+		vector<Chunk*> create;
+		void Init(Vector3* cm);
+		void Update();
+		GLFWthread mainthread;
+		GLFWthread renderthread; //This is completely useless.
+		GLFWthread destroythread;
+		void Render();
+		void DestroyChunk(VIndex ind);
+		Chunk* GetChunk(VIndex ind);
+		Chunk* GetChunk(Vector3 vpos);
+		Voxel* GetVoxel(VIndex cind,VIndex vind);
+		Voxel* GetVoxel(Vector3 vpos);
 	};
 };
 #endif

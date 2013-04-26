@@ -66,8 +66,7 @@ void MouseMove()
 }
 void GLSYS::FlyInput()
 {
-	float spd;
-	spd=1.5f;
+	float spd = 5.0f;
 	camera->rot.y-=MouseDelta.x*0.1f;
 	camera->rot.x-=MouseDelta.y*0.1f;
 	if(GetKey('W')==true)
@@ -124,10 +123,10 @@ void Draw::Cube(float i,float j,float k)
 	//DOWN
 	glColor3f(1,0,0);
 	glVertex3f(i,j,k);
-	glVertex3f(i+1,j,k);
-	glVertex3f(i+1,j,k+1);
-	glVertex3f(i+1,j,k+1);
 	glVertex3f(i,j,k+1);
+	glVertex3f(i+1,j,k+1);
+	glVertex3f(i+1,j,k+1);
+	glVertex3f(i+1,j,k);
 	glVertex3f(i,j,k);
 
 	//UP
@@ -151,19 +150,19 @@ void Draw::Cube(float i,float j,float k)
 	//RIGHT
 	glColor3f(0,1,1);
 	glVertex3f(i+1,j,k);
-	glVertex3f(i+1,j+1,k);
-	glVertex3f(i+1,j+1,k+1);
-	glVertex3f(i+1,j+1,k+1);
 	glVertex3f(i+1,j,k+1);
+	glVertex3f(i+1,j+1,k+1);
+	glVertex3f(i+1,j+1,k+1);
+	glVertex3f(i+1,j+1,k);
 	glVertex3f(i+1,j,k);
 
 	//BACKWARD
 	glColor3f(0,0,1);
 	glVertex3f(i,j,k);
-	glVertex3f(i,j+1,k);
-	glVertex3f(i+1,j+1,k);
-	glVertex3f(i+1,j+1,k);
 	glVertex3f(i+1,j,k);
+	glVertex3f(i+1,j+1,k);
+	glVertex3f(i+1,j+1,k);
+	glVertex3f(i,j+1,k);
 	glVertex3f(i,j,k);
 
 	//FORWARD
