@@ -1,17 +1,23 @@
 #ifndef CNKM_H
 #define CNKM_H
 
-#include "Types.h"
+#include "..\Utilities\Types.h"
 #include "VoxelChunk.h"
-#include "Math.h"
+#include "..\Utilities\Math.h"
 
 #define VXSize 2
 #define VZSize 2
-#define VYSize 1
+#define VYSize 2
 
 class VoxelManager
 {
 public:
+	//This is an index.
+	int ind;
+
+	//This is good.
+	bool good;
+
 	//These are the voxel objects. They are vectorized to allow for a large voxel world.
 	std::vector<VoxelChunk> voxels;
 

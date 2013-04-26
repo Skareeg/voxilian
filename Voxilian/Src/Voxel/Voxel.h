@@ -1,14 +1,14 @@
-#ifndef VOX_H
-#define VOX_H
+#ifndef VOXEL_H
+#define VOXEL_H
 
-#include "Types.h"
-#include "Math.h"
-#include "GLSYS.h"
+#include "..\Utilities\Types.h"
+#include "..\Utilities\Math.h"
+#include "..\Utilities\GLSYS.h"
 
 //This is the threshold value for the chunk.
 #define VoxHold 0.5f
 //This is the standard size of a chunk.
-#define VoxSize 10
+#define VoxSize 3
 
 //These are the types of voxels available.
 #define VOXTYPE_TRIAG 0
@@ -29,7 +29,10 @@ public:
 	//This is the voxels position.
 	Vector3 vPosition;
 
-	//These are the voxels neighbors.
+	//This is the drawing side listing.
+	int sides[6];
+
+	//This is the voxels chunk.
 	VoxelChunk* vcVoxelChunk;
 
 	//This is the voxels associated gridcell.

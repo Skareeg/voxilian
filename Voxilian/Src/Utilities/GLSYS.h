@@ -1,6 +1,6 @@
 #ifndef GLSYS_H
 #define GLSYS_H
-#include "stdafx.h"
+#include "..\..\stdafx.h"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -28,7 +28,6 @@
 
 //class for openGL SYStems
 void MouseMove();
-void gTrans(float x,float y,float z);
 class GLSYS
 {
 public:
@@ -50,14 +49,14 @@ public:
 };
 extern GLSYS glS;
 #define DRAW_CUBE_DOWN 0
-#define DRAW_CUBE_UP 5
-#define DRAW_CUBE_LEFT 1
-#define DRAW_CUBE_RIGHT 2
+#define DRAW_CUBE_UP 1
+#define DRAW_CUBE_LEFT 2
+#define DRAW_CUBE_RIGHT 3
 #define DRAW_CUBE_FORWARD 4
-#define DRAW_CUBE_BACKWARD 3
+#define DRAW_CUBE_BACKWARD 5
 namespace Draw
 {
 	void Cube(float i,float j,float k);
-	void CubeSide(float i,float j,float k,int* l);
+	void CubeSide(float i,float j,float k,int down,int up,int left,int right,int backward,int forward);
 };
 #endif

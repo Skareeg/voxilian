@@ -46,6 +46,7 @@
     <IncludePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
+    <SourcePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,6 +55,7 @@
     <OutDir>$(SolutionDir)\$(ProjectName)\Game\</OutDir>
     <TargetName>VoxilianV1</TargetName>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
+    <SourcePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,6 +65,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,6 +85,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,35 +96,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="ChangeLog.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GLSYS.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="VoxelChunk.h" />
-    <ClInclude Include="VoxelManager.h" />
+    <ClInclude Include="Src\Game.h" />
+    <ClInclude Include="Src\Utilities\Camera.h" />
+    <ClInclude Include="Src\Utilities\CMDCall.h" />
+    <ClInclude Include="Src\Utilities\Entity.h" />
+    <ClInclude Include="Src\Utilities\GLSYS.h" />
+    <ClInclude Include="Src\Utilities\Math.h" />
+    <ClInclude Include="Src\Utilities\simplexnoise.h" />
+    <ClInclude Include="Src\Utilities\Types.h" />
+    <ClInclude Include="Src\Voxel\Objects\VOX.h" />
+    <ClInclude Include="Src\Voxel\Voxel.h" />
+    <ClInclude Include="Src\Voxel\VoxelChunk.h" />
+    <ClInclude Include="Src\Voxel\VoxelManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Voxel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GLSYS.cpp" />
-    <ClCompile Include="Math.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Src\Game.cpp" />
+    <ClCompile Include="Src\Utilities\Camera.cpp" />
+    <ClCompile Include="Src\Utilities\CMDCall.cpp" />
+    <ClCompile Include="Src\Utilities\Entity.cpp" />
+    <ClCompile Include="Src\Utilities\GLSYS.cpp" />
+    <ClCompile Include="Src\Utilities\Math.cpp" />
+    <ClCompile Include="Src\Utilities\simplexnoise.cpp" />
+    <ClCompile Include="Src\Utilities\Types.cpp" />
+    <ClCompile Include="Src\Voxel\Objects\VOX.cpp" />
+    <ClCompile Include="Src\Voxel\Voxel.cpp" />
+    <ClCompile Include="Src\Voxel\VoxelChunk.cpp" />
+    <ClCompile Include="Src\Voxel\VoxelManager.cpp" />
+    <ClCompile Include="Src\Voxilian.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Types.cpp" />
-    <ClCompile Include="Voxel.cpp" />
-    <ClCompile Include="VoxelChunk.cpp" />
-    <ClCompile Include="VoxelManager.cpp" />
-    <ClCompile Include="Voxilian.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
