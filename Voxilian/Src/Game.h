@@ -5,8 +5,6 @@
 #include "Utilities\Math.h"
 #include "Utilities\Camera.h"
 #include "Utilities\GLSYS.h"
-#include "Voxel\Voxel.h"
-#include "Voxel\VoxelManager.h"
 #include <btBulletDynamicsCommon.h>
 #include <btBulletCollisionCommon.h>
 #include <stdio.h>
@@ -21,9 +19,7 @@ using namespace std;
 class Game
 {
 public:
-	Voxel vx;
-	VoxelManager voxelmanager;
-	Spacial::Manager m;
+	VManager m;
 	void Init();
 	void Render();
 	void Run();

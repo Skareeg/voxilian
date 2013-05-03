@@ -38,6 +38,7 @@ public:
 	Vector3 operator*(Vector3);
 	Vector3 operator/(Vector3);
 	btVector3 GetBullet();
+	void CoutShow();
 };
 
 typedef struct {

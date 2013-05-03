@@ -5,13 +5,16 @@ float GLSYS::Time()
 {
 	return ((float)clock())/CLOCKS_PER_SEC;
 }
-void GLSYS::Init(bool fullscreen)
+void GLSYS::Init()
 {
 	camera = new Camera();
 	camera->pos.z=-5;
 	TimeScale=0.0f;
 	MouseDelta.x=0;MouseDelta.y=0;MouseDelta.z=0;
 	glfwInit();
+}
+void GLSYS::Window(bool fullscreen)
+{
 	if(fullscreen==true)
 	{
 		glfwOpenWindow(640,480,0,0,0,0,24,0,GLFW_FULLSCREEN);
@@ -20,10 +23,23 @@ void GLSYS::Init(bool fullscreen)
 	{
 		glfwOpenWindow(640,480,0,0,0,0,24,0,GLFW_WINDOW);
 	}
-	glfwSetMousePos(64,64);
+	ShowCursor(false);
 	glEnable(GL_DEPTH_TEST);
-	glfwDisable(GLFW_MOUSE_CURSOR);
 	glfwSwapInterval(1);
+}
+void GLSYS::ShowCursor(bool show)
+{
+	if(show==true)
+	{
+		CursorEnabled=true;
+		glfwEnable(GLFW_MOUSE_CURSOR);
+	}
+	else
+	{
+		CursorEnabled=false;
+		glfwDisable(GLFW_MOUSE_CURSOR);
+		glfwSetMousePos(64,64);
+	}
 }
 bool GLSYS::WindowEscaped()
 {
@@ -114,7 +130,16 @@ void GLSYS::Run()
 {
 	TimeScale=(Time()-TimeDelta);
 	TimeDelta=Time();
-	MouseMove();
+	if(CursorEnabled==false)
+	{
+		MouseMove();
+	}
+	else
+	{
+		MouseDelta.x=0;
+		MouseDelta.y=0;
+		MouseDelta.z=0;
+	}
 }
 void Draw::Cube(float i,float j,float k)
 {
@@ -240,4 +265,13 @@ void Draw::CubeSide(float i,float j,float k,int down,int up,int left,int right,i
 		glVertex3f(i,j,k+1);
 	}
 	glEnd();
+}
+void ErrorTerminate()
+{
+	glS.ShowCursor(true);
+	while(1)
+	{
+		cout<<"PLEASE TERMINATE THE PROGRAM\n";
+		system("PAUSE");
+	}
 }

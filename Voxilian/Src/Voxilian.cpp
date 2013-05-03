@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include "Voxel\Voxel.h"
 #include <ctime>
 #include "Utilities\Types.h"
 #include "Utilities\GLSYS.h"

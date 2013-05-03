@@ -7,141 +7,106 @@
 #include <ctime>
 #include "..\..\Utilities\GLSYS.h"
 
-#define VOX_VOXELSIZE_X 16
-#define VOX_VOXELSIZE_Y 16
-#define VOX_VOXELSIZE_Z 16
+#define V_C_SIZEX 16
+#define V_C_SIZEY 16
+#define V_C_SIZEZ 16
 
-//GLFW HAZZ MULTITHREADZING SUPPORRRTTTTTTZZZZZZ?!?
+#define V_TYPE_CUBE 0
+#define V_TYPE_MESH 0
 
-//Voxel spacial classes.
-namespace Spacial
+#define VCH vector<VChunk*>
+
+class VIndex
 {
-	enum VOXELTYPE
-	{
-		CUBE,
-		SMOOTH
-	};
-	enum CHUNKSTATE
-	{
-		PREINIT,
-		READY,
-		DESTROY
-	};
-	//Voxel has transform.
-	class Transform;
-	//Voxel index transform.
-	class VIndex;
-
-	class WorldGen;
-
-	//Voxel chunk manager.
-	class Manager;
-	//Voxel manager chunk.
-	class Chunk;
-	//Voxel chunk voxel.
-	class Voxel;
-	//Voxel cell grid.
-	class VCell;
-
-	namespace Math
-	{
-		//This is the MC Algorithm implementor.
-		int Polygonise(VCell grid,double isolevel,std::vector<Triangle> *triangles);
-		//This interpolates (smooths) out the vectors.
-		Vector3 VertexInterp(float isolevel,Vector3 p1,Vector3 p2,float valp1,float valp2);
-		//This may or may not be used for normals.
-		Vector3 CrossProduct(Vector3 v1,Vector3 v2);
-		//This may or may not be used for normals.
-		Vector3 Normalize(Vector3 v);
-	};
-
-	class Transform
-	{
-	public:
-		Vector3 position;
-		Vector3 size;
-		Vector3 rotation;
-	};
-	class VIndex
-	{
-	public:
-		int x;
-		int y;
-		int z;
-		bool Compare(VIndex* v);
-		VIndex();
-		VIndex(Vector3 v);
-		VIndex(VIndex* v);
-		VIndex(int i,int j,int k);
-	};
-	class VCell
-	{
-	public:
-		Vector3 p[8];
-		float d[8];
-	};
-
-	class WorldGen
-	{
-	public:
-		void Init();
-		float GetLocation(Vector3 vpos);
-	};
-
-	class Voxel : public Transform
-	{
-	public:
-		Chunk* chunk;
-		VCell vcell;
-		float v_density;
-		float v_temperature;
-		int v_vtype;
-		VIndex vind;
-		Chunk* neighbors[3][3][3];
-		bool neiexists[3][3][3];
-		void Init(Chunk* c,VIndex vpos);
-		void Calculate();
-		void Render();
-	};
-	class Chunk : public Transform
-	{
-	public:
-		int state;
-		Manager* manager;
-		Voxel*** voxels;/*[VOX_VOXELSIZE_X][VOX_VOXELSIZE_Y][VOX_VOXELSIZE_Z]*/
-		VIndex vindex;
-		vector<Voxel*> updatevoxels;
-		Chunk* neighbors[3][3][3];
-		bool neiexists[3][3][3];
-		Chunk(Manager* manage, VIndex* vind);
-		void Init();
-		void Destroy();
-		void Update();
-		void Calculate();
-		void Render();
-	};
-	class Manager
-	{
-	public:
-		WorldGen generator;
-		Vector3* cpos;
-		float mindist;
-		float maxdist;
-		vector<VIndex*> registry;
-		vector<Chunk> chunks;
-		vector<VIndex*> destroy;
-		vector<Chunk*> create;
-		void Init(Vector3* cm);
-		void Update();
-		GLFWthread mainthread;
-		GLFWthread renderthread; //This is completely useless.
-		GLFWthread destroythread;
-		void Render();
-		void DestroyChunk(VIndex ind);
-		Chunk* GetChunk(VIndex ind);
-		Chunk* GetChunk(Vector3 vpos);
-		Voxel* GetVoxel(VIndex cind,VIndex vind);
-		Voxel* GetVoxel(Vector3 vpos);
-	};
+public:
+	int x;
+	int y;
+	int z;
+	void FromVector3(Vector3 v);
+	Vector3 ToVector3();
+	bool Compare(VIndex v);
+	VIndex operator+(VIndex v);
+	VIndex operator-(VIndex v);
 };
+
+static VIndex VINDEX(int i,int j,int k);
+
+class VManager;
+class VDimensia;
+class VChunk;
+class VVoxel;
+
+class VVoxel
+{
+public:
+	VIndex position;
+	VChunk* chunk;
+	VVoxel* neighbors[3][3][3];
+	int type;
+	float density;
+	float temperature;
+	vector<Triangle> mesh;
+	void Init(VChunk* ch,VIndex pos);
+	void Update();
+	void Calculate();
+	void Render();
+	void Neighbors();
+};
+
+class VChunk
+{
+public:
+	bool delflag;
+	VIndex position;
+	VDimensia* dimensia;
+	VVoxel voxels[V_C_SIZEX][V_C_SIZEY][V_C_SIZEZ];
+	vector<VVoxel*> vpointers;
+	VChunk* neighbors[3][3][3];
+	void Init(VDimensia* dm,VIndex indpos);
+	void Update();
+	void Calculate();
+	void Render();
+	void Neighbors();
+	void VNeighbors();
+};
+
+class VCInd
+{
+public:
+	int number;
+	int size;
+};
+
+class VDimensia
+{
+public:
+	GLFWthread createthread;
+	GLFWthread destroythread;
+	GLFWmutex dmutex;
+	int state;
+	string name;
+	Vector3 rndvec;
+	VIndex position;
+	VManager* manager;
+	int mindist;
+	int maxdist;
+	VCH chunks_c;
+	VCH chunks_r;
+	vector<int> chunks_d;
+	vector<VIndex> index;
+	void Update();
+	VDimensia(VManager* m,string nname);
+	VChunk* GetChunk(VIndex vind);
+};
+
+class VManager
+{
+public:
+	Vector3* cameraposition;
+	vector<VDimensia*> dimensias;
+	VDimensia* dimensia;
+	void Init(Camera* c);
+	void Update();
+};
+
 #endif

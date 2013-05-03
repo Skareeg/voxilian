@@ -37,7 +37,10 @@ public:
 	Vector3 MouseDelta;
 	float TimeScale;
 	Camera* camera;
-	void Init(bool fullscreen);
+	bool CursorEnabled;
+	void Init();
+	void Window(bool fullscreen);
+	void ShowCursor(bool show);
 	void Run();
 	void DrawBegin();
 	void DrawEnd();
@@ -59,4 +62,6 @@ namespace Draw
 	void Cube(float i,float j,float k);
 	void CubeSide(float i,float j,float k,int down,int up,int left,int right,int backward,int forward);
 };
+//Terminates due to an error.
+void ErrorTerminate();
 #endif

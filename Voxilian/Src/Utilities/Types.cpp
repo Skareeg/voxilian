@@ -70,6 +70,10 @@ btVector3 Vector3::GetBullet()
 	bt.setZ(this->z);
 	return bt;
 }
+void Vector3::CoutShow()
+{
+	cout<<"("<<x<<":"<<y<<":"<<z<<")";
+}
 
 namespace VMath
 {

@@ -109,9 +109,6 @@
     <ClInclude Include="Src\Utilities\simplexnoise.h" />
     <ClInclude Include="Src\Utilities\Types.h" />
     <ClInclude Include="Src\Voxel\Objects\VOX.h" />
-    <ClInclude Include="Src\Voxel\Voxel.h" />
-    <ClInclude Include="Src\Voxel\VoxelChunk.h" />
-    <ClInclude Include="Src\Voxel\VoxelManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -125,9 +122,6 @@
     <ClCompile Include="Src\Utilities\simplexnoise.cpp" />
     <ClCompile Include="Src\Utilities\Types.cpp" />
     <ClCompile Include="Src\Voxel\Objects\VOX.cpp" />
-    <ClCompile Include="Src\Voxel\Voxel.cpp" />
-    <ClCompile Include="Src\Voxel\VoxelChunk.cpp" />
-    <ClCompile Include="Src\Voxel\VoxelManager.cpp" />
     <ClCompile Include="Src\Voxilian.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

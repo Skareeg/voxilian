@@ -3,10 +3,10 @@
 #include <thread>
 void Game::Init()
 {
-	//Initialize the drawing system without fullscreen (false) and initialize the voxelmanager and its voxels.
-	glS.Init(false);
-	//voxelmanager.Init();
-	m.Init(&(glS.camera->pos));
+	//Initialize the drawing system, initialize the voxelmanager and its voxels, and create a window. (Window(false)).
+	glS.Init();
+	m.Init(glS.camera);
+	glS.Window(false);
 }
 void Game::Render()
 {
@@ -22,7 +22,7 @@ void Game::Render()
 	glVertex3f(0,1,0);
 	glVertex3f(0,0,0);
 	glEnd();
-	m.Render();
+	m.Update();
 	//Draw voxelmanager and its associated voxels.
 	//voxelmanager.Render();
 	//End the camera drawing system. (swaps the buffers)
@@ -36,8 +36,6 @@ void Game::Run()
 	v.x=v.x;
 	v.y=v.y;
 	v.z=v.z;
-	//voxelmanager.Update(v);
-	m.Update();
 	glS.FlyInput();
 	if(glS.GetKey('R')==true)
 	{

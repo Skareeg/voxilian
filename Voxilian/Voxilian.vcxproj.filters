@@ -52,15 +52,6 @@
     <ClInclude Include="Src\Voxel\Objects\VOX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Voxel\Voxel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Voxel\VoxelChunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Voxel\VoxelManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -89,15 +80,6 @@
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Voxel\Voxel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Voxel\VoxelChunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Voxel\VoxelManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Game.cpp">
       <Filter>Source Files</Filter>
