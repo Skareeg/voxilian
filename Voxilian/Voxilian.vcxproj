@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\$(ProjectName)\Game\</OutDir>
-    <TargetName>VoxilianV1</TargetName>
+    <TargetName>Voxilian</TargetName>
     <IncludePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
@@ -54,7 +54,7 @@
     <IncludePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(ProjectName)\Game\</OutDir>
-    <TargetName>VoxilianV1</TargetName>
+    <TargetName>Voxilian</TargetName>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
     <SourcePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Src;$(SourcePath)</SourcePath>
     <IntDir>$(Configuration)\</IntDir>

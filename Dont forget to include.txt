@@ -1,4 +1,0 @@
-vccorlib110.dll
-msvcr110.dll
-msvcp110.dll
-GLFW.dll
