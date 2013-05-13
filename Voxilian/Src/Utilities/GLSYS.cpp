@@ -25,6 +25,8 @@ void GLSYS::Window(bool fullscreen)
 	}
 	ShowCursor(false);
 	glEnable(GL_DEPTH_TEST);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
 	glfwSwapInterval(1);
 }
 void GLSYS::ShowCursor(bool show)

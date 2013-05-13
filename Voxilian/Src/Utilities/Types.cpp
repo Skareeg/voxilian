@@ -74,7 +74,14 @@ void Vector3::CoutShow()
 {
 	cout<<"("<<x<<":"<<y<<":"<<z<<")";
 }
-
+Vector3 Vector3::Scale(float sx,float sy,float sz)
+{
+	Vector3 v;
+	v.x*=sx;
+	v.y*=sy;
+	v.z*=sz;
+	return v;
+}
 namespace VMath
 {
 	float Distance(Vector3 v1,Vector3 v2)

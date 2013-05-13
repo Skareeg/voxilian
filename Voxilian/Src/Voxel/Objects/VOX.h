@@ -6,15 +6,18 @@
 #include "..\..\Utilities\simplexnoise.h"
 #include <ctime>
 #include "..\..\Utilities\GLSYS.h"
+#include <fstream>
+#include <stdio.h>
 
-#define V_C_SIZEX 16
-#define V_C_SIZEY 16
-#define V_C_SIZEZ 16
+#define V_C_SIZEX 20
+#define V_C_SIZEY 20
+#define V_C_SIZEZ 20
+#define V_C_SCALEX 1.0f/((float)V_C_SIZEX)
+#define V_C_SCALEY 1.0f/((float)V_C_SIZEY)
+#define V_C_SCALEZ 1.0f/((float)V_C_SIZEZ)
 
-#define V_TYPE_CUBE 0
 #define V_TYPE_MESH 0
-
-#define VCH vector<VChunk*>
+#define V_TYPE_CUBE 1
 
 class VIndex
 {
@@ -35,78 +38,91 @@ class VManager;
 class VDimensia;
 class VChunk;
 class VVoxel;
+struct VDensity
+{
+	int vox_type;
+	float vox_density;
+	int vox_id;
+	string name;
+};
 
 class VVoxel
 {
 public:
-	VIndex position;
 	VChunk* chunk;
-	VVoxel* neighbors[3][3][3];
-	int type;
-	float density;
-	float temperature;
-	vector<Triangle> mesh;
-	void Init(VChunk* ch,VIndex pos);
-	void Update();
-	void Calculate();
+	VIndex position;
+	vector<VDensity> densities;
+	VVoxel* ne[3][3][3];
+	void Init(VChunk* c,VIndex p);
 	void Render();
-	void Neighbors();
+	void Save(fstream* f);
+	void Load(fstream* f);
+	void Calculate();
 };
 
 class VChunk
 {
 public:
-	bool delflag;
-	VIndex position;
+	int state;
 	VDimensia* dimensia;
+	VIndex position;
+	fstream regionfile;
+	GLFWthread updatethread;
 	VVoxel voxels[V_C_SIZEX][V_C_SIZEY][V_C_SIZEZ];
-	vector<VVoxel*> vpointers;
-	VChunk* neighbors[3][3][3];
-	void Init(VDimensia* dm,VIndex indpos);
+	VChunk* ne[3][3][3];
+	VoxelCell vcell;
+	VChunk(VDimensia* d,VIndex nposition);
+	void Init();
 	void Update();
-	void Calculate();
 	void Render();
-	void Neighbors();
-	void VNeighbors();
+	void Destroy();
+	VIndex GetPos();
+	int GetX();
+	int GetY();
+	int GetZ();
+	void Calculate();
 };
 
-class VCInd
-{
-public:
-	int number;
-	int size;
-};
-
+//Voxel Dimension class.
 class VDimensia
 {
 public:
-	GLFWthread createthread;
-	GLFWthread destroythread;
-	GLFWmutex dmutex;
+	//The voxels current state. > 0==initialize : 1==update : 2==destroy <
 	int state;
+	//The dimensional name.
 	string name;
-	Vector3 rndvec;
-	VIndex position;
+	//The voxel dimensions current manager.
 	VManager* manager;
-	int mindist;
-	int maxdist;
-	VCH chunks_c;
-	VCH chunks_r;
-	vector<int> chunks_d;
-	vector<VIndex> index;
-	void Update();
-	VDimensia(VManager* m,string nname);
-	VChunk* GetChunk(VIndex vind);
+	//The voxel chunks.
+	vector<VChunk*> chunks;
+	//This is the chunk creation-by-search thread.
+	GLFWthread thread_chunk_manage;
+	//This is the chunk destruction thread.
+	GLFWthread thread_chunk_destroy;
+	//The dimensions contructor.
+	VDimensia(VManager* m,string nm);
+	//The render method.
+	void Render();
 };
 
+//Voxel Manager class.
 class VManager
 {
 public:
-	Vector3* cameraposition;
-	vector<VDimensia*> dimensias;
+	//The openGL Camera position.
+	Vector3* camera_pos;
+	//The voxel dimension.
 	VDimensia* dimensia;
-	void Init(Camera* c);
-	void Update();
+	//This the chunk creation radius.
+	float distance_create;
+	//This is the max chunk render distance.
+	float distance_render;
+	//This is the max chunk update distance.
+	float distance_update;
+	//Voxel Manager initialization method. (Requires openGL Camera position.)
+	void Init(Vector3* campos);
+	//Voxel Manager render method.
+	void Render();
 };
 
 #endif

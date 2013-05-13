@@ -1,14 +1,6 @@
 #include "VOX.h"
-
-#define VACCESS(a) a.x][a.y][a.z
-#define VNLOOP1 for(int i=-1;i<=1;i++){for(int j=-1;j<=1;j++){for(int k=-1;k<=1;k++){
-#define VNLOOP2 }}}
-#define VLOOP1 for(int i=0;i<V_C_SIZEX;i++){for(int j=0;j<V_C_SIZEY;j++){for(int k=0;k<V_C_SIZEZ;k++){
-#define VLOOP2 }}}
-#define VNIJK i+1][j+1][k+1
-#define VIJK i][j][k
-#define L ;LOG
-#define NM(st,name) LOG("VManager: "+name+": "+st)
+#include <Windows.h>
+#include <cstdio>
 
 void VIndex::FromVector3(Vector3 v)
 {
@@ -63,313 +55,431 @@ VIndex VINDEX(int i,int j,int k)
 	return v;
 }
 
-void VManager::Init(Camera* c)
+void VManager::Init(Vector3* campos)
 {
-	LOG("Hi! This is the VManager. I am ready to begin construction.\n");
-	cameraposition=&(c->pos);
-	dimensia = new VDimensia(this,"Main");
-	dimensias.push_back(dimensia);
-	glCullFace(GL_BACK);
-	time_t t;
-	time(&t);
-	srand(t);
+	_wmkdir(L"Dimensias");
+	camera_pos=campos;
+	distance_create=3;
+	distance_render=2.5;
+	distance_update=3.5f;
+	dimensia=new VDimensia(this,"Main");
 }
-void VManager::Update()
+void VManager::Render()
 {
-	dimensia->Update();
-	glfwPollEvents();
-	if(glfwGetKey('F')==GLFW_PRESS)
+	dimensia->Render();
+	if(glS.GetKey('F')==GLFW_PRESS)
 	{
 		glS.ShowCursor(true);
-		int choice;
-		cout<<"CMD Now Ready!\n"
-			<<"0:Quit.\n"
-			<<"1:Create new dimensia.\n"
-			<<"2:Switch to dimensia.\n";
-		cin>>choice;
-		while(choice!=0)
-		{
-			if(choice==1)
-			{
-				string nname;
-				cout<<"Enter a name for the new dimensia->";
-				cin>>nname;
-				dimensias.push_back(new VDimensia(this,nname));
-				LOG("VManager: User created new dimensia "+nname+".\n");
-			}
-			else if(choice==2)
-			{
-				int nd = 0;
-				cout<<"Pick a dimension:\n";
-				for(int i = 0;i<dimensias.size();i++)
-				{
-					cout<<i<<":"<<dimensias[i]->name<<"\n";
-				}
-				cin>>nd;
-				while(nd>=dimensias.size()||nd<0)
-				{
-					cout<<"Enter a dimensia number between 0 and "<<dimensias.size()<<"!\n";
-					cin>>nd;
-				}
-				dimensia=dimensias[nd];
-				LOG("VManager: I switched to dimensia "+dimensia->name+".\n");
-			}
-			else
-			{
-				cout<<"Invalid Command Entered!\n";
-			}
-			cin>>choice;
-		}
+	}
+	if(glS.GetKey('G')==GLFW_PRESS)
+	{
 		glS.ShowCursor(false);
 	}
 }
 
-void DimensiaInit(VDimensia* vd)
+void InitChunk(VChunk* ch)
 {
-	vd->mindist=1;
-	vd->maxdist=2;
-	vd->state=1;
-	NM("Dimensia Init Success!\n",vd->name);
-}
-void PushBackVoxelChunk(VDimensia* vd,VIndex cam,VIndex pos)
-{
-	VChunk* vc = new VChunk();
-	vc->Init(vd,cam+pos);
-	//vc.Neighbors();
-	//vc.VNeighbors();
-	/*VNLOOP1
-		if(vc.neighbors[VNIJK]!=nullptr)
-		{
-			vc.neighbors[VNIJK]->Neighbors();
-		}
-		if(vc.neighbors[VNIJK]!=nullptr)
-		{
-			vc.neighbors[VNIJK]->VNeighbors();
-		}
-	VNLOOP2*/
-	vd->index.push_back(cam+pos);
-	vd->chunks_c.push_back(vc);
-	NM("VChunk at <",vd->name)L(vc->position.x)L(":")L(vc->position.y)L(":")L(vc->position.z)L(">.\n");
-}
-void DimensiaCreate(VDimensia* vd)
-{
-	VIndex camindex;
-	camindex.FromVector3(*(vd->manager->cameraposition));
-	camindex.x/=V_C_SIZEX;
-	camindex.y/=V_C_SIZEY;
-	camindex.z/=V_C_SIZEZ;
-	for(int i = -vd->mindist;i<=vd->mindist;i++)
+	try
 	{
-		for(int j = -vd->mindist;j<=vd->mindist;j++)
+		ch->Init();
+	}
+	catch(exception ex)
+	{
+		cout<<ex.what();
+	}
+}
+void AttemptCreate(VDimensia* v,VIndex pos,VIndex cam_index,Vector3 cam_vec,float dist)
+{
+	if(VMath::Distance(cam_vec+pos.ToVector3(),cam_vec)<dist)
+	{
+		VIndex cpos = VINDEX(pos.x+cam_index.x,pos.y+cam_index.y,pos.z+cam_index.z);
+		bool good = true;
+		try
 		{
-			for(int k = -vd->mindist;k<=vd->mindist;k++)
+			for(int l = 0;l<v->chunks.size();l++)
 			{
-				bool good = true;
-				for(int l = 0;l<vd->index.size();l++)
+				if(cpos.Compare(v->chunks.at(l)->position)==true)
 				{
-					if(vd->index[l].Compare(camindex+VINDEX(i,j,k))==true)
+					good=false;
+				}
+			}
+			if(good==true)
+			{
+				VChunk* nc = new VChunk(v,cpos);
+				InitChunk(nc);
+				v->chunks.push_back(nc);
+			}
+		}
+		catch(exception ex)
+		{
+			cout<<"CHUNK CREATE IGNORED! HAHAHAHAHA! >:)\n"<<ex.what()<<"\n";
+		}
+	}
+}
+void ChunkCreateByIndexement(VDimensia* v)
+{
+	try
+	{
+		Vector3 cam_vec = *(v->manager->camera_pos);
+		VIndex cam_index;
+		cam_vec.x*=V_C_SCALEX;
+		cam_vec.y*=V_C_SCALEY;
+		cam_vec.z*=V_C_SCALEZ;
+		cam_vec.x-=0.5f;
+		cam_vec.y-=0.5f;
+		cam_vec.z-=0.5f;
+		cam_index.FromVector3(cam_vec);
+		float dist = v->manager->distance_create;
+		float d2 = dist / 2.0f;
+		AttemptCreate(v,VINDEX(0,0,0),cam_index,cam_vec,dist);
+		for(int i = 1;i<=d2;i++)
+		{
+			for(int j = 0;j<=i;j++)
+			{
+				for(int k = 0;k<=i;k++)
+				{
+					AttemptCreate(v,VINDEX(j,i,k),cam_index,cam_vec,dist);
+					AttemptCreate(v,VINDEX(j,-i,k),cam_index,cam_vec,dist);
+					AttemptCreate(v,VINDEX(i,j,k),cam_index,cam_vec,dist);
+					AttemptCreate(v,VINDEX(-i,j,k),cam_index,cam_vec,dist);
+					AttemptCreate(v,VINDEX(j,k,i),cam_index,cam_vec,dist);
+					AttemptCreate(v,VINDEX(j,k,-i),cam_index,cam_vec,dist);
+				}
+			}
+		}
+	}
+	catch(exception ex)
+	{
+		cout<<"The Chunk creation code just failed.\n";
+	}
+}
+void ChunkDestroy(VDimensia* v)
+{
+	try
+	{
+		Vector3 cam_vec = *(v->manager->camera_pos);
+		cam_vec.x*=V_C_SCALEX;
+		cam_vec.y*=V_C_SCALEY;
+		cam_vec.z*=V_C_SCALEZ;
+		cam_vec.x-=0.5f;
+		cam_vec.y-=0.5f;
+		cam_vec.z-=0.5f;
+		float dist = v->manager->distance_update;
+		float d2 = dist / 2.0f;
+		for(int i = 0;i<v->chunks.size();i++)
+		{
+			if(VMath::Distance(v->chunks.at(i)->position.ToVector3(),cam_vec)>dist)
+			{
+				VChunk* vc = v->chunks.at(i);
+				v->chunks.erase(v->chunks.begin()+i);
+				vc->Destroy();
+				delete vc;
+			}
+		}
+	}
+	catch(exception ex)
+	{
+		cout<<"ChunkDestroy decided not to work.\n";
+	}
+}
+
+VDimensia::VDimensia(VManager* m,string nm)
+{
+	string dn = "Dimensias\\"+nm;
+	wstring wdn  = wstring(dn.begin(),dn.end());
+	CreateDirectory(wdn.c_str(),NULL);
+	name=nm;
+	manager=m;
+}
+void VDimensia::Render()
+{
+	try
+	{
+		if(glfwWaitThread(thread_chunk_manage,GLFW_NOWAIT)==GL_TRUE)
+		{
+			thread_chunk_manage=glfwCreateThread((GLFWthreadfun)ChunkCreateByIndexement,this);
+		}
+		if(glfwWaitThread(thread_chunk_destroy,GLFW_NOWAIT)==GL_TRUE)
+		{
+			thread_chunk_destroy=glfwCreateThread((GLFWthreadfun)ChunkDestroy,this);
+		}
+		int sz = chunks.size();
+		for(int i = 0;i<sz;i++)
+		{
+			try
+			{
+				chunks.at(i)->Render();
+			}
+			catch(exception ex)
+			{
+				cout<<"RENDER FAIL COUNTER! >:)\n";
+			}
+		}
+	}
+	catch(exception ex)
+	{
+		cout<<"Render just went down.\n";
+	}
+}
+
+VChunk::VChunk(VDimensia* d,VIndex nposition)
+{
+	try
+	{
+		state=0;
+		dimensia=d;
+		position=nposition;
+	}
+	catch(exception ex)
+	{
+		cout<<"VChunk failure with an attempt at ";nposition.ToVector3().CoutShow();cout<<"\n";
+	}
+}
+void VChunk::Init()
+{
+	try
+	{
+		char x[8];
+		char y[8];
+		char z[8];
+		itoa(position.x,x,10);
+		itoa(position.y,y,10);
+		itoa(position.z,z,10);
+		_wmkdir(L"Dimensias");
+		string fname = "Dimensias\\"+dimensia->name+"\\"+
+			x+"_"+y+"_"+z+".bin";
+		const char* fnamec = fname.c_str();
+		//regionfile.open(fnamec,ios_base::in|ios_base::out|ios_base::binary);
+		//if(regionfile.eof()==true)
+		//{
+			for(int i = 0;i<V_C_SIZEX;i++)
+			{
+				for(int j = 0;j<V_C_SIZEY;j++)
+				{
+					for(int k = 0;k<V_C_SIZEZ;k++)
 					{
-						good=false;
+						voxels[i][j][k].Init(this,VINDEX(i,j,k));
+						float hx = (float)(i+GetX());
+						float hz = (float)(k+GetZ());
+						float height = scaled_octave_noise_3d(1,1,0.05f,-16.0f,16.0f,hx,hz,0);
+						if(j+GetY()==(int)height)
+						{
+							voxels[i][j][k].densities[0].vox_density=1.0f;
+						}
 					}
 				}
-				if(good==true)
-				{
-					PushBackVoxelChunk(vd,camindex,VINDEX(i,j,k));
-				}
 			}
-		}
+		//}
+		state=1;
 	}
-}
-void DimensiaDestroy(VDimensia* vd)
-{
-	VIndex camindex;
-	camindex.FromVector3(*(vd->manager->cameraposition));
-	camindex.x/=V_C_SIZEX;
-	camindex.y/=V_C_SIZEY;
-	camindex.z/=V_C_SIZEZ;
-	int sz = vd->chunks_r.size();
-	for(int i = 0;i<sz;i++)
+	catch(exception ex)
 	{
-		bool delchunk = false;
-		if(vd->chunks_r[i]->position.x<camindex.x-vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(vd->chunks_r[i]->position.y<camindex.y-vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(vd->chunks_r[i]->position.z<camindex.z-vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(vd->chunks_r[i]->position.x>camindex.x+vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(vd->chunks_r[i]->position.y>camindex.y+vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(vd->chunks_r[i]->position.z>camindex.z+vd->maxdist)
-		{
-			delchunk=true;
-		}
-		if(delchunk==true)
-		{
-			VCInd v;
-			v.number=i;
-			v.size=sz;
-			if(vd->chunks_r[i]->delflag!=true)
-			{
-				vd->chunks_r[i]->delflag=true;
-				vd->chunks_d.push_back(i);
-			}
-		}
+		cout<<"Hold up... Chunk init just failed?\n";
 	}
 }
-void DelChunk(VChunk* chunk)
+void ChunkUpdate(VChunk* ch)
 {
-	delete chunk;
-}
-
-VDimensia::VDimensia(VManager* m,string nname)
-{
-	name=nname;
-	manager=m;
-	state=0;
-	rndvec.x=rand()%1024;
-	rndvec.y=rand()%1024;
-	rndvec.z=rand()%1024;
-	NM("This is "+name+". Construction was successful. I am ready to begin.\n",name);
-	NM("Random vector set at: <",name)L(rndvec.x)L(",")L(rndvec.y)L(",")L(rndvec.z)L(">.\n");
-}
-void VDimensia::Update()
-{
-	if(state==0)
+	try
 	{
-		if(glfwWaitThread(createthread,GLFW_NOWAIT)==GL_TRUE)
-		{
-			createthread=glfwCreateThread((GLFWthreadfun)DimensiaInit,this);
-		}
 	}
-	else if(state==1)
+	catch(exception ex)
 	{
-		if(chunks_c.size()>0)
-		{
-			chunks_r.push_back(chunks_c[chunks_c.size()-1]);
-			chunks_c.pop_back();
-			NM("VChunk placed successfully.\n",name);
-		}
-		if(glfwWaitThread(createthread,GLFW_NOWAIT)==GL_TRUE)
-		{
-			createthread=glfwCreateThread((GLFWthreadfun)DimensiaCreate,this);
-		}
-		if(glfwWaitThread(destroythread,GLFW_NOWAIT)==GL_TRUE)
-		{
-			while(chunks_d.size()>0)
-			{
-				glfwCreateThread((GLFWthreadfun)DelChunk,chunks_r[chunks_d[chunks_d.size()-1]]);
-				chunks_r.erase(chunks_r.begin()+chunks_d[chunks_d.size()-1]);
- 				chunks_d.pop_back();
-			}
-			destroythread=glfwCreateThread((GLFWthreadfun)DimensiaDestroy,this);
-		}
-		for(int i = 0;i<chunks_r.size();i++)
-		{
-			chunks_r[i]->Render();
-		}
+		cout<<ex.what();
 	}
-}
-VChunk* VDimensia::GetChunk(VIndex vind)
-{
-	for(int i = 0;i<index.size();i++)
-	{
-		if(index[i].Compare(vind)==true)
-		{
-			return chunks_c[i];
-		}
-	}
-	return nullptr;
-}
-
-void VChunk::Init(VDimensia* dm,VIndex indpos)
-{
-	position=indpos;
-	dimensia=dm;
-	delflag=false;
-	/*VLOOP1
-		voxels[VIJK].Init(this);
-		vpointers.push_back(&voxels[VIJK]);
-	VLOOP2*/
 }
 void VChunk::Update()
 {
-	/*for(int i = 0;i<vpointers.size();i++)
+	try
 	{
-		vpointers[i]->Update();
-	}*/
-}
-void VChunk::Calculate()
-{
-	/*for(int i = 0;i<vpointers.size();i++)
+		if(state==1)
+		{
+		}
+	}
+	catch(exception ex)
 	{
-		vpointers[i]->Calculate();
-	}*/
+		cout<<ex.what();
+	}
 }
 void VChunk::Render()
 {
-	glPushMatrix();
-	glPushMatrix();
-	glTranslatef(position.x*V_C_SIZEX,position.y*V_C_SIZEY,position.z*V_C_SIZEZ);
-	glScalef(V_C_SIZEX/2,V_C_SIZEY/2,V_C_SIZEZ/2);
-	Draw::Cube(0,0,0);
-	glPopMatrix();
-	glTranslatef(position.x*V_C_SIZEX,position.y*V_C_SIZEY,position.z*V_C_SIZEZ);
-	/*for(int i = 0;i<vpointers.size();i++)
+	try
 	{
-		vpointers[i]->Render();
-	}*/
-	glPopMatrix();
-}
-void VChunk::Neighbors()
-{
-	/*VNLOOP1
-		neighbors[VNIJK]=nullptr;
-		VIndex nvi = VINDEX(i,j,k)+position;
-		for(int l = 0;l<dimensia->index.size();l++)
+		if(state==1)
 		{
-			if(dimensia->index[l].Compare(nvi)==true)
+			Vector3 cam_vec = *(dimensia->manager->camera_pos);
+			cam_vec.x*=V_C_SCALEX;
+			cam_vec.y*=V_C_SCALEY;
+			cam_vec.z*=V_C_SCALEZ;
+			cam_vec.x-=0.5f;
+			cam_vec.y-=0.5f;
+			cam_vec.z-=0.5f;
+			if(VMath::Distance(position.ToVector3(),cam_vec)<dimensia->manager->distance_render)
 			{
-				neighbors[VNIJK]=&(dimensia->chunks_u[l]);
+				for(int i = 0;i<V_C_SIZEX;i++)
+				{
+					for(int j = 0;j<V_C_SIZEY;j++)
+					{
+						for(int k = 0;k<V_C_SIZEZ;k++)
+						{
+							voxels[i][j][k].Render();
+						}
+					}
+				}
 			}
 		}
-	VNLOOP2*/
+	}
+	catch(exception ex)
+	{
+		cout<<"Chunk::Render failed just now.\n";
+	}
 }
-void VChunk::VNeighbors()
+void VChunk::Destroy()
 {
-	/*VLOOP1
-		voxels[VIJK].Neighbors();
-	VLOOP2*/
+	try
+	{
+		/*for(int i = 0;i<V_C_SIZEX;i++)
+		{
+			for(int j = 0;j<V_C_SIZEY;j++)
+			{
+				for(int k = 0;k<V_C_SIZEZ;k++)
+				{
+					voxels[i][j][k].Save(&regionfile);
+				}
+			}
+		}*/
+	}
+	catch(exception ex)
+	{
+		cout<<"File writing issue!\n";
+	}
+}
+VIndex VChunk::GetPos()
+{
+	try
+	{
+	VIndex pos = position;
+	pos.x*=V_C_SIZEX;
+	pos.y*=V_C_SIZEY;
+	pos.z*=V_C_SIZEZ;
+	return pos;
+	}
+	catch(exception ex)
+	{
+		cout<<ex.what();
+	}
+}
+int VChunk::GetX()
+{
+	try
+	{
+	return position.x*V_C_SIZEX;
+	}
+	catch(exception ex)
+	{
+		cout<<ex.what();
+	}
+}
+int VChunk::GetY()
+{
+	try
+	{
+	return position.y*V_C_SIZEY;
+	}
+	catch(exception ex)
+	{
+		cout<<ex.what();
+	}
+}
+int VChunk::GetZ()
+{
+	try
+	{
+	return position.z*V_C_SIZEZ;
+	}
+	catch(exception ex)
+	{
+		cout<<ex.what();
+	}
+}
+void Calculate()
+{
+	for(int i = 0;i<V_C_SIZEX;i++)
+	{
+		for(int j = 0;j<V_C_SIZEY;j++)
+		{
+			for(int k = 0;k<V_C_SIZEZ;k++)
+			{
+			}
+		}
+	}
 }
 
-void VVoxel::Init(VChunk* ch,VIndex pos)
+void VVoxel::Init(VChunk* c,VIndex p)
 {
-	chunk=ch;
-	position=pos;
-	type=V_TYPE_CUBE;
-}
-void VVoxel::Calculate()
-{
-	mesh.clear();
-	if(type==V_TYPE_CUBE)
+	try
 	{
+		chunk=c;
+		position=p+c->GetPos();
+		VDensity standard = {1,0.0f,1,"VOX"};
+		densities.push_back(standard);
+	}
+	catch(exception ex)
+	{
+		cout<<"Hey... a voxel failed. Cool.\n";
 	}
 }
 void VVoxel::Render()
 {
-	Draw::Cube(position.x,position.y,position.z);
+	try
+	{
+		for(int i = 0;i<densities.size();i++)
+		{
+			try
+			{
+				if(densities[i].vox_density>0.0f)
+				{
+					float mult = 0.0f;
+					if(mult<V_C_SIZEX)mult=V_C_SIZEX;
+					if(mult<V_C_SIZEY)mult=V_C_SIZEY;
+					if(mult<V_C_SIZEZ)mult=V_C_SIZEZ;
+					if(VMath::Distance(position.ToVector3(),*chunk->dimensia->manager->camera_pos)<mult*chunk->dimensia->manager->distance_render)
+					{
+						if(densities[i].vox_type==1)
+						{
+							Draw::Cube(position.x,position.y,position.z);
+						}
+					}
+				}
+			}
+			catch(exception ex)
+			{
+				cout<<"NODRAW VOXEL DUE TO DENSITY LOSS! (or error of somekind)\n";
+			}
+		}
+	}
+	catch(exception ex)
+	{
+		cout<<"A voxel does not like his density list.\n";
+	}
 }
-void VVoxel::Neighbors()
+void VVoxel::Save(fstream* f)
 {
+	(*f)<<densities.size()<<':';
+	for(int i = 0;i<densities.size();i++)
+	{
+		(*f)<<sizeof(densities[i]);
+		f->write((char*)&densities[i],sizeof(densities[i]));
+	}
+}
+void VVoxel::Load(fstream* f)
+{
+	int sized = 0;
+	(*f)>>sized;
+	densities.resize(sized);
+	for(int i = 0;i<sized;i++)
+	{
+		int denssize = 0;
+		(*f)>>denssize;
+		f->get((char*)&densities[i],denssize);
+	}
 }

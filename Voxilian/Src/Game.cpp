@@ -5,7 +5,7 @@ void Game::Init()
 {
 	//Initialize the drawing system, initialize the voxelmanager and its voxels, and create a window. (Window(false)).
 	glS.Init();
-	m.Init(glS.camera);
+	m.Init(&glS.camera->pos);
 	glS.Window(false);
 }
 void Game::Render()
@@ -22,7 +22,7 @@ void Game::Render()
 	glVertex3f(0,1,0);
 	glVertex3f(0,0,0);
 	glEnd();
-	m.Update();
+	m.Render();
 	//Draw voxelmanager and its associated voxels.
 	//voxelmanager.Render();
 	//End the camera drawing system. (swaps the buffers)

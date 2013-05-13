@@ -39,6 +39,7 @@ public:
 	Vector3 operator/(Vector3);
 	btVector3 GetBullet();
 	void CoutShow();
+	Vector3 Scale(float sx,float sy,float sz);
 };
 
 typedef struct {
