@@ -1,0 +1,7 @@
+=Voxilian Indev 1.0.3=
+
+This build of Voxilian was the first build to incorporate not only multithreading, but error handling as well. This build also does not require the VC++ Runtimes in order to run. It also incorporates a heightmap via the Perlin Noise algorithm.
+
+WikiHome
+
+I don't really need a picture here to explain the content of this build. It's a triangle.
