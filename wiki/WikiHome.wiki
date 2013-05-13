@@ -19,6 +19,6 @@ WikiBuildIndev103
 
 
 These are screenshots from a previous build:
-http://voxilian.googlecode.com/svn/wiki/vea1.0.p.1.png
-http://voxilian.googlecode.com/svn/wiki/vea1.0.p.2.png
-http://voxilian.googlecode.com/svn/wiki/vea1.0.p.3.png
+http://voxilian.googlecode.com/svn/wiki/vea1.0.0.p.1.png
+http://voxilian.googlecode.com/svn/wiki/vea1.0.0.p.2.png
+http://voxilian.googlecode.com/svn/wiki/vea1.0.0.p.3.png
