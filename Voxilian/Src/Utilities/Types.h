@@ -14,9 +14,12 @@ class LogFile
 {
 public:
 	ofstream LogF;
+	ofstream LogFW1;
 	LogFile();
 	void Log(string st);
 	void Log(float st);
+	void LogW1(string st);
+	void LogW1(float st);
 };
 
 /*typedef struct
@@ -64,7 +67,7 @@ namespace VMath
 namespace VoxelFunc
 {
 	//This is the MC Algorithm implementor.
-	int Polygonise(VoxelCell grid,double isolevel,std::vector<Triangle> *triangles);
+	int Polygonise(VoxelCell grid,float isolevel,std::vector<Triangle> *triangles);
 	//This interpolates (smooths) out the vectors.
 	Vector3 VertexInterp(float isolevel,Vector3 p1,Vector3 p2,float valp1,float valp2);
 	//This may or may not be used for normals.

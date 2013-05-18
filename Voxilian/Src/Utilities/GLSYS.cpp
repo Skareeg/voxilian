@@ -27,6 +27,8 @@ void GLSYS::Window(bool fullscreen)
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 	glfwSwapInterval(1);
 }
 void GLSYS::ShowCursor(bool show)
@@ -210,10 +212,10 @@ void Draw::CubeSide(float i,float j,float k,int down,int up,int left,int right,i
 	{
 		glColor3f(1,0,0);
 		glVertex3f(i,j,k);
-		glVertex3f(i+1,j,k);
-		glVertex3f(i+1,j,k+1);
-		glVertex3f(i+1,j,k+1);
 		glVertex3f(i,j,k+1);
+		glVertex3f(i+1,j,k+1);
+		glVertex3f(i+1,j,k+1);
+		glVertex3f(i+1,j,k);
 		glVertex3f(i,j,k);
 	}
 	if(up==1)
@@ -240,20 +242,20 @@ void Draw::CubeSide(float i,float j,float k,int down,int up,int left,int right,i
 	{
 		glColor3f(0,1,1);
 		glVertex3f(i+1,j,k);
-		glVertex3f(i+1,j+1,k);
-		glVertex3f(i+1,j+1,k+1);
-		glVertex3f(i+1,j+1,k+1);
 		glVertex3f(i+1,j,k+1);
+		glVertex3f(i+1,j+1,k+1);
+		glVertex3f(i+1,j+1,k+1);
+		glVertex3f(i+1,j+1,k);
 		glVertex3f(i+1,j,k);
 	}
 	if(backward==1)
 	{
 		glColor3f(0,0,1);
 		glVertex3f(i,j,k);
-		glVertex3f(i,j+1,k);
-		glVertex3f(i+1,j+1,k);
-		glVertex3f(i+1,j+1,k);
 		glVertex3f(i+1,j,k);
+		glVertex3f(i+1,j+1,k);
+		glVertex3f(i+1,j+1,k);
+		glVertex3f(i,j+1,k);
 		glVertex3f(i,j,k);
 	}
 	if(forward==1)

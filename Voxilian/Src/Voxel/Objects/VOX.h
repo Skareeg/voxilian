@@ -19,6 +19,12 @@
 #define V_TYPE_MESH 0
 #define V_TYPE_CUBE 1
 
+struct VAV
+{
+	GLfloat x,y,z;
+	GLfloat r,g,b;
+};
+
 class VIndex
 {
 public:
@@ -43,6 +49,8 @@ struct VDensity
 	int vox_type;
 	float vox_density;
 	int vox_id;
+	VoxelCell vcell;
+	vector<Triangle> vmesh;
 	string name;
 };
 
@@ -51,18 +59,24 @@ class VVoxel
 public:
 	VChunk* chunk;
 	VIndex position;
+	VIndex index;
 	vector<VDensity> densities;
 	VVoxel* ne[3][3][3];
+	int drawsides[6];
+	VVoxel();
 	void Init(VChunk* c,VIndex p);
 	void Render();
 	void Save(fstream* f);
 	void Load(fstream* f);
-	void Calculate();
+	void VCalculate();
+	void NCalculate();
 };
 
 class VChunk
 {
 public:
+	vector<Vector3> b_lines;
+	vector<Vector3> d_lines;
 	int state;
 	VDimensia* dimensia;
 	VIndex position;
@@ -70,7 +84,8 @@ public:
 	GLFWthread updatethread;
 	VVoxel voxels[V_C_SIZEX][V_C_SIZEY][V_C_SIZEZ];
 	VChunk* ne[3][3][3];
-	VoxelCell vcell;
+	vector<Triangle> cmesh;
+	bool render;
 	VChunk(VDimensia* d,VIndex nposition);
 	void Init();
 	void Update();
@@ -80,7 +95,8 @@ public:
 	int GetX();
 	int GetY();
 	int GetZ();
-	void Calculate();
+	void NCalculate();
+	void VCalculate();
 };
 
 //Voxel Dimension class.
@@ -99,10 +115,20 @@ public:
 	GLFWthread thread_chunk_manage;
 	//This is the chunk destruction thread.
 	GLFWthread thread_chunk_destroy;
+	//This is the voxel isolevel.
+	float isolevel;
 	//The dimensions contructor.
 	VDimensia(VManager* m,string nm);
 	//The render method.
 	void Render();
+	//This will get a chunk from a position or return nullptr
+	VChunk* GetChunk(VIndex pos);
+	//This will get a voxel from a world position or return nullptr
+	VVoxel* GetVoxel(VIndex wpos);
+	//
+	//These are the voxel changing functions. They will occur in realtime.
+	//
+	void VoxelDestroySphere(Vector3 pos,float size,float soft,float hard);
 };
 
 //Voxel Manager class.

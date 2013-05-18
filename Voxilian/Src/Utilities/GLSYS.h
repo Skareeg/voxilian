@@ -25,6 +25,7 @@
 #define DRAW_UP VMath::Vector(0,1,0)
 
 #define LOG(st) glS.log.Log(st)
+#define LOGW1(st) glS.log.LogW1(st)
 
 //class for openGL SYStems
 void MouseMove();
