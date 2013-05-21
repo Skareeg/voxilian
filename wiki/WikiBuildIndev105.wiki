@@ -1,0 +1,10 @@
+=Voxilian Indev 1.0.5=
+
+This is the second build of voxilian to include smooth voxels via the marching cubes algorithm. It has the typical infinite terrain generation, but has much fewer errors than before. Furthermore, digging has been extended... greatly... and the chunk sizes have been lowered from 20 voxels per chunk to 5 voxels per chunk, for testing purposes. MEMOREY VIOLATION ERRORS ARE PREVALENT, AND THEY ARE EXTREMELY ANNOYING!
+
+WikiHome
+
+It's a bug! (I think anyway)
+http://voxilian.googlecode.com/svn/wiki/vea1.0.5.p.1.png
+This is a small canyon.
+http://voxilian.googlecode.com/svn/wiki/vea1.0.5.p.2.png
