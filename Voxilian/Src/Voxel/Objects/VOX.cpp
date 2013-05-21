@@ -59,10 +59,13 @@ void VManager::Init(Vector3* campos)
 {
 	_wmkdir(L"Dimensias");
 	camera_pos=campos;
-	distance_create=1;
-	distance_render=1;
-	distance_update=10;
+	distance_create=4;
+	distance_render=7;
+	distance_update=7.5;
 	dimensia=new VDimensia(this,"Main");
+	voxnull = new VVoxel();
+	voxnull->name="NULL";
+	vcnull = new VChunk(dimensia,VINDEX(0,0,0));
 }
 void VManager::Render()
 {
@@ -190,6 +193,7 @@ void ChunkDestroy(VDimensia* v)
 		float d2 = dist / 2.0f;
 		for(int i = 0;i<v->chunks.size();i++)
 		{
+			glfwLockMutex(v->chunks.at(i)->nodestroy);
 			if(VMath::Distance(v->chunks.at(i)->position.ToVector3(),cam_vec)>dist)
 			{
 				VChunk* vc = v->chunks.at(i);
@@ -197,11 +201,36 @@ void ChunkDestroy(VDimensia* v)
 				vc->Destroy();
 				delete vc;
 			}
+			glfwUnlockMutex(v->chunks.at(i)->nodestroy);
 		}
 	}
 	catch(exception ex)
 	{
 		cout<<"ChunkDestroy decided not to work.\n";
+	}
+}
+void VoxelUpdate(VDimensia* v)
+{
+	try
+	{
+		/*if(v->vox_destruct.size()>0)
+		{
+			v->VoxelDestroySphere(
+				v->vox_destruct.back().pos,
+				v->vox_destruct.back().radius,
+				v->vox_destruct.back().impactsoft,
+				v->vox_destruct.back().impactsolid);
+			v->vox_destruct.pop_back();
+		}*/
+		if(glS.GetKey('R')==true)
+		{
+			//VDestructor d = {*manager->camera_pos,2.0f,0.1f,0.1f};
+			//vox_destruct.push_back(d);
+			v->VoxelDestroySphere(*v->manager->camera_pos,4.0f,0.05f,0.0f);
+		}
+	}
+	catch(exception ex)
+	{
 	}
 }
 
@@ -226,29 +255,44 @@ void VDimensia::Render()
 		{
 			thread_chunk_destroy=glfwCreateThread((GLFWthreadfun)ChunkDestroy,this);
 		}
+		if(glfwWaitThread(thread_voxel_update,GLFW_NOWAIT)==GL_TRUE)
+		{
+			thread_voxel_update=glfwCreateThread((GLFWthreadfun)VoxelUpdate,this);
+		}
 		int sz = chunks.size();
 		for(int i = 0;i<sz;i++)
 		{
 			try
 			{
-				chunks.at(i)->Render();
+				if(chunks.at(i)!=nullptr)
+				{
+					if(chunks.at(i)!=manager->vcnull)
+					{
+						if(chunks.at(i)->isInit==true)
+						{
+							chunks.at(i)->Render();
+						}
+					}
+				}
 			}
 			catch(exception ex)
 			{
-				cout<<"RENDER FAIL COUNTER! >:)\n";
+				//SAY NOTHING AND CONTINUE LIKE A BOSS!
 			}
 		}
-		if(glS.GetKey('R')==true)
+		/*if(glS.GetKey('R')==true)
 		{
-			VoxelDestroySphere(*manager->camera_pos,2.0f,0.1f,0.1f);
-		}
+			VDestructor d = {*manager->camera_pos,2.0f,0.1f,0.1f};
+			vox_destruct.push_back(d);
+			//VoxelDestroySphere(*manager->camera_pos,4.0f,0.05f,0.0f);
+		}*/
 	}
 	catch(exception ex)
 	{
 		cout<<"Render just went down.\n";
 	}
 }
-VChunk* VDimensia::GetChunk(VIndex pos)
+VChunk* VDimensia::GetChunk(VDimensia* dimensia,VIndex pos)
 {
 	try
 	{
@@ -264,7 +308,7 @@ VChunk* VDimensia::GetChunk(VIndex pos)
 	{
 		LOGW1("VDimensia::GetChunk(xyz) failure detected.\n");
 	}
-	return nullptr;
+	return CNULL;
 }
 VVoxel* VDimensia::GetVoxel(VIndex wpos)
 {
@@ -303,9 +347,9 @@ void DimensiaVoxelDestroySphere(DVDS* dvds)
 {
 	try
 	{
-		if(dvds->impactsoft<1.0f)
+		if(dvds->impactsoft<0.0f)
 		{
-			dvds->impactsoft=1.0f;
+			dvds->impactsoft=0.0f;
 		}
 		if(dvds->impactsolid<0.0f)
 		{
@@ -340,18 +384,26 @@ void DimensiaVoxelDestroySphere(DVDS* dvds)
 							float vd = VMath::Distance(p,vp);
 							if(vd<r)
 							{
-								for(int m = 0;m<c->voxels[j][k][l].densities.size();m++)
+								if(c->voxels[j][k][l].isInit==true)
 								{
-									c->voxels[j][k][l].densities.at(m).vox_density/=(dvds->impactsoft+1.0f);
-									c->voxels[j][k][l].densities.at(m).vox_density-=dvds->impactsolid;
-								}
-								for(int f = 0;f<3;f++)
-								for(int g = 0;g<3;g++)
-								for(int h = 0;h<3;h++)
-									if(c->voxels[j][k][l].ne[f][g][h]!=nullptr)
+									if(c->voxels[j][k][l].VCALCing==false)
 									{
-										c->voxels[j][k][l].ne[f][g][h]->VCalculate();
+										for(int m = 0;m<c->voxels[j][k][l].densities.size();m++)
+										{
+											c->voxels[j][k][l].densities.at(m).vox_density/=(dvds->impactsoft+1.0f);
+											c->voxels[j][k][l].densities.at(m).vox_density-=dvds->impactsolid;
+										}
+										for(int f = 0;f<3;f++)
+										for(int g = 0;g<3;g++)
+										for(int h = 0;h<3;h++)
+											if(c->voxels[j][k][l].ne[f][g][h]!=nullptr)
+											if(c->voxels[j][k][l].ne[f][g][h]!=dvds->d->manager->voxnull)
+											if(c->voxels[j][k][l].ne[f][g][h]->isInit==true)
+											{
+												c->voxels[j][k][l].ne[f][g][h]->VCalculate();
+											}
 									}
+								}
 							}
 						}
 					}
@@ -373,7 +425,8 @@ void VDimensia::VoxelDestroySphere(Vector3 pos,float radius,float soft,float har
 	d->radius=radius;
 	d->impactsoft=soft;
 	d->impactsolid=hard;
-	glfwCreateThread((GLFWthreadfun)DimensiaVoxelDestroySphere,d);
+	//glfwCreateThread((GLFWthreadfun)DimensiaVoxelDestroySphere,d);
+	DimensiaVoxelDestroySphere(d);
 }
 
 void ChunkBoxLines(VChunk* v)
@@ -428,9 +481,9 @@ void ChunkNeLines(VChunk* v)
 }
 VChunk::VChunk(VDimensia* d,VIndex nposition)
 {
+	state=-1;
 	try
 	{
-		state=0;
 		dimensia=d;
 		position=nposition;
 		for(int i = 0;i<3;i++)
@@ -439,11 +492,25 @@ VChunk::VChunk(VDimensia* d,VIndex nposition)
 			{
 				for(int k = 0;k<3;k++)
 				{
-					ne[i][j][k]=nullptr;
+					ne[i][j][k]=CNULL;
 				}
 			}
 		}
+		for(int i = 0;i<V_C_SIZEX;i++)
+		{
+			for(int j = 0;j<V_C_SIZEY;j++)
+			{
+				for(int k = 0;k<V_C_SIZEZ;k++)
+				{
+					voxels[i][j][k].Init(this,VINDEX(i,j,k));
+				}
+			}
+		}
+		state=0;
 		render=false;
+		isInit=false;
+		isNC=false;
+		isVC=false;
 	}
 	catch(exception ex)
 	{
@@ -454,6 +521,10 @@ void VChunk::Init()
 {
 	try
 	{
+		if(state!=0)
+		{
+			throw("NO!\n");
+		}
 		ChunkBoxLines(this);
 		char x[8];
 		char y[8];
@@ -474,7 +545,6 @@ void VChunk::Init()
 				{
 					for(int k = 0;k<V_C_SIZEZ;k++)
 					{
-						voxels[i][j][k].Init(this,VINDEX(i,j,k));
 						float hx = (float)(i+GetX());
 						float hy = (float)(j+GetY());
 						float hz = (float)(k+GetZ());
@@ -492,7 +562,7 @@ void VChunk::Init()
 						{
 							voxels[i][j][k].densities.at(0).vox_density=abs(1.0f-(basey/baseh));
 						}
-						if(baseh>baseh)
+						if(basey>baseh)
 						{
 							voxels[i][j][k].densities.at(0).vox_density=0.0f;
 						}
@@ -503,6 +573,8 @@ void VChunk::Init()
 		}
 		*/
 		state=1;
+		nodestroy=glfwCreateMutex();
+		isInit=true;
 	}
 	catch(exception ex)
 	{
@@ -536,28 +608,6 @@ void VChunk::Render()
 {
 	try
 	{
-		//Debug Line Codes. Deprecated.
-		/*glPushMatrix();
-		glScalef(V_C_SIZEX,V_C_SIZEY,V_C_SIZEZ);
-		glTranslatef(position.x,position.y,position.z);
-		glBegin(GL_LINES);
-		glColor3f(0.8f,0.8f,0.8f);
-		try
-		{
-			for(int i = 0;i<d_lines.size();i++)
-			{
-				glVertex3f(d_lines.at(i).x,d_lines.at(i).y,d_lines.at(i).z);
-			}
-			for(int i = 0;i<b_lines.size();i++)
-			{
-				glVertex3f(b_lines.at(i).x,b_lines.at(i).y,b_lines.at(i).z);
-			}
-		}
-		catch(exception ex)
-		{
-		}
-		glEnd();
-		glPopMatrix();*/
 		if(state==1)
 		{
 			Vector3 cam_vec = *(dimensia->manager->camera_pos);
@@ -607,10 +657,12 @@ void VChunk::Destroy()
 			{
 				for(int k = -1;k<=1;k++)
 				{
-					if((ne[i+1][j+1][k+1])!=nullptr)
+					if(ne[i+1][j+1][k+1]!=CNULL)
 					{
-						ne[i+1][j+1][k+1]->ne[1-i][1-j][1-k]=nullptr;
-						ChunkNeLines(ne[i+1][j+1][k+1]);
+						if(ne[i+1][j+1][k+1]->state==1)
+						{
+							ne[i+1][j+1][k+1]->ne[1-i][1-j][1-k]=CNULL;
+						}
 					}
 				}
 			}
@@ -671,6 +723,8 @@ int VChunk::GetZ()
 }
 void VChunk::NCalculate()
 {
+	//glfwLockMutex(nodestroy);
+	state=2;
 	try
 	{
 		for(int i = -1;i<=1;i++)
@@ -679,12 +733,11 @@ void VChunk::NCalculate()
 			{
 				for(int k = -1;k<=1;k++)
 				{
-					ne[i+1][j+1][k+1]=dimensia->GetChunk(position+VINDEX(i,j,k));
+					ne[i+1][j+1][k+1]=dimensia->GetChunk(dimensia,position+VINDEX(i,j,k));
 					ChunkNeLines(ne[i+1][j+1][k+1]);
 				}
 			}
 		}
-		ChunkNeLines(this);
 		for(int i = 0;i<V_C_SIZEX;i++)
 		{
 			for(int j = 0;j<V_C_SIZEY;j++)
@@ -700,32 +753,50 @@ void VChunk::NCalculate()
 	{
 		LOGW1(ex.what());LOGW1("\n");
 	}
+	state=1;
+	isNC=true;
+	//glfwUnlockMutex(nodestroy);
 }
 void VChunk::VCalculate()
 {
-	for(int i = 0;i<V_C_SIZEX;i++)
+	//glfwLockMutex(nodestroy);
+	state=3;
+	try
 	{
-		for(int j = 0;j<V_C_SIZEY;j++)
+		for(int i = 0;i<V_C_SIZEX;i++)
 		{
-			for(int k = 0;k<V_C_SIZEZ;k++)
+			for(int j = 0;j<V_C_SIZEY;j++)
 			{
-				voxels[i][j][k].VCalculate();
+				for(int k = 0;k<V_C_SIZEZ;k++)
+				{
+					voxels[i][j][k].VCalculate();
+				}
 			}
 		}
+		state=1;
+		isVC=true;
 	}
+	catch(exception ex)
+	{
+		LOGW1(ex.what());LOGW1("\n");
+	}
+	//glfwUnlockMutex(nodestroy);
 }
 
 VVoxel::VVoxel()
 {
-	for(int i = 0;i<3;i++)
+	try
 	{
-		for(int j = 0;j<3;j++)
-		{
-			for(int k = 0;k<3;k++)
-			{
-				ne[i][j][k]=nullptr;
-			}
-		}
+		state=0;
+		isInit=false;
+		isNC=false;
+		isVC=false;
+		VCALCing=false;
+		//vm=glfwCreateMutex();
+	}
+	catch(exception ex)
+	{
+		cout<<"Hey... a voxel failed. Cool.\n";
 	}
 }
 void VVoxel::Init(VChunk* c,VIndex p)
@@ -741,6 +812,19 @@ void VVoxel::Init(VChunk* c,VIndex p)
 		standard.vox_id=0;
 		standard.vox_type=V_TYPE_MESH;
 		densities.push_back(standard);
+		for(int i = 0;i<3;i++)
+		{
+			for(int j = 0;j<3;j++)
+			{
+				for(int k = 0;k<3;k++)
+				{
+					ne[i][j][k]=c->dimensia->manager->voxnull;
+				}
+			}
+		}
+		state=1;
+		isInit=true;
+		valid=VVALID;
 	}
 	catch(exception ex)
 	{
@@ -844,76 +928,23 @@ int CheckVI(int i,int m)
 	}
 	return i;
 }
-void VVoxel::NCalculate()
+bool TestVox(VVoxel* vthis,VVoxel* ne)
 {
 	try
 	{
-		for(int a = -1;a<=1;a++)
+		if(vthis!=nullptr)
 		{
-			for(int s = -1;s<=1;s++)
+			if(ne!=nullptr)
 			{
-				for(int d = -1;d<=1;d++)
+				if(ne!=vthis->VNULL)
 				{
-					int sx = index.x+a;
-					int sy = index.y+s;
-					int sz = index.z+d;
-					int aa = a+1;
-					int ss = s+1;
-					int dd = d+1;
-					int z = CheckVI(sx,V_C_SIZEX);
-					int x = CheckVI(sy,V_C_SIZEY);
-					int c = CheckVI(sz,V_C_SIZEZ);
-					int q = 1;
-					int w = 1;
-					int e = 1;
-					if(sx==-1)
+					if(vthis->valid==VVALID)
 					{
-						q=0;
-						sx=19;
-					}
-					if(sx==V_C_SIZEX)
-					{
-						q=2;
-						sx=0;
-					}
-					if(sy==-1)
-					{
-						w=0;
-						sy=19;
-					}
-					if(sy==V_C_SIZEY)
-					{
-						w=2;
-						sy=0;
-					}
-					if(sz==-1)
-					{
-						e=0;
-						sz=19;
-					}
-					if(sz==V_C_SIZEZ)
-					{
-						e=2;
-						sz=0;
-					}
-					ne[aa][ss][dd]=nullptr;
-					if(chunk->ne[q][w][e]!=nullptr)
-					{
-						//aa = a+1
-						//ss = s+1
-						//dd = d+1
-						//q,w,e = chunk neighbor numbers. 0,1,2.
-						ne[aa][ss][dd]=&chunk->ne[q][w][e]->voxels[sx][sy][sz];
-						if(ne[aa][ss][dd]!=nullptr)
+						if(ne->valid==VVALID)
 						{
-							chunk->ne[q][w][e]->voxels[sx][sy][sz].ne[2-aa][2-ss][2-dd]=this;
-							try
+							if(ne->isInit==true)
 							{
-								chunk->ne[q][w][e]->voxels[sx][sy][sz].VCalculate();
-							}
-							catch(exception ex)
-							{
-								cout<<ex.what()<<"\n";
+								return true;
 							}
 						}
 					}
@@ -923,183 +954,296 @@ void VVoxel::NCalculate()
 	}
 	catch(exception ex)
 	{
-		LOGW1(ex.what());LOGW1("\n");
-		cout<<"FAIL";
+	}
+	return false;
+}
+void VVoxel::NCalculate()
+{
+	if(name!="NULL"&&valid==VVALID)
+	{
+		state=2;
+		try
+		{
+			int cx = chunk->position.x;
+			int cy = chunk->position.y;
+			int cz = chunk->position.z;
+			int vx = position.x;
+			int vy = position.y;
+			int vz = position.z;
+			for(int a = -1;a<=1;a++)
+			{
+				for(int s = -1;s<=1;s++)
+				{
+					for(int d = -1;d<=1;d++)
+					{
+						int sx = index.x+a;
+						int sy = index.y+s;
+						int sz = index.z+d;
+						int aa = a+1;
+						int ss = s+1;
+						int dd = d+1;
+						int z = CheckVI(sx,V_C_SIZEX);
+						int x = CheckVI(sy,V_C_SIZEY);
+						int c = CheckVI(sz,V_C_SIZEZ);
+						int q = 1;
+						int w = 1;
+						int e = 1;
+						if(sx==-1)
+						{
+							q=0;
+							sx=V_C_SIZEX-1;
+						}
+						if(sx==V_C_SIZEX)
+						{
+							q=2;
+							sx=0;
+						}
+						if(sy==-1)
+						{
+							w=0;
+							sy=V_C_SIZEY-1;
+						}
+						if(sy==V_C_SIZEY)
+						{
+							w=2;
+							sy=0;
+						}
+						if(sz==-1)
+						{
+							e=0;
+							sz=V_C_SIZEZ-1;
+						}
+						if(sz==V_C_SIZEZ)
+						{
+							e=2;
+							sz=0;
+						}
+						ne[aa][ss][dd]=VNULL;
+						if(chunk->ne[q][w][e]!=chunk->CNULL)
+						{
+							if(chunk->ne[q][w][e]->isInit==true)
+							{
+								//aa = a+1
+								//ss = s+1
+								//dd = d+1
+								//q,w,e = chunk neighbor numbers. 0,1,2.
+								ne[aa][ss][dd]=&chunk->ne[q][w][e]->voxels[sx][sy][sz];
+								if(TestVox(this,ne[aa][ss][dd])==true)
+								{
+									chunk->ne[q][w][e]->voxels[sx][sy][sz].ne[2-aa][2-ss][2-dd]=this;
+									try
+									{
+										chunk->ne[q][w][e]->voxels[sx][sy][sz].VCalculate();
+									}
+									catch(exception ex)
+									{
+										cout<<ex.what()<<"\n";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			state=1;
+			isNC=true;
+		}
+		catch(exception ex)
+		{
+			LOGW1(ex.what());LOGW1("\n");
+			cout<<"FAIL";
+		}
 	}
 }
 void VVoxel::VCalculate()
 {
-	try
+	if(name!="NULL"&&valid==VVALID)
 	{
-		for(int i = 0;i<6;i++)
+		//glfwLockMutex(vm);
+		VCALCing=true;
+		state=3;
+		try
 		{
-			drawsides[i]=0;
-		}
-		if(ne[0][1][1]!=nullptr)
-		{
-			for(int i = 0;i<ne[0][1][1]->densities.size();i++)
+			for(int i = 0;i<6;i++)
 			{
-				if(ne[0][1][1]->densities.at(i).vox_density==0)
+				drawsides[i]=0;
+			}
+			if(TestVox(this,ne[0][1][1])==true)
+			{
+				for(int i = 0;i<ne[0][1][1]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_LEFT]=1;
+					if(ne[0][1][1]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_LEFT]=1;
+					}
 				}
 			}
-		}
-		else
-		{
-			//drawsides[DRAW_CUBE_LEFT]=1;
-		}
-		if(ne[2][1][1]!=nullptr)
-		{
-			for(int i = 0;i<ne[2][1][1]->densities.size();i++)
+			else
 			{
-				if(ne[2][1][1]->densities.at(i).vox_density==0)
+				//drawsides[DRAW_CUBE_LEFT]=1;
+			}
+			if(TestVox(this,ne[2][1][1])==true)
+			{
+				for(int i = 0;i<ne[2][1][1]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_RIGHT]=1;
+					if(ne[2][1][1]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_RIGHT]=1;
+					}
 				}
 			}
-		}
-		else
-		{
-			//drawsides[DRAW_CUBE_RIGHT]=1;
-		}
-		if(ne[1][0][1]!=nullptr)
-		{
-			for(int i = 0;i<ne[1][0][1]->densities.size();i++)
+			else
 			{
-				if(ne[1][0][1]->densities.at(i).vox_density==0)
+				//drawsides[DRAW_CUBE_RIGHT]=1;
+			}
+			if(TestVox(this,ne[1][0][1])==true)
+			{
+				for(int i = 0;i<ne[1][0][1]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_DOWN]=1;
+					if(ne[1][0][1]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_DOWN]=1;
+					}
 				}
 			}
-		}
-		else
-		{
-			//drawsides[DRAW_CUBE_DOWN]=1;
-		}
-		if(ne[1][2][1]!=nullptr)
-		{
-			for(int i = 0;i<ne[1][2][1]->densities.size();i++)
+			else
 			{
-				if(ne[1][2][1]->densities.at(i).vox_density==0)
+				//drawsides[DRAW_CUBE_DOWN]=1;
+			}
+			if(TestVox(this,ne[1][2][1])==true)
+			{
+				for(int i = 0;i<ne[1][2][1]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_UP]=1;
+					if(ne[1][2][1]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_UP]=1;
+					}
 				}
 			}
-		}
-		else
-		{
-			//drawsides[DRAW_CUBE_UP]=1;
-		}
-		if(ne[1][1][0]!=nullptr)
-		{
-			for(int i = 0;i<ne[1][1][0]->densities.size();i++)
+			else
 			{
-				if(ne[1][1][0]->densities.at(i).vox_density==0)
+				//drawsides[DRAW_CUBE_UP]=1;
+			}
+			if(TestVox(this,ne[1][1][0])==true)
+			{
+				for(int i = 0;i<ne[1][1][0]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_BACKWARD]=1;
+					if(ne[1][1][0]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_BACKWARD]=1;
+					}
 				}
 			}
-		}
-		else
-		{
-			//drawsides[DRAW_CUBE_BACKWARD]=1;
-		}
-		if(ne[1][1][2]!=nullptr)
-		{
-			for(int i = 0;i<ne[1][1][2]->densities.size();i++)
+			else
 			{
-				if(ne[1][1][2]->densities.at(i).vox_density==0)
+				//drawsides[DRAW_CUBE_BACKWARD]=1;
+			}
+			if(TestVox(this,ne[1][1][2])==true)
+			{
+				for(int i = 0;i<ne[1][1][2]->densities.size();i++)
 				{
-					drawsides[DRAW_CUBE_FORWARD]=1;
+					if(ne[1][1][2]->densities.at(i).vox_density==0)
+					{
+						drawsides[DRAW_CUBE_FORWARD]=1;
+					}
 				}
 			}
+			else
+			{
+				//drawsides[DRAW_CUBE_FORWARD]=1;
+			}
+			int nt = 0;
+			for(int i = 0;i<densities.size();i++)
+			{
+				densities.at(i).vmesh.clear();
+				densities.at(i).vcell.p[0]=(position+VINDEX(0,0,0)).ToVector3();
+				densities.at(i).vcell.p[1]=(position+VINDEX(1,0,0)).ToVector3();
+				densities.at(i).vcell.p[2]=(position+VINDEX(1,0,1)).ToVector3();
+				densities.at(i).vcell.p[3]=(position+VINDEX(0,0,1)).ToVector3();
+				densities.at(i).vcell.p[4]=(position+VINDEX(0,1,0)).ToVector3();
+				densities.at(i).vcell.p[5]=(position+VINDEX(1,1,0)).ToVector3();
+				densities.at(i).vcell.p[6]=(position+VINDEX(1,1,1)).ToVector3();
+				densities.at(i).vcell.p[7]=(position+VINDEX(0,1,1)).ToVector3();
+				if(TestVox(this,ne[1][1][1])==true)
+				{
+					densities.at(i).vcell.val[0]=ne[1][1][1]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[0]=0.0f;
+				}
+				if(TestVox(this,ne[2][1][1])==true)
+				{
+					densities.at(i).vcell.val[1]=ne[2][1][1]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[1]=0.0f;
+				}
+				if(TestVox(this,ne[2][1][2])==true)
+				{
+					densities.at(i).vcell.val[2]=ne[2][1][2]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[2]=0.0f;
+				}
+				if(TestVox(this,ne[1][1][2])==true)
+				{
+					densities.at(i).vcell.val[3]=ne[1][1][2]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[3]=0.0f;
+				}
+				if(TestVox(this,ne[1][2][1])==true)
+				{
+					densities.at(i).vcell.val[4]=ne[1][2][1]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[4]=0.0f;
+				}
+				if(TestVox(this,ne[2][2][1])==true)
+				{
+					densities.at(i).vcell.val[5]=ne[2][2][1]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[5]=0.0f;
+				}
+				if(TestVox(this,ne[2][2][2])==true)
+				{
+					densities.at(i).vcell.val[6]=ne[2][2][2]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[6]=0.0f;
+				}
+				if(TestVox(this,ne[1][2][2])==true)
+				{
+					densities.at(i).vcell.val[7]=ne[1][2][2]->densities.at(i).vox_density;
+				}
+				else
+				{
+					densities.at(i).vcell.val[7]=0.0f;
+				}
+				vector<Triangle> vt = VoxelFunc::Polygonise(densities.at(i).vcell,chunk->dimensia->isolevel);
+				nt+=vt.size();
+				for(int k = 0;k<vt.size();k++)
+				{
+					densities.at(i).vmesh.push_back(vt.at(k));
+				}
+			}
+			state=1;
+			isVC=true;
 		}
-		else
+		catch(exception ex)
 		{
-			//drawsides[DRAW_CUBE_FORWARD]=1;
+			cout<<"VCalcFailure\n";
+			LOGW1(ex.what());LOGW1("\n");
 		}
-		int nt = 0;
-		for(int i = 0;i<densities.size();i++)
-		{
-			densities.at(i).vmesh.clear();
-			densities.at(i).vcell.p[0]=(position+VINDEX(0,0,0)).ToVector3();
-			densities.at(i).vcell.p[1]=(position+VINDEX(1,0,0)).ToVector3();
-			densities.at(i).vcell.p[2]=(position+VINDEX(1,0,1)).ToVector3();
-			densities.at(i).vcell.p[3]=(position+VINDEX(0,0,1)).ToVector3();
-			densities.at(i).vcell.p[4]=(position+VINDEX(0,1,0)).ToVector3();
-			densities.at(i).vcell.p[5]=(position+VINDEX(1,1,0)).ToVector3();
-			densities.at(i).vcell.p[6]=(position+VINDEX(1,1,1)).ToVector3();
-			densities.at(i).vcell.p[7]=(position+VINDEX(0,1,1)).ToVector3();
-			if(ne[1][1][1]!=nullptr)
-			{
-				densities.at(i).vcell.val[0]=ne[1][1][1]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[0]=0.0f;
-			}
-			if(ne[2][1][1]!=nullptr)
-			{
-				densities.at(i).vcell.val[1]=ne[2][1][1]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[1]=0.0f;
-			}
-			if(ne[2][1][2]!=nullptr)
-			{
-				densities.at(i).vcell.val[2]=ne[2][1][2]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[2]=0.0f;
-			}
-			if(ne[1][1][2]!=nullptr)
-			{
-				densities.at(i).vcell.val[3]=ne[1][1][2]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[3]=0.0f;
-			}
-			if(ne[1][2][1]!=nullptr)
-			{
-				densities.at(i).vcell.val[4]=ne[1][2][1]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[4]=0.0f;
-			}
-			if(ne[2][2][1]!=nullptr)
-			{
-				densities.at(i).vcell.val[5]=ne[2][2][1]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[5]=0.0f;
-			}
-			if(ne[2][2][2]!=nullptr)
-			{
-				densities.at(i).vcell.val[6]=ne[2][2][2]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[6]=0.0f;
-			}
-			if(ne[1][2][2]!=nullptr)
-			{
-				densities.at(i).vcell.val[7]=ne[1][2][2]->densities.at(i).vox_density;
-			}
-			else
-			{
-				densities.at(i).vcell.val[7]=0.0f;
-			}
-			nt+=VoxelFunc::Polygonise(densities.at(i).vcell,chunk->dimensia->isolevel,&densities.at(i).vmesh);
-		}
-	}
-	catch(exception ex)
-	{
-		cout<<"VCalcFailure\n";
+		VCALCing=false;
+		//glfwUnlockMutex(vm);
 	}
 }

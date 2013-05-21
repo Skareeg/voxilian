@@ -130,8 +130,9 @@ namespace VoxelFunc
 		0 will be returned if the grid cell is either totally above
 	   of totally below the isolevel.
 	*/
-	int Polygonise(VoxelCell grid,float isolevel,std::vector<Triangle> *triangles)
+	std::vector<Triangle> Polygonise(VoxelCell grid,float isolevel)
 	{
+		std::vector<Triangle> triangles;
 		int i,ntriang;
 		int cubeindex;
 		Vector3 vertlist[12];
@@ -445,7 +446,7 @@ int triTable[256][16] =
 
 		   /* Cube is entirely in/out of the surface */
 		   if (edgeTable[cubeindex] == 0)
-			  return(0);
+			   return triangles;
 
 		   /* Find the vertices where the surface intersects the cube */
    if (edgeTable[cubeindex] & 1) {
@@ -495,7 +496,7 @@ int triTable[256][16] =
 			  /*Vector3 norm;
 			  norm = CrossProduct(tri.p[0],tri.p[1]);
 			  norm = Normalize(norm);*/
-			  triangles->push_back(tri);
+			  triangles.push_back(tri);
 			  ntriang++;
 		   }
 	   }
@@ -503,7 +504,7 @@ int triTable[256][16] =
 	   {
 		   cout<<"POLYFAIL\n";
 	   }
-	   return(ntriang);
+	   return(triangles);
 	}
 #define ABS(x) (x < 0 ? -(x) : (x))
 	/*

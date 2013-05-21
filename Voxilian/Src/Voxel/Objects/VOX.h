@@ -9,15 +9,18 @@
 #include <fstream>
 #include <stdio.h>
 
-#define V_C_SIZEX 20
-#define V_C_SIZEY 20
-#define V_C_SIZEZ 20
+#define V_C_SIZEX 5
+#define V_C_SIZEY 5
+#define V_C_SIZEZ 5
 #define V_C_SCALEX 1.0f/((float)V_C_SIZEX)
 #define V_C_SCALEY 1.0f/((float)V_C_SIZEY)
 #define V_C_SCALEZ 1.0f/((float)V_C_SIZEZ)
 
 #define V_TYPE_MESH 0
 #define V_TYPE_CUBE 1
+
+#define VNULL chunk->dimensia->manager->voxnull
+#define CNULL dimensia->manager->vcnull
 
 struct VAV
 {
@@ -53,16 +56,29 @@ struct VDensity
 	vector<Triangle> vmesh;
 	string name;
 };
+struct VDestructor
+{
+	Vector3 pos;
+	float radius;
+	float impactsoft;
+	float impactsolid;
+};
+
+#define VVALID 99999
 
 class VVoxel
 {
 public:
+	string name;
 	VChunk* chunk;
 	VIndex position;
 	VIndex index;
 	vector<VDensity> densities;
 	VVoxel* ne[3][3][3];
 	int drawsides[6];
+	int state;
+	vector<Triangle> vmesh;
+	VoxelCell vcell;
 	VVoxel();
 	void Init(VChunk* c,VIndex p);
 	void Render();
@@ -70,6 +86,12 @@ public:
 	void Load(fstream* f);
 	void VCalculate();
 	void NCalculate();
+	bool isInit;
+	bool isNC;
+	bool isVC;
+	GLFWmutex vm;
+	bool VCALCing;
+	int valid;
 };
 
 class VChunk
@@ -86,6 +108,7 @@ public:
 	VChunk* ne[3][3][3];
 	vector<Triangle> cmesh;
 	bool render;
+	GLFWmutex nodestroy;
 	VChunk(VDimensia* d,VIndex nposition);
 	void Init();
 	void Update();
@@ -97,13 +120,16 @@ public:
 	int GetZ();
 	void NCalculate();
 	void VCalculate();
+	bool isInit;
+	bool isNC;
+	bool isVC;
 };
 
 //Voxel Dimension class.
 class VDimensia
 {
 public:
-	//The voxels current state. > 0==initialize : 1==update : 2==destroy <
+	//The voxels current state. > 0==initialize : 1==update : 2==neighbor : 3==vcalc <
 	int state;
 	//The dimensional name.
 	string name;
@@ -115,6 +141,8 @@ public:
 	GLFWthread thread_chunk_manage;
 	//This is the chunk destruction thread.
 	GLFWthread thread_chunk_destroy;
+	//This is the voxel update thread.
+	GLFWthread thread_voxel_update;
 	//This is the voxel isolevel.
 	float isolevel;
 	//The dimensions contructor.
@@ -122,19 +150,23 @@ public:
 	//The render method.
 	void Render();
 	//This will get a chunk from a position or return nullptr
-	VChunk* GetChunk(VIndex pos);
+	VChunk* GetChunk(VDimensia* dimensia,VIndex pos);
 	//This will get a voxel from a world position or return nullptr
 	VVoxel* GetVoxel(VIndex wpos);
 	//
 	//These are the voxel changing functions. They will occur in realtime.
 	//
 	void VoxelDestroySphere(Vector3 pos,float size,float soft,float hard);
+	vector<VDestructor> vox_destruct;
 };
 
 //Voxel Manager class.
 class VManager
 {
 public:
+	//This is the null Voxel.
+	VVoxel* voxnull;
+	VChunk* vcnull;
 	//The openGL Camera position.
 	Vector3* camera_pos;
 	//The voxel dimension.
