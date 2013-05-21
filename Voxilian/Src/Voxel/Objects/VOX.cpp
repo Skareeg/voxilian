@@ -226,7 +226,7 @@ void VoxelUpdate(VDimensia* v)
 		{
 			//VDestructor d = {*manager->camera_pos,2.0f,0.1f,0.1f};
 			//vox_destruct.push_back(d);
-			v->VoxelDestroySphere(*v->manager->camera_pos,4.0f,0.05f,0.0f);
+			v->VoxelDestroySphere(*v->manager->camera_pos,4.0f,0.05f,0.1f);
 		}
 	}
 	catch(exception ex)
