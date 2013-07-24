@@ -1,0 +1,240 @@
+#include "UI.h"
+
+Rect::Rect()
+{
+	px=0;
+	py=0;
+	sx=0;
+	sy=0;
+	pz=0;
+}
+Rect::Rect(float positionx,float positiony,float sizex,float sizey)
+{
+	px=positionx;
+	py=positiony;
+	sx=sizex;
+	sy=sizey;
+	pz=0;
+}
+Rect::Rect(float positionx,float positiony,float sizex,float sizey,float depth)
+{
+	px=positionx;
+	py=positiony;
+	sx=sizex;
+	sy=sizey;
+	pz=depth;
+}
+
+CDRect::CDRect()
+{
+	texture=0;
+}
+
+void CDRect::Draw()
+{
+	UI.Window(rect,rect.pz,texture);
+}
+
+CWindow::CWindow()
+{
+	runfunction=nullptr;
+}
+
+bool CWindow::MousePress()
+{
+	if(MouseHover()==true)
+	{
+		if(Input.GetMouse(0)==true)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CWindow::MouseHover()
+{
+	if(Input.Mouse.posX>rect.px&&Input.Mouse.posY>rect.py)
+	{
+		if(Input.Mouse.posX<rect.px+rect.sx&&Input.Mouse.posY<rect.py+rect.sy)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void CWindow::Run()
+{
+	runfunction(this);
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Run();
+	}
+}
+
+void CWindow::Draw()
+{
+	UI.Window(rect,rect.pz,texture);
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Draw();
+	}
+}
+
+bool CButton::Activated()
+{
+	if(MouseHover()==true)
+	{
+		if(Input.Mouse.mouseleftr==true)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void CButton::Draw()
+{
+	state=UI.Button(rect,rect.pz,t_none,t_hover,t_press);
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Draw();
+	}
+}
+
+void CCrosshair::Init(string text)
+{
+	if(text!="")
+	{
+		texture=Graphics.LoadTexture(text,false);
+		rect.pz=-1;
+	}
+}
+
+void CCrosshair::Draw()
+{
+	float mpx = Input.Mouse.posX;
+	float mpy = Input.Mouse.posY;
+	rect.sx=31.0f;
+	rect.sy=31.0f;
+	rect.px=mpx-(rect.sx/2.0f);
+	rect.py=mpy-(rect.sy/2.0f);
+	CDRect::Draw();
+}
+
+CUI::CUI()
+{
+	cursorLock=true;
+}
+
+void CUI::Init()
+{
+	crossHair.Init("crosshair.png");
+}
+
+CWindow* CUI::CreateWindow(Rect pos,string texture)
+{
+	CWindow* win = new CWindow();
+	win->parentwindow=nullptr;
+	win->rect=pos;
+	if(texture!="")
+	{
+		win->texture=Graphics.LoadTexture(texture,false);
+	}
+	windows.push_back(win);
+	return win;
+}
+
+CButton* CUI::CreateButton(Rect pos,string texturen,string textureh,string texturep)
+{
+	CButton* win = new CButton();
+	win->parentwindow=nullptr;
+	win->rect=pos;
+	if(texturen!="")
+	{
+		win->t_none=Graphics.LoadTexture(texturen,false);
+	}
+	if(textureh!="")
+	{
+		win->t_hover=Graphics.LoadTexture(textureh,false);
+	}
+	if(texturep!="")
+	{
+		win->t_press=Graphics.LoadTexture(texturep,false);
+	}
+	win->texture=win->t_none;
+	windows.push_back(win);
+	return win;
+}
+
+void CUI::Window(Rect rect,float depth,UITex texture)
+{
+	Graphics.Draw.DrawRect(rect.px,rect.py,rect.sx,rect.sy,texture,depth);
+}
+int CUI::Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex texturepress)
+{
+	if(Input.Mouse.posX>rect.px&&Input.Mouse.posY>rect.py)
+	{
+		if(Input.Mouse.posX<rect.px+rect.sx&&Input.Mouse.posY<rect.py+rect.sy)
+		{
+			if(Input.GetMouse(0)==true)
+			{
+				UI.Window(rect,depth,texturepress);
+				return Btn::PRESS;
+			}
+			UI.Window(rect,depth,texturehover);
+			return Btn::HOVER;
+		}
+	}
+	UI.Window(rect,depth,texturenone);
+	return Btn::NONE;
+}
+
+void CUI::Run()
+{
+	static int fkey = 0;
+	if(Input.GetKey('F')==true)
+	{
+		if(fkey==0)
+		{
+			if(cursorLock)
+			{
+				cursorLock=false;
+			}
+			else
+			{
+				cursorLock=true;
+			}
+			fkey=1;
+		}
+	}
+	else
+	{
+		fkey=0;
+	}
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Run();
+	}
+}
+
+void CUI::Draw()
+{
+	glPushMatrix();
+	Graphics.Orthographic();
+	if(!cursorLock)
+	{
+		crossHair.Draw();
+	}
+	//UI DRAW CODES 2D
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Draw();
+	}
+	Graphics.Perspective();
+	glPopMatrix();
+	//UI DRAW CODES 3D
+}
+
+CUI UI;

@@ -44,7 +44,7 @@
     <OutDir>$(SolutionDir)\$(ProjectName)\Game\</OutDir>
     <TargetName>Voxilian</TargetName>
     <IncludePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib\Release;C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib\Debug;$(LibraryPath)</LibraryPath>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
     <SourcePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Src;$(SourcePath)</SourcePath>
     <IntDir>$(Configuration)\</IntDir>
@@ -52,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib;C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib\Release;C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Lib\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\$(ProjectName)\Game\</OutDir>
     <TargetName>Voxilian</TargetName>
     <ExecutablePath>C:\Users\AuniqueMIND\Documents\Visual Studio 2012\Projects\Voxilian\Voxilian\Game;$(ExecutablePath)</ExecutablePath>
@@ -68,12 +68,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;BulletDynamics.lib;BulletCollision.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics_debug.lib;BulletCollision_debug.lib;LinearMath_debug.lib;fmodexL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -89,14 +89,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;BulletDynamics.lib;BulletCollision.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -104,28 +104,27 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Game.h" />
-    <ClInclude Include="Src\Utilities\Camera.h" />
-    <ClInclude Include="Src\Utilities\CMDCall.h" />
-    <ClInclude Include="Src\Utilities\Entity.h" />
-    <ClInclude Include="Src\Utilities\GLSYS.h" />
-    <ClInclude Include="Src\Utilities\Math.h" />
-    <ClInclude Include="Src\Utilities\simplexnoise.h" />
-    <ClInclude Include="Src\Utilities\Types.h" />
-    <ClInclude Include="Src\Voxel\Objects\VOX.h" />
+    <ClInclude Include="Src\Game\Core\Globals.h" />
+    <ClInclude Include="Src\Game\Core\Tier1.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Scene\Scene.h" />
+    <ClInclude Include="Src\Game\Core\Tier2.h" />
+    <ClInclude Include="Src\Game\Game.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Graphics\Graphics.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Input\Input.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Log\Log.h" />
+    <ClInclude Include="Src\Game\Core\Tier2\UI\UI.h" />
+    <ClInclude Include="Src\Game\Game\UI\Menu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Game.cpp" />
-    <ClCompile Include="Src\Utilities\Camera.cpp" />
-    <ClCompile Include="Src\Utilities\CMDCall.cpp" />
-    <ClCompile Include="Src\Utilities\Entity.cpp" />
-    <ClCompile Include="Src\Utilities\GLSYS.cpp" />
-    <ClCompile Include="Src\Utilities\Math.cpp" />
-    <ClCompile Include="Src\Utilities\simplexnoise.cpp" />
-    <ClCompile Include="Src\Utilities\Types.cpp" />
-    <ClCompile Include="Src\Voxel\Objects\VOX.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Scene\Scene.cpp" />
+    <ClCompile Include="Src\Game\Game.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Input\Input.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Log\Log.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier2\UI\UI.cpp" />
+    <ClCompile Include="Src\Game\Game\UI\Menu.cpp" />
     <ClCompile Include="Src\Voxilian.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

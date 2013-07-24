@@ -49,31 +49,34 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Voxel\Objects\VOX.h">
+    <ClInclude Include="Src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game.h">
+    <ClInclude Include="Src\Game\Core\Tier1\Graphics\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\Camera.h">
+    <ClInclude Include="Src\Game\Core\Tier1\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\CMDCall.h">
+    <ClInclude Include="Src\Game\Core\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\Entity.h">
+    <ClInclude Include="Src\Game\Core\Tier2\UI\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\GLSYS.h">
+    <ClInclude Include="Src\Game\Core\Tier1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\Math.h">
+    <ClInclude Include="Src\Game\Core\Tier2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\Types.h">
+    <ClInclude Include="Src\Game\Core\Tier1\Log\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Utilities\simplexnoise.h">
+    <ClInclude Include="Src\Game\Core\Tier1\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Game\UI\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -81,34 +84,28 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Voxilian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\Camera.cpp">
+    <ClCompile Include="Src\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\CMDCall.cpp">
+    <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\Entity.cpp">
+    <ClCompile Include="Src\Game\Core\Tier1\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\GLSYS.cpp">
+    <ClCompile Include="Src\Game\Core\Tier2\UI\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\Math.cpp">
+    <ClCompile Include="Src\Game\Core\Tier1\Log\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Utilities\Types.cpp">
+    <ClCompile Include="Src\Game\Core\Tier1\Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Voxel\Objects\VOX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Utilities\simplexnoise.cpp">
+    <ClCompile Include="Src\Game\Game\UI\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

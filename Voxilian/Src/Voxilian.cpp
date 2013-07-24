@@ -5,11 +5,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "Utilities\Types.h"
-#include "Utilities\GLSYS.h"
-#include "Game.h"
-//#include "Thread\tinythread.h"
-#include <thread>
+#include "Game\Game.h"
 
 int main(int argc, char** argv)
 {
@@ -17,13 +13,9 @@ int main(int argc, char** argv)
 	system("pause");
 	Game gm;
 	gm.Init();
-	LOG("Game State Initialized.\n");
-	while(glS.WindowEscaped()==false)
+	while(gm.isRunning)
 	{
-		gm.Render();
 		gm.Run();
 	}
-	LOG("Game State Terminating.\n");
-	gm.End();
 	return 0;
 }
