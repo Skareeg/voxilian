@@ -36,7 +36,7 @@ public:
 	vector<CScene*> scenes;
 	CScene* CreateScene(string name);
 	void SetScene(CScene* setscene);
-	void DrawScene();
+	void Update();
 };
 
 extern CManager SceneMgr;

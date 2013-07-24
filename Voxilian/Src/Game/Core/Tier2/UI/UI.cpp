@@ -82,6 +82,17 @@ void CWindow::Draw()
 	}
 }
 
+CButton::CButton()
+{
+	CWindow::CWindow();
+	sn_none=nullptr;
+	sn_hover=nullptr;
+	sn_press=nullptr;
+	firenone=true;
+	firehover=false;
+	firepress=false;
+}
+
 bool CButton::Activated()
 {
 	if(MouseHover()==true)
@@ -97,10 +108,62 @@ bool CButton::Activated()
 void CButton::Draw()
 {
 	state=UI.Button(rect,rect.pz,t_none,t_hover,t_press);
+	if(state==UI.NONE)
+	{
+		if(!firenone)
+		{
+			firenone=true;
+			if(sn_none!=nullptr)
+			{
+				Audio.PlaySound(sn_none,channel);
+			}
+		}
+	}
+	else
+	{
+		firenone=false;
+	}
+	if(state==UI.HOVER)
+	{
+		if(!firehover)
+		{
+			firehover=true;
+			if(sn_hover!=nullptr)
+			{
+				Audio.PlaySound(sn_hover,channel);
+			}
+		}
+	}
+	else
+	{
+		firehover=false;
+	}
+	if(state==UI.PRESS)
+	{
+		if(!firepress)
+		{
+			firepress=true;
+			if(sn_press!=nullptr)
+			{
+				Audio.PlaySound(sn_press,channel);
+			}
+		}
+	}
+	else
+	{
+		firepress=false;
+	}
 	for(int i = 0;i<windows.size();i++)
 	{
 		windows[i]->Draw();
 	}
+}
+
+void CButton::CreateSounds(string none,string hover,string press)
+{
+	sn_none=Audio.CreateSound(none);
+	sn_hover=Audio.CreateSound(hover);
+	sn_press=Audio.CreateSound(press);
 }
 
 void CCrosshair::Init(string text)
@@ -191,8 +254,22 @@ int CUI::Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex
 	return Btn::NONE;
 }
 
-void CUI::Run()
+void CUI::Update()
 {
+	glPushMatrix();
+	Graphics.Orthographic();
+	if(!cursorLock)
+	{
+		crossHair.Draw();
+	}
+	//UI DRAW CODES 2D
+	for(int i = 0;i<windows.size();i++)
+	{
+		windows[i]->Draw();
+	}
+	Graphics.Perspective();
+	glPopMatrix();
+	//UI DRAW CODES 3D
 	static int fkey = 0;
 	if(Input.GetKey('F')==true)
 	{
@@ -217,24 +294,6 @@ void CUI::Run()
 	{
 		windows[i]->Run();
 	}
-}
-
-void CUI::Draw()
-{
-	glPushMatrix();
-	Graphics.Orthographic();
-	if(!cursorLock)
-	{
-		crossHair.Draw();
-	}
-	//UI DRAW CODES 2D
-	for(int i = 0;i<windows.size();i++)
-	{
-		windows[i]->Draw();
-	}
-	Graphics.Perspective();
-	glPopMatrix();
-	//UI DRAW CODES 3D
 }
 
 CUI UI;

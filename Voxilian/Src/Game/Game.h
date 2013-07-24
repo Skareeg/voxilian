@@ -7,6 +7,8 @@ class Game
 {
 public:
 	bool isRunning;
+	CScene* sc_MainMenu;
+	CScene* sc_GameWorld;
 	void Init();
 	void Run();
 	void Terminate();

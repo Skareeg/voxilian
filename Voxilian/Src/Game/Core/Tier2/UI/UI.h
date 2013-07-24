@@ -53,9 +53,18 @@ public:
 	UITex t_hover;
 	UITex t_press;
 	int state;
+	bool firenone;
+	bool firehover;
+	bool firepress;
+	FMOD::Channel* channel;
+	FMOD::Sound* sn_none;
+	FMOD::Sound* sn_hover;
+	FMOD::Sound* sn_press;
+	CButton();
 	//(void)(*buttonfunction)(CButton*);
 	virtual bool Activated();
 	virtual void Draw();
+	void CreateSounds(string none,string hover,string press);
 };
 
 class CPanel : public CEntity , public CDRect
@@ -96,8 +105,7 @@ public:
 	};
 	void Window(Rect rect,float depth,UITex texture);
 	int Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex texturepress);
-	void Run();
-	void Draw();
+	void Update();
 };
 
 extern CUI UI;

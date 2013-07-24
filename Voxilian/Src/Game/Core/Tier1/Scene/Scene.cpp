@@ -56,7 +56,7 @@ void CManager::SetScene(CScene* setscene)
 {
 	curscene=setscene;
 }
-void CManager::DrawScene()
+void CManager::Update()
 {
 	for(int i = 0;i<curscene->elements.size();i++)
 	{

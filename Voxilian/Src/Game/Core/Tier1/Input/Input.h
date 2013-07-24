@@ -19,7 +19,7 @@ class CInput
 public:
 	CMouse Mouse;
 	void Init();
-	void Run(bool cursorLock,float lockX,float lockY);
+	void Update(bool cursorLock,float lockX,float lockY);
 	bool GetKey(int key);
 	bool GetMouse(int button);
 	void Terminate();

@@ -52,8 +52,8 @@ void CText::Init(string newfont)
 }
 void CText::DrawText(float px,float py,float depth,string text)
 {
-	//glPushMatrix();
-	//Graphics.Orthographic();
+	glPushMatrix();
+	Graphics.Orthographic();
 	float rx = Graphics.resolution_x;
 	float ry = Graphics.resolution_y;
 	if(font>0)
@@ -66,7 +66,7 @@ void CText::DrawText(float px,float py,float depth,string text)
 		for(int i = 0;i<sz;i++)
 		{
 			char currentc = text[i];
-			if(currentc>255)
+			if(currentc<255)
 			{
 				float dp1x = px + (i*width);
 				float dp1y = py;
@@ -118,8 +118,9 @@ void CText::DrawText(float px,float py,float depth,string text)
 		glVertex3f(dpx[3],dpy[3],depth);
 		glEnd();*/
 	}
-	//Graphics.Perspective();
-	//glPopMatrix();
+
+	Graphics.Perspective();
+	glPopMatrix();
 }
 
 CGraphics::CGraphics()
@@ -137,6 +138,7 @@ void CGraphics::Init()
 	cursorVisible=true;
 	glfwSetTime(0);
 	isInit=true;
+	Log.Log("Graphics system OK.",0);
 }
 
 void CGraphics::Window(bool fullscreen,float resx,float resy)
@@ -206,11 +208,13 @@ void CGraphics::ShowCursor(bool show)
 
 void CGraphics::Orthographic()
 {
+	glLoadIdentity();
 	glOrtho(0,resolution_x,0,resolution_y,1.1f,-1.1f);
 }
 
 void CGraphics::Perspective()
 {
+	glLoadIdentity();
 	if(camera!=nullptr)
 	{
 		gluPerspective(camera->fieldOfView,camera->aspectRatio,camera->nearZ,camera->farZ);

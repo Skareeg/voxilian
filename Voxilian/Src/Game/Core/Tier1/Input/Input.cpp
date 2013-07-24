@@ -4,9 +4,10 @@ void CInput::Init()
 {
 	Mouse.mouseleftp=false;
 	Mouse.mouseleftr=false;
+	Log.Log("Input system OK.",0);
 }
 
-void CInput::Run(bool cursorLock,float lockX,float lockY)
+void CInput::Update(bool cursorLock,float lockX,float lockY)
 {
 	int mx = 0;
 	int my = 0;
