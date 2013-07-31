@@ -3,7 +3,7 @@
 #include <GL\glfw.h>
 #include "..\Log\Log.h"
 #include "..\..\Globals.h"
-#include "..\Scene\Scene.h"
+#include "..\Entity\Entity.h"
 #include <SOIL.h>
 
 class CCamera : public CEntity

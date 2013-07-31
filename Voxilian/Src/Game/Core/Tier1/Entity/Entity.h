@@ -1,6 +1,11 @@
-#ifndef H_SCENE
-#define H_SCENE
+#ifndef H_ENTITY
+#define H_ENTITY
+
 #include "..\..\Globals.h"
+
+class CScene;
+
+class CUI;
 
 class CEntity
 {
@@ -12,6 +17,9 @@ public:
 	btVector3 position;
 	btQuaternion rotation;
 	btVector3 origin;
+	CScene* root;
+	CEntity* parent;
+	CUI* UI;
 	CEntity();
 	virtual void RegisterCurrent();
 	virtual void Init(string newname);
@@ -20,25 +28,5 @@ public:
 	virtual void SetType(string newtype);
 	bool HasType(string hastype);
 };
-
-class CScene
-{
-public:
-	string name;
-	vector<CEntity*> elements;
-	void Add(CEntity* element);
-};
-
-class CManager
-{
-public:
-	CScene* curscene;
-	vector<CScene*> scenes;
-	CScene* CreateScene(string name);
-	void SetScene(CScene* setscene);
-	void Update();
-};
-
-extern CManager SceneMgr;
 
 #endif

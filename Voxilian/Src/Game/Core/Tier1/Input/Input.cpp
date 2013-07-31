@@ -5,16 +5,44 @@ void CInput::Init()
 	Mouse.mouseleftp=false;
 	Mouse.mouseleftr=false;
 	Log.Log("Input system OK.",0);
+	lockmouse=true;
 }
 
-void CInput::Update(bool cursorLock,float lockX,float lockY)
+void CInput::Update(float lockX,float lockY)
 {
+	glfwPollEvents();
+	for(int i = 0;i<NKEYS;i++)
+	{
+		int press = glfwGetKey(i);
+		if(press==GLFW_PRESS)
+		{
+			if(keys[i]==1)
+			{
+				keys[i]=2;
+			}
+			if(keys[i]==0)
+			{
+				keys[i]=1;
+			}
+		}
+		else
+		{
+			if(keys[i]==3)
+			{
+				keys[i]=0;
+			}
+			if(keys[i]==2)
+			{
+				keys[i]=3;
+			}
+		}
+	}
 	int mx = 0;
 	int my = 0;
 	glfwGetMousePos(&mx,&my);
 	Mouse.deltaX=Mouse.posX-mx;
 	Mouse.deltaY=Mouse.posY-my;
-	if(cursorLock==true)
+	if(lockmouse==true)
 	{
 		glfwSetMousePos(lockX,lockY);
 		Mouse.posX=lockX;
@@ -40,16 +68,38 @@ void CInput::Update(bool cursorLock,float lockX,float lockY)
 	}
 }
 
-bool CInput::GetKey(int key)
+bool CInput::GetKeyPressed(int key)
 {
-	glfwPollEvents();
-	if(glfwGetKey(key)==GLFW_PRESS)
+	if(keys[key]==1)
 	{
 		return true;
 	}
-	if(glfwGetKey(key)==GLFW_RELEASE)
+	return false;
+}
+bool CInput::GetKeyDown(int key)
+{
+	if(keys[key]>0)
 	{
-		return false;
+		return true;
+	}
+	return false;
+}
+bool CInput::GetKeyReleased(int key)
+{
+	if(keys[key]==3)
+	{
+		return true;
+	}
+	return false;
+}
+bool CInput::GetKeyAny()
+{
+	for(int i = 0;i<NKEYS;i++)
+	{
+		if(keys[i]>0)
+		{
+			return true;
+		}
 	}
 	return false;
 }

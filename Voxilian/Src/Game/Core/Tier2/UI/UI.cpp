@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "..\..\Core.h"
 
 Rect::Rect()
 {
@@ -32,7 +33,7 @@ CDRect::CDRect()
 
 void CDRect::Draw()
 {
-	UI.Window(rect,rect.pz,texture);
+	CUI::Window(rect,rect.pz,texture);
 }
 
 CWindow::CWindow()
@@ -75,7 +76,7 @@ void CWindow::Run()
 
 void CWindow::Draw()
 {
-	UI.Window(rect,rect.pz,texture);
+	CUI::Window(rect,rect.pz,texture);
 	for(int i = 0;i<windows.size();i++)
 	{
 		windows[i]->Draw();
@@ -107,8 +108,8 @@ bool CButton::Activated()
 
 void CButton::Draw()
 {
-	state=UI.Button(rect,rect.pz,t_none,t_hover,t_press);
-	if(state==UI.NONE)
+	state=CUI::Button(rect,rect.pz,t_none,t_hover,t_press);
+	if(state==CUI::NONE)
 	{
 		if(!firenone)
 		{
@@ -123,7 +124,7 @@ void CButton::Draw()
 	{
 		firenone=false;
 	}
-	if(state==UI.HOVER)
+	if(state==CUI::HOVER)
 	{
 		if(!firehover)
 		{
@@ -138,7 +139,7 @@ void CButton::Draw()
 	{
 		firehover=false;
 	}
-	if(state==UI.PRESS)
+	if(state==CUI::PRESS)
 	{
 		if(!firepress)
 		{
@@ -188,12 +189,13 @@ void CCrosshair::Draw()
 
 CUI::CUI()
 {
-	cursorLock=true;
+	enabled=false;
+	enabledcrosshair=false;
 }
 
-void CUI::Init()
+void CUI::Init(CEntity* newentity)
 {
-	crossHair.Init("crosshair.png");
+	entity=newentity;
 }
 
 CWindow* CUI::CreateWindow(Rect pos,string texture)
@@ -237,63 +239,58 @@ void CUI::Window(Rect rect,float depth,UITex texture)
 }
 int CUI::Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex texturepress)
 {
-	if(Input.Mouse.posX>rect.px&&Input.Mouse.posY>rect.py)
+	if(!Input.lockmouse)
 	{
-		if(Input.Mouse.posX<rect.px+rect.sx&&Input.Mouse.posY<rect.py+rect.sy)
+		if(Input.Mouse.posX>rect.px&&Input.Mouse.posY>rect.py)
 		{
-			if(Input.GetMouse(0)==true)
+			if(Input.Mouse.posX<rect.px+rect.sx&&Input.Mouse.posY<rect.py+rect.sy)
 			{
-				UI.Window(rect,depth,texturepress);
-				return Btn::PRESS;
+				if(Input.GetMouse(0)==true)
+				{
+					CUI::Window(rect,depth,texturepress);
+					return Btn::PRESS;
+				}
+				CUI::Window(rect,depth,texturehover);
+				return Btn::HOVER;
 			}
-			UI.Window(rect,depth,texturehover);
-			return Btn::HOVER;
 		}
 	}
-	UI.Window(rect,depth,texturenone);
+	CUI::Window(rect,depth,texturenone);
 	return Btn::NONE;
 }
 
 void CUI::Update()
 {
-	glPushMatrix();
-	Graphics.Orthographic();
-	if(!cursorLock)
+	if(enabled==true)
 	{
-		crossHair.Draw();
-	}
-	//UI DRAW CODES 2D
-	for(int i = 0;i<windows.size();i++)
-	{
-		windows[i]->Draw();
-	}
-	Graphics.Perspective();
-	glPopMatrix();
-	//UI DRAW CODES 3D
-	static int fkey = 0;
-	if(Input.GetKey('F')==true)
-	{
-		if(fkey==0)
+		glPushMatrix();
+		Graphics.Orthographic();
+		if(!Input.lockmouse&&enabledcrosshair)
 		{
-			if(cursorLock)
-			{
-				cursorLock=false;
-			}
-			else
-			{
-				cursorLock=true;
-			}
-			fkey=1;
+			crosshair.Draw();
 		}
-	}
-	else
-	{
-		fkey=0;
-	}
-	for(int i = 0;i<windows.size();i++)
-	{
-		windows[i]->Run();
+		//UI DRAW CODES 2D
+		for(int i = 0;i<windows.size();i++)
+		{
+			windows[i]->Draw();
+		}
+		Graphics.Perspective();
+		glPopMatrix();
+		//UI DRAW CODES 3D
+		for(int i = 0;i<windows.size();i++)
+		{
+			windows[i]->Run();
+		}
 	}
 }
 
-CUI UI;
+void CUI::EnableSystem()
+{
+	enabled=true;
+}
+
+void CUI::EnableCrossHair(string tex)
+{
+	crosshair.Init(tex);
+	enabledcrosshair=true;
+}

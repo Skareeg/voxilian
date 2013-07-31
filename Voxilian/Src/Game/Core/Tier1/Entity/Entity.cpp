@@ -1,7 +1,10 @@
-#include "Scene.h"
+#include "Entity.h"
+#include "..\..\Core.h"
 
 CEntity::CEntity()
 {
+	root=nullptr;
+	parent=nullptr;
 }
 void CEntity::RegisterCurrent()
 {
@@ -9,11 +12,13 @@ void CEntity::RegisterCurrent()
 }
 void CEntity::Init(string newname)
 {
+	UI = new CUI();
 	name=newname;
 	SetType("CEntity");
 }
 void CEntity::Frame()
 {
+	UI->Update();
 	for(int i = 0;i<elements.size();i++)
 	{
 		elements[i]->Frame();
@@ -21,6 +26,7 @@ void CEntity::Frame()
 }
 void CEntity::Terminate()
 {
+	delete UI;
 }
 void CEntity::SetType(string newtype)
 {
@@ -39,29 +45,3 @@ bool CEntity::HasType(string hastype)
 	}
 	return false;
 }
-
-void CScene::Add(CEntity* element)
-{
-	elements.push_back(element);
-}
-
-CScene* CManager::CreateScene(string name)
-{
-	CScene* s = new CScene();
-	s->name=name;
-	scenes.push_back(s);
-	return s;
-}
-void CManager::SetScene(CScene* setscene)
-{
-	curscene=setscene;
-}
-void CManager::Update()
-{
-	for(int i = 0;i<curscene->elements.size();i++)
-	{
-		curscene->elements[i]->Frame();
-	}
-}
-
-CManager SceneMgr;

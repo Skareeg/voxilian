@@ -2,6 +2,8 @@
 #define H_GAME
 #include "Core\Tier1.h"
 #include "Core\Tier2.h"
+#include "Core\Tier3.h"
+#include "Game\UI\Menu.h"
 
 class Game
 {

@@ -209,7 +209,7 @@ void CGraphics::ShowCursor(bool show)
 void CGraphics::Orthographic()
 {
 	glLoadIdentity();
-	glOrtho(0,resolution_x,0,resolution_y,1.1f,-1.1f);
+	glOrtho(0,640,0,480,1.1f,-1.1f);
 }
 
 void CGraphics::Perspective()

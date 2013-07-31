@@ -3,6 +3,8 @@
 #include <GL\glfw.h>
 #include "..\Log\Log.h"
 
+#define NKEYS 512
+
 class CMouse
 {
 public:
@@ -18,9 +20,14 @@ class CInput
 {
 public:
 	CMouse Mouse;
+	bool lockmouse;
+	int keys[NKEYS];
 	void Init();
-	void Update(bool cursorLock,float lockX,float lockY);
-	bool GetKey(int key);
+	void Update(float lockX,float lockY);
+	bool GetKeyPressed(int key);
+	bool GetKeyDown(int key);
+	bool GetKeyReleased(int key);
+	bool GetKeyAny();
 	bool GetMouse(int button);
 	void Terminate();
 };

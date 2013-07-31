@@ -84,6 +84,8 @@ public:
 	virtual void Draw();
 };
 
+class CEntity;
+
 class CUI
 {
 public:
@@ -91,10 +93,10 @@ public:
 	vector<CWindow*> windows;
 	//3D panel set
 	vector<CWindow*> panels;
-	CCrosshair crossHair;
-	bool cursorLock;
+	CCrosshair crosshair;
+	CEntity* entity;
 	CUI();
-	void Init();
+	void Init(CEntity* newentity);
 	CWindow* CreateWindow(Rect pos,string texture);
 	CButton* CreateButton(Rect pos,string texturen,string textureh,string texturep);
 	enum Btn
@@ -103,11 +105,14 @@ public:
 		HOVER,
 		PRESS
 	};
-	void Window(Rect rect,float depth,UITex texture);
-	int Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex texturepress);
+	static void Window(Rect rect,float depth,UITex texture);
+	static int Button(Rect rect,float depth,UITex texturenone,UITex texturehover,UITex texturepress);
 	void Update();
+	void EnableSystem();
+	void EnableCrossHair(string tex);
+private:
+	bool enabled;
+	bool enabledcrosshair;
 };
-
-extern CUI UI;
 
 #endif

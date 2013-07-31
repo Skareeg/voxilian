@@ -104,10 +104,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Game\Core\Core.h" />
     <ClInclude Include="Src\Game\Core\Globals.h" />
     <ClInclude Include="Src\Game\Core\Tier1.h" />
     <ClInclude Include="Src\Game\Core\Tier1\Audio\Audio.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Scene\Scene.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Entity\Entity.h" />
+    <ClInclude Include="Src\Game\Core\Tier3.h" />
+    <ClInclude Include="Src\Game\Core\Tier3\Scene\Scene.h" />
     <ClInclude Include="Src\Game\Core\Tier2.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\Core\Tier1\Graphics\Graphics.h" />
@@ -120,7 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Game\Core\Tier1\Audio\Audio.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Scene\Scene.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Entity\Entity.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier3\Scene\Scene.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp" />
     <ClCompile Include="Src\Game\Core\Tier1\Input\Input.cpp" />

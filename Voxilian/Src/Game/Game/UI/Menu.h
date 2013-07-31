@@ -4,15 +4,12 @@
 #include "..\..\Core\Tier1.h"
 #include "..\..\Core\Tier2.h"
 
-class CGMenu : CEntity
+class CGMenu : public CEntity
 {
 public:
-	UITex t_startn;
-	UITex t_starth;
-	UITex t_startp;
-	UITex t_quitn;
-	UITex t_quith;
-	UITex t_quitp;
+	CButton* btn_start;
+	CButton* btn_quit;
+	CGMenu();
 	virtual void Init(string newname);
 	virtual void Frame();
 };

@@ -1,0 +1,7 @@
+0:Graphics system OK.
+1:Input system OK.
+2:Audio system OK.
+3:GLFW Window is open.
+4:{LogW1}
+5:Scene has changed---NA->MainMenu;
+6:Scene has changed---MainMenu->GameWorld;
