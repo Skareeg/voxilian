@@ -80,9 +80,11 @@ public:
 class CCrosshair : public CDRect
 {
 public:
+	bool enabledcrosshair;
 	void Init(string text);
-	virtual void Draw();
+	virtual void Update();
 };
+extern CCrosshair Crosshair;
 
 class CEntity;
 
@@ -93,7 +95,6 @@ public:
 	vector<CWindow*> windows;
 	//3D panel set
 	vector<CWindow*> panels;
-	CCrosshair crosshair;
 	CEntity* entity;
 	CUI();
 	void Init(CEntity* newentity);
@@ -112,7 +113,6 @@ public:
 	void EnableCrossHair(string tex);
 private:
 	bool enabled;
-	bool enabledcrosshair;
 };
 
 #endif

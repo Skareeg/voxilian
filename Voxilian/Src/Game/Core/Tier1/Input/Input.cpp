@@ -2,6 +2,7 @@
 
 void CInput::Init()
 {
+	terminated=false;
 	Mouse.mouseleftp=false;
 	Mouse.mouseleftr=false;
 	Log.Log("Input system OK.",0);
@@ -135,6 +136,11 @@ bool CInput::GetMouse(int button)
 
 void CInput::Terminate()
 {
+	if(!terminated)
+	{
+		Log.Log("Input Terminated Successfully.",0);
+		terminated=true;
+	}
 }
 
 CInput Input;

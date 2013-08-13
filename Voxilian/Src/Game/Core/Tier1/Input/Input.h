@@ -20,6 +20,7 @@ class CInput
 {
 public:
 	CMouse Mouse;
+	bool terminated;
 	bool lockmouse;
 	int keys[NKEYS];
 	void Init();

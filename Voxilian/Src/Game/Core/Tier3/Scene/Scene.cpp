@@ -7,6 +7,8 @@ CScene::CScene()
 
 void CScene::Init()
 {
+	btworld = new btDiscreteDynamicsWorld(Physics.dispatcher,Physics.overlappingpaircache,Physics.solver,Physics.collisionconfiguration);
+	btworld->setGravity(btVector3(0,0,0));
 }
 
 void CScene::Add(CEntity* element)
@@ -33,6 +35,11 @@ CScene* CManager::CreateScene(string name)
 	scenes.push_back(s);
 	return s;
 }
+void CScene::Frame()
+{
+	btworld->stepSimulation(Graphics.deltaTime);
+}
+
 void CManager::SetScene(CScene* setscene)
 {
 	string prevsc = "NA";

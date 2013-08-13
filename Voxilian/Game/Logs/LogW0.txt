@@ -2,6 +2,7 @@
 1:Input system OK.
 2:Audio system OK.
 3:GLFW Window is open.
-4:{LogW1}
 5:Scene has changed---NA->MainMenu;
-6:Scene has changed---MainMenu->GameWorld;
+6:GLFW Window has closed.
+7:GLFW has terminated.
+8:Input Terminated Successfully.

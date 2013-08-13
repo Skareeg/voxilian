@@ -34,6 +34,7 @@ public:
 class CGraphics
 {
 public:
+	bool terminated;
 	bool cursorVisible;
 	float deltaTime;
 	CCamera* camera;

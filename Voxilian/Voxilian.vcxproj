@@ -109,7 +109,10 @@
     <ClInclude Include="Src\Game\Core\Tier1.h" />
     <ClInclude Include="Src\Game\Core\Tier1\Audio\Audio.h" />
     <ClInclude Include="Src\Game\Core\Tier1\Entity\Entity.h" />
+    <ClInclude Include="Src\Game\Core\Tier1\Physics\Physics.h" />
+    <ClInclude Include="Src\Game\Core\Tier2\PEntity\PEntity.h" />
     <ClInclude Include="Src\Game\Core\Tier3.h" />
+    <ClInclude Include="Src\Game\Core\Tier3\Command\Command.h" />
     <ClInclude Include="Src\Game\Core\Tier3\Scene\Scene.h" />
     <ClInclude Include="Src\Game\Core\Tier2.h" />
     <ClInclude Include="Src\Game\Game.h" />
@@ -124,6 +127,9 @@
   <ItemGroup>
     <ClCompile Include="Src\Game\Core\Tier1\Audio\Audio.cpp" />
     <ClCompile Include="Src\Game\Core\Tier1\Entity\Entity.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier1\Physics\Physics.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier2\PEntity\PEntity.cpp" />
+    <ClCompile Include="Src\Game\Core\Tier3\Command\Command.cpp" />
     <ClCompile Include="Src\Game\Core\Tier3\Scene\Scene.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp" />

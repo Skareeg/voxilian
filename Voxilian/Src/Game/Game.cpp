@@ -11,6 +11,7 @@ void buttonend(CWindow* win)
 
 void Game::Init()
 {
+	terminated=false;
 	glfwInit();
 	Graphics.Init();
 	Input.Init();
@@ -46,16 +47,35 @@ void Game::Run()
 {
 	isRunning = (!Input.GetKeyDown(GLFW_KEY_ESC)&&glfwGetWindowParam(GLFW_OPENED));
 	Graphics.Begin();
+	Crosshair.Update();
 	Input.Update((Graphics.resolution_x/2.0f),(Graphics.resolution_y/2.0f));
 	//UI.Update();
 	Audio.Update();
 	SceneMgr.Update();
 	Graphics.Text.DrawText(0,0,0.25f,"Hahahahahaa!!! I am super ninja!");
+	static char ch[24];
+	static float t = 0;
+	if(t<=0)
+	{
+		if(Graphics.deltaTime!=0)
+		{
+			itoa((int)(1.0f/Graphics.deltaTime),ch,10);
+		}
+		t=0.5f;
+	}
+	t-=Graphics.deltaTime;
+	string st = "FPS:->";
+	Graphics.Text.DrawText(0,24,0.25f,st+ch);
 	Graphics.End();
+	Log.Send();
 }
 
 void Game::Terminate()
 {
-	Input.Terminate();
-	Graphics.Terminate();
+	if(!terminated)
+	{
+		Input.Terminate();
+		Graphics.Terminate();
+		terminated=true;
+	}
 }

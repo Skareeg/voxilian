@@ -17,5 +17,7 @@ int main(int argc, char** argv)
 	{
 		gm.Run();
 	}
+	gm.Terminate();
+	Log.Send();
 	return 0;
 }

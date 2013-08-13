@@ -98,9 +98,12 @@ bool CButton::Activated()
 {
 	if(MouseHover()==true)
 	{
-		if(Input.Mouse.mouseleftr==true)
+		if(!Input.lockmouse)
 		{
-			return true;
+			if(Input.Mouse.mouseleftr==true)
+			{
+				return true;
+			}
 		}
 	}
 	return false;
@@ -174,23 +177,31 @@ void CCrosshair::Init(string text)
 		texture=Graphics.LoadTexture(text,false);
 		rect.pz=-1;
 	}
+	enabledcrosshair=false;
 }
 
-void CCrosshair::Draw()
+void CCrosshair::Update()
 {
-	float mpx = Input.Mouse.posX;
-	float mpy = Input.Mouse.posY;
-	rect.sx=31.0f;
-	rect.sy=31.0f;
-	rect.px=mpx-(rect.sx/2.0f);
-	rect.py=mpy-(rect.sy/2.0f);
-	CDRect::Draw();
+	glPushMatrix();
+	Graphics.Orthographic();
+	if(!Input.lockmouse&&enabledcrosshair)
+	{
+		float mpx = Input.Mouse.posX;
+		float mpy = Input.Mouse.posY;
+		rect.sx=31.0f;
+		rect.sy=31.0f;
+		rect.px=mpx-(rect.sx/2.0f);
+		rect.py=mpy-(rect.sy/2.0f);
+		Draw();
+	}
+	Graphics.Perspective();
+	glPopMatrix();
 }
+CCrosshair Crosshair;
 
 CUI::CUI()
 {
 	enabled=false;
-	enabledcrosshair=false;
 }
 
 void CUI::Init(CEntity* newentity)
@@ -265,10 +276,6 @@ void CUI::Update()
 	{
 		glPushMatrix();
 		Graphics.Orthographic();
-		if(!Input.lockmouse&&enabledcrosshair)
-		{
-			crosshair.Draw();
-		}
 		//UI DRAW CODES 2D
 		for(int i = 0;i<windows.size();i++)
 		{
@@ -291,6 +298,6 @@ void CUI::EnableSystem()
 
 void CUI::EnableCrossHair(string tex)
 {
-	crosshair.Init(tex);
-	enabledcrosshair=true;
+	Crosshair.Init(tex);
+	Crosshair.enabledcrosshair=true;
 }

@@ -130,6 +130,7 @@ CGraphics::CGraphics()
 	camera=nullptr;
 	isInit=false;
 	isWindow=false;
+	terminated=false;
 }
 
 void CGraphics::Init()
@@ -160,6 +161,7 @@ void CGraphics::Window(bool fullscreen,float resx,float resy)
 	}
 	ShowCursor(false);
 	isWindow=true;
+	glfwSwapInterval(1);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_ALPHA_TEST);
@@ -239,10 +241,14 @@ void CGraphics::End()
 
 void CGraphics::Terminate()
 {
-	glfwCloseWindow();
-	Log.Log("GLFW Window has closed.",0);
-	glfwTerminate();
-	Log.Log("GLFW has terminated.",0);
+	if(!terminated)
+	{
+		glfwCloseWindow();
+		Log.Log("GLFW Window has closed.",0);
+		glfwTerminate();
+		Log.Log("GLFW has terminated.",0);
+		terminated=true;
+	}
 }
 
 CGraphics Graphics;

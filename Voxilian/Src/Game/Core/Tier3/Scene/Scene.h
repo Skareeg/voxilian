@@ -10,10 +10,12 @@ class CScene
 public:
 	string name;
 	vector<CEntity*> elements;
+	btDynamicsWorld* btworld;
 	CScene();
 	void Init();
 	void Add(CEntity* element);
 	void Add(CEntity* e1,CEntity* e2);
+	void Frame();
 };
 
 class CManager

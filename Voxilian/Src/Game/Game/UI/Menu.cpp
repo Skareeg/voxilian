@@ -49,13 +49,7 @@ void CGMenu::Frame()
 	CEntity::Frame();
 	if(Input.GetKeyPressed('F')==true)
 	{
-		if(Input.lockmouse)
-		{
-			Input.lockmouse=false;
-		}
-		else
-		{
-			Input.lockmouse=true;
-		}
+		Input.lockmouse=!Input.lockmouse;
+		Crosshair.enabledcrosshair=!Input.lockmouse;
 	}
 }

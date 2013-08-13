@@ -2,6 +2,7 @@
 #define H_ENTITY
 
 #include "..\..\Globals.h"
+//#include "..\Physics\Physics.h"
 
 class CScene;
 
