@@ -49,55 +49,106 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Game.h">
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Graphics\Graphics.h">
+    <ClInclude Include="Src\Engine\Game\Dev\DevPlayer\DevPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Input\Input.h">
+    <ClInclude Include="Src\Engine\Game\Dev\FlyCam\FlyCam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Globals.h">
+    <ClInclude Include="Src\Engine\Game\UI\Menu\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier2\UI\UI.h">
+    <ClInclude Include="Src\Engine\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1.h">
+    <ClInclude Include="Src\Engine\Game\Tier1\GEntity\GEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier2.h">
+    <ClInclude Include="Src\Engine\Game\Tier1\GPEntity\GPEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Log\Log.h">
+    <ClInclude Include="Src\Engine\Game\Tier2\Ent\Ent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Game\UI\Menu.h">
+    <ClInclude Include="Src\Engine\Game\Tier1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Audio\Audio.h">
+    <ClInclude Include="Src\Engine\Game\Dev\DevCreators\DCCEnt\DCCEnt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier3.h">
+    <ClInclude Include="Src\Engine\Game\Dev\DevCreators\DevCreators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Core.h">
+    <ClInclude Include="Src\Engine\Game\Dev\DevSys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Entity\Entity.h">
+    <ClInclude Include="Src\Engine\Game\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier3\Scene\Scene.h">
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Audio\Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier1\Physics\Physics.h">
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Entity\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier2\PEntity\PEntity.h">
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Graphics\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Core\Tier3\Command\Command.h">
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Input\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Log\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Physics\Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2\Mesh\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2\UI\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\Command\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\NeuralNet\NeuralNet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\PEntity\PEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Core0.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core0\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core1\Tier1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -108,41 +159,85 @@
     <ClCompile Include="Src\Voxilian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Game.cpp">
+    <ClCompile Include="Src\Engine\Game\Dev\FlyCam\FlyCam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp">
+    <ClCompile Include="Src\Engine\Game\UI\Menu\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Input\Input.cpp">
+    <ClCompile Include="Src\Engine\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier2\UI\UI.cpp">
+    <ClCompile Include="Src\Engine\Game\Tier1\GEntity\GEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Log\Log.cpp">
+    <ClCompile Include="Src\Engine\Game\Tier1\GPEntity\GPEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Game\UI\Menu.cpp">
+    <ClCompile Include="Src\Engine\Game\Tier2\Ent\Ent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Audio\Audio.cpp">
+    <ClCompile Include="Src\Engine\Game\Dev\DevCreators\DCCEnt\DCCEnt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Entity\Entity.cpp">
+    <ClCompile Include="Src\Engine\Game\Dev\DevCreators\DevCreators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier3\Scene\Scene.cpp">
+    <ClCompile Include="Src\Engine\Game\Dev\DevSys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier1\Physics\Physics.cpp">
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Audio\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier2\PEntity\PEntity.cpp">
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Entity\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Core\Tier3\Command\Command.cpp">
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Graphics\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Input\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Log\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Physics\Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\Mesh\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\Command\Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\NeuralNet\NeuralNet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\PEntity\PEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core0\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Voxilian.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

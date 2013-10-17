@@ -73,7 +73,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics_debug.lib;BulletCollision_debug.lib;LinearMath_debug.lib;fmodexL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics_debug.lib;BulletCollision_debug.lib;LinearMath_debug.lib;fmodexL_vc.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -96,7 +96,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;GLFWDLL.lib;OpenGL32.lib;glu32.lib;SOIL.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;fmodex_vc.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -104,41 +104,74 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Game\Core\Core.h" />
-    <ClInclude Include="Src\Game\Core\Globals.h" />
-    <ClInclude Include="Src\Game\Core\Tier1.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Audio\Audio.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Entity\Entity.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Physics\Physics.h" />
-    <ClInclude Include="Src\Game\Core\Tier2\PEntity\PEntity.h" />
-    <ClInclude Include="Src\Game\Core\Tier3.h" />
-    <ClInclude Include="Src\Game\Core\Tier3\Command\Command.h" />
-    <ClInclude Include="Src\Game\Core\Tier3\Scene\Scene.h" />
-    <ClInclude Include="Src\Game\Core\Tier2.h" />
-    <ClInclude Include="Src\Game\Game.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Graphics\Graphics.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Input\Input.h" />
-    <ClInclude Include="Src\Game\Core\Tier1\Log\Log.h" />
-    <ClInclude Include="Src\Game\Core\Tier2\UI\UI.h" />
-    <ClInclude Include="Src\Game\Game\UI\Menu.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Src\Engine\Core\Core.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Core0.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Globals.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Audio\Audio.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Entity\Entity.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Physics\Physics.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2\Mesh\Mesh.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\PEntity\PEntity.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\Command\Command.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\NeuralNet\NeuralNet.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier3\Scene\Scene.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2.h" />
+    <ClInclude Include="Src\Engine\Core\Core1\Tier1.h" />
+    <ClInclude Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.h" />
+    <ClInclude Include="Src\Engine\Core\Globals.h" />
+    <ClInclude Include="Src\Engine\Game.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Graphics\Graphics.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Input\Input.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier1\Log\Log.h" />
+    <ClInclude Include="Src\Engine\Core\Core0\Tier2\UI\UI.h" />
+    <ClInclude Include="Src\Engine\Game\Core.h" />
+    <ClInclude Include="Src\Engine\Game\Dev\DevCreators\DCCEnt\DCCEnt.h" />
+    <ClInclude Include="Src\Engine\Game\Dev\DevCreators\DevCreators.h" />
+    <ClInclude Include="Src\Engine\Game\Dev\DevPlayer\DevPlayer.h" />
+    <ClInclude Include="Src\Engine\Game\Dev\DevSys.h" />
+    <ClInclude Include="Src\Engine\Game\Dev\FlyCam\FlyCam.h" />
+    <ClInclude Include="Src\Engine\Game\Tier1.h" />
+    <ClInclude Include="Src\Engine\Game\Tier1\GEntity\GEntity.h" />
+    <ClInclude Include="Src\Engine\Game\Tier1\GPEntity\GPEntity.h" />
+    <ClInclude Include="Src\Engine\Game\Tier2\Ent\Ent.h" />
+    <ClInclude Include="Src\Engine\Game\UI\Menu\Menu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Game\Core\Tier1\Audio\Audio.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Entity\Entity.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Physics\Physics.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier2\PEntity\PEntity.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier3\Command\Command.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier3\Scene\Scene.cpp" />
-    <ClCompile Include="Src\Game\Game.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Graphics\Graphics.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Input\Input.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier1\Log\Log.cpp" />
-    <ClCompile Include="Src\Game\Core\Tier2\UI\UI.cpp" />
-    <ClCompile Include="Src\Game\Game\UI\Menu.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Globals.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Audio\Audio.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Entity\Entity.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Physics\Physics.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\Mesh\Mesh.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIButton.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIWindow.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\PEntity\PEntity.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\Command\Command.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\NeuralNet\NeuralNet.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier3\Scene\Scene.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.cpp" />
+    <ClCompile Include="Src\Engine\Game.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Graphics\Graphics.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Input\Input.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier1\Log\Log.cpp" />
+    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UI.cpp" />
+    <ClCompile Include="Src\Engine\Game\Dev\DevCreators\DCCEnt\DCCEnt.cpp" />
+    <ClCompile Include="Src\Engine\Game\Dev\DevCreators\DevCreators.cpp" />
+    <ClCompile Include="Src\Engine\Game\Dev\DevSys.cpp" />
+    <ClCompile Include="Src\Engine\Game\Dev\FlyCam\FlyCam.cpp" />
+    <ClCompile Include="Src\Engine\Game\Tier1\GEntity\GEntity.cpp" />
+    <ClCompile Include="Src\Engine\Game\Tier1\GPEntity\GPEntity.cpp" />
+    <ClCompile Include="Src\Engine\Game\Tier2\Ent\Ent.cpp" />
+    <ClCompile Include="Src\Engine\Game\UI\Menu\Menu.cpp" />
     <ClCompile Include="Src\Voxilian.cpp" />
     <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Voxilian.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
