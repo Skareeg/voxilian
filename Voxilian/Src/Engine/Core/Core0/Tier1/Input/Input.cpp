@@ -1,6 +1,6 @@
 #include "Input.h"
 
-void CInput::Init()
+void CInput::Init(float lockX,float lockY)
 {
 	terminated=false;
 	Mouse.mouseleftp=false;
@@ -8,9 +8,11 @@ void CInput::Init()
 	Log.Log("Input system OK.",0);
 	lockmouse=true;
 	startframe=true;
+	Mouse.lockX=lockX;
+	Mouse.lockY=lockY;
 }
 
-void CInput::Update(float lockX,float lockY)
+void CInput::Update()
 {
 	glfwPollEvents();
 	for(int i = 0;i<NKEYS;i++)
@@ -51,26 +53,49 @@ void CInput::Update(float lockX,float lockY)
 	}
 	if(lockmouse==true)
 	{
-		glfwSetMousePos(lockX,lockY);
-		Mouse.posX=lockX;
-		Mouse.posY=lockY;
+		glfwSetMousePos(Mouse.lockX,Mouse.lockY);
+		Mouse.posX=Mouse.lockX;
+		Mouse.posY=Mouse.lockY;
 	}
 	else
 	{
 		Mouse.posX=mx;
 		Mouse.posY=my;
 	}
+	Mouse.mouseleftp=false;
 	Mouse.mouseleftr=false;
-	if(Input.GetMouse(0)==true)
+	if(Input.GetMouse(0)==true&&!Mouse.mouselefth)
 	{
 		Mouse.mouseleftp=true;
 	}
+	if(Input.GetMouse(0)==true)
+	{
+		Mouse.mouselefth=true;
+	}
 	else
 	{
-		if(Mouse.mouseleftp==true)
+		if(Mouse.mouselefth==true)
 		{
 			Mouse.mouseleftr=true;
-			Mouse.mouseleftp=false;
+			Mouse.mouselefth=false;
+		}
+	}
+	Mouse.mouserightp=false;
+	Mouse.mouserightr=false;
+	if(Input.GetMouse(2)==true&&!Mouse.mouserighth)
+	{
+		Mouse.mouserightp=true;
+	}
+	if(Input.GetMouse(2)==true)
+	{
+		Mouse.mouserighth=true;
+	}
+	else
+	{
+		if(Mouse.mouserighth==true)
+		{
+			Mouse.mouserightr=true;
+			Mouse.mouserighth=false;
 		}
 	}
 }
@@ -145,7 +170,11 @@ void CInput::ResetMouse()
 	Mouse.deltaX=0;
 	Mouse.deltaY=0;
 	Mouse.mouseleftp=false;
+	Mouse.mouselefth=false;
 	Mouse.mouseleftr=false;
+	Mouse.mouserightp=false;
+	Mouse.mouserighth=false;
+	Mouse.mouserightr=false;
 }
 
 void CInput::Terminate()

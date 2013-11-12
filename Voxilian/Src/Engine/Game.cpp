@@ -1,32 +1,27 @@
 #include "Game.h"
 
-void buttonend(CWindow* win)
-{
-	CButton* button = static_cast<CButton*>(win);
-	if(button->Activated())
-	{
-		Graphics.Terminate();
-	}
-}
-
 CGFlyCam* cam;
 
 void Game::Init()
 {
+	//The game has not terminated.
 	terminated=false;
+
+	//Init glfw and the Graphics API.
 	glfwInit();
 	Graphics.Init();
-	Input.Init();
+	Graphics.Window(false,640,480);
+
+	//Init the Audio with 100 channels, Physics, and Input with the default crosshair lock.
 	Audio.Init(100);
 	Physics.Init();
-	Graphics.Window(false,640,480);
-	//Must call UI Init after Graphics to load textures.
-	//UI.Init();
+	Input.Init((Graphics.resolution_x/2.0f),(Graphics.resolution_y/2.0f));
+
+	//UI Init here.
+	UI.Init();
+
+	//Perform startup procedures.
 	isRunning=true;
-	//CButton* endb = UI.CreateButton(Rect(20,20,128,64),"buttonquitn.png","buttonquith.png","buttonquitp.png");
-	//CWindow* endb = UI.CreateWindow(Rect(20,20,64,64,0.5f),"buttonquitn.png");
-	//endb->runfunction=buttonend;
-	//endb->CreateSounds("error.wav","spawn.wav","startup.wav");
 	FMOD::Sound* startsn = Audio.CreateSound("iniated.wav");
 	if(Audio.fresult!=FMOD_OK)
 	{
@@ -36,39 +31,37 @@ void Game::Init()
 	{
 		Audio.PlaySound(startsn);
 	}
+
+	//Init the Developer's systems.
 	DevSys.Init();
 
+	//Create and Init The Main Menu and The Game World.
 	sc_MainMenu = SceneMgr.CreateScene("MainMenu");
 	sc_GameWorld = SceneMgr.CreateScene("GameWorld");
 	sc_MainMenu->Init();
 	sc_GameWorld->Init();
 	SceneMgr.SetScene(sc_MainMenu);
 
-	CGMenu* menu = new CGMenu();
-	sc_MainMenu->Add(menu);
-	menu->Init("MainMenu");
-
+	//Create the Dev Fly Camera.
 	cam = new CGFlyCam();
 	cam->Init("GameCam");
 	Graphics.SetCamera(cam->camera);
 	cam->camera->position = btVector3(0,0,-5);
 	sc_GameWorld->Add(cam);
-	cam->UI->UICreateWindow(Rect(0,0,64,64),"buttonstarth.png");
-	cam->UI->EnableSystem();
 }
 
 void Game::Run()
 {
+	//Update All Systems.
 	isRunning = (!Input.GetKeyDown(GLFW_KEY_ESC)&&glfwGetWindowParam(GLFW_OPENED));
 	Graphics.Begin();
-	Input.Update((Graphics.resolution_x/2.0f),(Graphics.resolution_y/2.0f));
-	Crosshair.Update();
+	Input.Update();
 	SceneMgr.Update();
 	Audio.Update();
 	DevSys.Update();
 
 	string st = "FPS:->";
-	Graphics.Text.DrawText(0,0,0.25f,st+str((1.0f/Graphics.deltaTime)));
+	Graphics.Text.DrawText(0.0f,0.0f,0.25f,st+str((1.0f/Graphics.deltaTime)));
 
 	Graphics.Draw.DrawCube(btVector3(0,0,25),3.0f);
 
@@ -79,6 +72,8 @@ void Game::Run()
 	glVertex3f(2,0,0);
 	glVertex3f(2,5,0);
 	glEnd();
+
+	UI.Draw();
 
 	Graphics.End();
 

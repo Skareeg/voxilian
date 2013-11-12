@@ -12,13 +12,11 @@ void CEntity::RegisterCurrent()
 }
 void CEntity::Init(string newname)
 {
-	UI = new CUI();
 	name=newname;
 	SetType("CEntity");
 }
 void CEntity::Frame()
 {
-	UI->Update();
 	for(int i = 0;i<elements.size();i++)
 	{
 		elements[i]->Frame();
@@ -26,7 +24,6 @@ void CEntity::Frame()
 }
 void CEntity::Terminate()
 {
-	delete UI;
 }
 void CEntity::SetType(string newtype)
 {

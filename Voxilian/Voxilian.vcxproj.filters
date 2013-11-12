@@ -58,9 +58,6 @@
     <ClInclude Include="Src\Engine\Game\Dev\FlyCam\FlyCam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Game\UI\Menu\Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -142,13 +139,13 @@
     <ClInclude Include="Src\Engine\Core\Core0\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Core\Core1\Tier1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Core\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core1\Core1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -160,9 +157,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Game\Dev\FlyCam\FlyCam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Game\UI\Menu\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Game.cpp">
@@ -210,12 +204,6 @@
     <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Core\Core0\Tier2\UI\UIWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Engine\Core\Core0\Tier3\Command\Command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -229,9 +217,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Core\Core0\Globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Core\Core1\Tier1\AdvWindow\AdvWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

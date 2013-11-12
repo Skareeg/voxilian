@@ -1,9 +1,9 @@
 #ifndef H_GLB
 #define H_GLB
 
-#define PI 3.14159265359f
-#define E 2.71828182845904523536028747135266249775724709369995f
-#define RNDACC 100000.0f
+//#define PI 3.14159265359f
+//#define EXP 2.71828182845904523536028747135266249775724709369995f
+//#define RNDACC 100000.0f
 
 #include <Windows.h>
 #include <assimp\Importer.hpp>
@@ -12,6 +12,8 @@
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 #include <fmod.hpp>
+#include <CEGUI\CEGUI.h>
+#include <CEGUI\RendererModules\OpenGL\GLRenderer.h>
 #include <iostream>
 #include <fstream>
 #include <vector>

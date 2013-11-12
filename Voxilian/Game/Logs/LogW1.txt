@@ -1,1 +1,1 @@
-4:GLFW Window is accelerated.
+2:GLFW Window is accelerated.

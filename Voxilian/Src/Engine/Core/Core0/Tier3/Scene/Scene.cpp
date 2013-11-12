@@ -52,7 +52,7 @@ void CManager::SetScene(CScene* setscene)
 }
 void CManager::SetScene(string scenename)
 {
-	for(int i = 0;i<scenes.size();i++)
+	for(unsigned int i = 0;i<scenes.size();i++)
 	{
 		if(scenes[i]->name==scenename)
 		{
@@ -71,7 +71,7 @@ void CManager::SetScene(string scenename)
 void CManager::Update()
 {
 	curscene->Frame();
-	for(int i = 0;i<curscene->elements.size();i++)
+	for(unsigned int i = 0;i<curscene->elements.size();i++)
 	{
 		curscene->elements[i]->Frame();
 	}

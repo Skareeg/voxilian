@@ -26,15 +26,21 @@ class CUI;
 class CEntity
 {
 public:
+	//Is the entity initialized?
 	bool isInit;
+	//The entity name.
 	string name;
+	//The current entity type.
 	string type;
+	//The Console Variables.
 	vector<CVar> vars;
+	//The past types.
 	vector<string> types;
+	//The children elements.
 	vector<CEntity*> elements;
+	//The scene this belongs to.
 	CScene* root;
 	CEntity* parent;
-	CUI* UI;
 	FMOD::Channel* sn_ch_Main;
 	vector<string> commands;
 	CEntity();

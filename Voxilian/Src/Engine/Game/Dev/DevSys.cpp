@@ -23,7 +23,7 @@ void CDevSystem::Update()
 		devinfo.push_back("Press F1 for devmenu.");
 		devinfo.push_back("Current scene name: "+SceneMgr.curscene->name+".");
 		devinfo.push_back("Current scene # elements: "+str(SceneMgr.curscene->elements.size())+".");
-		for(int i = 0;i<devinfo.size();i++)
+		for(unsigned int i = 0;i<devinfo.size();i++)
 		{
 			Graphics.Text.DrawTextW(0,i*14,-1,devinfo[i]);
 		}

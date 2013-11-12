@@ -58,7 +58,7 @@ void CNETRUN(CNeuralNet* net)
 }
 void CNeuralNet::Run()
 {
-	if(glfwWaitThread(thread,GLFW_NOWAIT)==true)
+	if(glfwWaitThread(thread,GLFW_NOWAIT)==1)
 	{
 		thread = glfwCreateThread((GLFWthreadfun)CNETRUN,this);
 	}

@@ -12,8 +12,14 @@ public:
 	float posY;
 	float deltaX;
 	float deltaY;
+	float lockX;
+	float lockY;
 	bool mouseleftp;
+	bool mouselefth;
 	bool mouseleftr;
+	bool mouserightp;
+	bool mouserighth;
+	bool mouserightr;
 };
 
 class CInput
@@ -24,8 +30,8 @@ public:
 	bool terminated;
 	bool lockmouse;
 	int keys[NKEYS];
-	void Init();
-	void Update(float lockX,float lockY);
+	void Init(float lockX,float lockY);
+	void Update();
 	bool GetKeyPressed(int key);
 	bool GetKeyDown(int key);
 	bool GetKeyReleased(int key);
