@@ -11,7 +11,7 @@ CLog::CLog()
 		files[i].open(st+num+".txt",ios::out|ios::trunc);
 		if(!files[i].is_open())
 		{
-			cout<<"LOGERROR->file_LogW"<<i<<"_cannot_be_opened!\n";
+			cout<<"LOGERROR->file_LogW"<<i<<"_cannot_be_opened!"<<(st+num+".txt").c_str()<<"\n";
 			bad=true;
 		}
 	}
