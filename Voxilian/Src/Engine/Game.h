@@ -2,8 +2,6 @@
 #define H_GAME
 #include "Core\Globals.h"
 #include "Core\Core.h"
-#include "Game\Core.h"
-#include "Game\Dev\FlyCam\FlyCam.h"
 
 class Game
 {

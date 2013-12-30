@@ -1,6 +1,6 @@
 #ifndef H_PEntity
 #define H_PEntity
-#include "..\..\Tier1.h"
+#include "..\..\Tier1\Tier1.h"
 
 class CPEntity : public CEntity
 {

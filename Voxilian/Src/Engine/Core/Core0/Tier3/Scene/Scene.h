@@ -2,8 +2,8 @@
 #define H_SCENE
 
 #include "..\..\Globals.h"
-#include "..\..\Tier1.h"
-#include "..\..\Tier2.h"
+#include "..\..\Tier1\Tier1.h"
+#include "..\..\Tier2\Tier2.h"
 
 class CScene
 {

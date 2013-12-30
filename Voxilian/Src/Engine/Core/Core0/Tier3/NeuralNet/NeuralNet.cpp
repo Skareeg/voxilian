@@ -65,7 +65,7 @@ void CNeuralNet::Run()
 }
 float sigmoid(float num)
 {
-	return (1.0f/(powf(E,num)));
+	return (1.0f/(powf(EXP,num)));
 }
 void CNeuralNet::Calculate()
 {

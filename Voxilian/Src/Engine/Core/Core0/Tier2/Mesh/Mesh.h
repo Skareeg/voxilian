@@ -1,7 +1,7 @@
 #ifndef H_MESH
 #define H_MESH
 
-#include "..\..\Tier1.h"
+#include "..\..\Tier1\Tier1.h"
 
 struct XYZ
 {

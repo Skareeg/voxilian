@@ -1,7 +1,5 @@
 #include "Game.h"
 
-CGFlyCam* cam;
-
 void Game::Init()
 {
 	//The game has not terminated.
@@ -32,22 +30,12 @@ void Game::Init()
 		Audio.PlaySound(startsn);
 	}
 
-	//Init the Developer's systems.
-	DevSys.Init();
-
 	//Create and Init The Main Menu and The Game World.
 	sc_MainMenu = SceneMgr.CreateScene("MainMenu");
 	sc_GameWorld = SceneMgr.CreateScene("GameWorld");
 	sc_MainMenu->Init();
 	sc_GameWorld->Init();
 	SceneMgr.SetScene(sc_MainMenu);
-
-	//Create the Dev Fly Camera.
-	cam = new CGFlyCam();
-	cam->Init("GameCam");
-	Graphics.SetCamera(cam->camera);
-	cam->camera->position = btVector3(0,0,-5);
-	sc_GameWorld->Add(cam);
 }
 
 void Game::Run()
@@ -58,7 +46,6 @@ void Game::Run()
 	Input.Update();
 	SceneMgr.Update();
 	Audio.Update();
-	DevSys.Update();
 
 	string st = "FPS:->";
 	Graphics.Text.DrawText(0.0f,0.0f,0.25f,st+str((1.0f/Graphics.deltaTime)));
