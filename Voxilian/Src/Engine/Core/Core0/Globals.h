@@ -1,10 +1,11 @@
-#ifndef H_GLB
-#define H_GLB
+#ifndef H_GLBC0
+#define H_GLBC0
 
 #define PI 3.14159265359f
 #define EXP 2.71828182845904523536028747135266249775724709369995f
 #define RNDACC 100000.0f
 
+//THE DEV SYSTEM
 #include <Windows.h>
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
@@ -12,6 +13,8 @@
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 #include <fmod.hpp>
+#include <mygui\MyGUI.h>
+#include <mygui\MyGUI_OpenGLPlatform.h>
 #include <iostream>
 #include <fstream>
 #include <vector>

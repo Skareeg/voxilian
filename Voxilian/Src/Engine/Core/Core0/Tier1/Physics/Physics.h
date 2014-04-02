@@ -11,7 +11,7 @@ public:
 	btCollisionDispatcher* dispatcher;
 	CPhysics();
 	void Init();
-	void Frame();
+	void Update();
 };
 extern CPhysics Physics;
 

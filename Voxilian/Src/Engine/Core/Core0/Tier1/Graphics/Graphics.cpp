@@ -8,6 +8,7 @@ float cF(float f,float a)
 
 CCamera::CCamera()
 {
+	CEntity::CEntity();
 	fieldOfView=60.0f;
 	aspectRatio=4.0f/3.0f;
 	nearZ=0.1f;
@@ -16,7 +17,6 @@ CCamera::CCamera()
 	euler=btVector3(0,0,0);
 	rotation.setEuler(0,0,0);
 	useQuat=false;
-	CEntity::CEntity();
 }
 void CCamera::Init(string newname)
 {
@@ -178,7 +178,7 @@ void CText::Init(string newfont)
 {
 	font=Graphics.LoadTexture(newfont,true);
 }
-void CText::DrawText(float px,float py,float depth,string text)
+void CText::Draw(float px,float py,float depth,string text)
 {
 	glPushMatrix();
 	Graphics.Orthographic();
@@ -251,18 +251,19 @@ void CText::DrawText(float px,float py,float depth,string text)
 
 CGraphics::CGraphics()
 {
-	resolution_x=-1;
-	resolution_y=-1;
+	terminated=false;
+	deltaTime=0;
 	camera=nullptr;
 	isInit=false;
 	isWindow=false;
-	terminated=false;
+	resolution_x=-1;
+	resolution_y=-1;
+	cursorvisible=true;
 }
 
 void CGraphics::Init()
 {
 	glfwSwapInterval(1);
-	cursorVisible=true;
 	glfwSetTime(0);
 	isInit=true;
 	Log.Log("Graphics system OK.",0);
@@ -272,14 +273,7 @@ void CGraphics::Window(bool fullscreen,float resx,float resy)
 {
 	resolution_x=resx;
 	resolution_y=resy;
-	if(fullscreen)
-	{
-		glfwOpenWindow(resx,resy,16,16,16,16,8,8,GLFW_FULLSCREEN);
-	}
-	else
-	{
-		glfwOpenWindow(resx,resy,16,16,16,16,8,8,GLFW_WINDOW);
-	}
+	glfwOpenWindow(resx,resy,16,16,16,16,16,16,(fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW));
 	Log.Log("GLFW Window is open.",0);
 	if(glfwGetWindowParam(GLFW_ACCELERATED)==GL_TRUE)
 	{
@@ -361,13 +355,17 @@ void CGraphics::ShowCursor(bool show)
 	if(show==true)
 	{
 		glfwEnable(GLFW_MOUSE_CURSOR);
-		cursorVisible=true;
+		cursorvisible=true;
 	}
 	else
 	{
 		glfwDisable(GLFW_MOUSE_CURSOR);
-		cursorVisible=false;
+		cursorvisible=false;
 	}
+}
+bool CGraphics::CursorVisible()
+{
+	return cursorvisible;
 }
 
 void CGraphics::Orthographic()
@@ -431,6 +429,14 @@ void CGraphics::Terminate()
 		Log.Log("GLFW has terminated.",0);
 		terminated=true;
 	}
+}
+void CGraphics::EnableDepth()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+void CGraphics::DisableDepth()
+{
+	glDisable(GL_DEPTH_TEST);
 }
 
 CGraphics Graphics;

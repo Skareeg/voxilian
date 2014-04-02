@@ -14,7 +14,7 @@ void CPhysics::Init()
 	overlappingpaircache = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver;
 }
-void CPhysics::Frame()
+void CPhysics::Update()
 {
 }
 CPhysics Physics;

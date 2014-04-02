@@ -37,7 +37,6 @@ class CMesh
 {
 public:
 	vector<SSubMesh> submeshes;
-	CMesh();
 	vector<STexture> textures;
 	bool AddCube(btVector3& pos,btVector3& size);
 	bool AddFile(string filename);

@@ -6,9 +6,6 @@ XYZ VEC3(float px,float py,float pz)
 	return vec;
 };
 
-CMesh::CMesh()
-{
-}
 bool CMesh::AddCube(btVector3& pos,btVector3& size)
 {
 	SSubMesh newmesh;
@@ -162,7 +159,7 @@ bool CMesh::AddFile(string filename)
 {
 	string filepath = "";
 	int removepoint = 0;
-	for(int i = 0;i<filename.size();i++)
+	for(int i = filename.size()-1;i>0;i--)
 	{
 		if(filename[i]=='\\')
 		{

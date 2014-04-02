@@ -3,7 +3,7 @@
 3:Audio system OK.
 4:Input system OK.
 5:UI system OK.
-6:Scene has changed---NA->MainMenu;
+6:Scene has changed: NA->MainMenu;
 7:Input Terminated Successfully.
 8:GLFW Window has closed.
 9:GLFW has terminated.

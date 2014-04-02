@@ -1,0 +1,62 @@
+22:01:58  |  Platform  |  Info  |  * Initialise: RenderManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLRenderManager.cpp  |  31
+22:01:58  |  Platform  |  Info  |  RenderManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLRenderManager.cpp  |  42
+22:01:58  |  Platform  |  Info  |  * Initialise: DataManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLDataManager.cpp  |  24
+22:01:58  |  Platform  |  Info  |  DataManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLDataManager.cpp  |  26
+22:01:58  |  Core  |  Info  |  * Initialise: Gui  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_Gui.cpp  |  75
+22:01:58  |  Core  |  Info  |  * MyGUI version 3.2.0  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_Gui.cpp  |  87
+22:01:58  |  Core  |  Info  |  * Initialise: ResourceManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  48
+22:01:59  |  Core  |  Info  |  ResourceManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  56
+22:01:59  |  Core  |  Info  |  * Initialise: LayerManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LayerManager.cpp  |  49
+22:01:59  |  Core  |  Info  |  LayerManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LayerManager.cpp  |  57
+22:01:59  |  Core  |  Info  |  * Initialise: WidgetManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_WidgetManager.cpp  |  67
+22:01:59  |  Core  |  Info  |  WidgetManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_WidgetManager.cpp  |  98
+22:01:59  |  Core  |  Info  |  * Initialise: InputManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_InputManager.cpp  |  58
+22:01:59  |  Core  |  Info  |  InputManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_InputManager.cpp  |  78
+22:01:59  |  Core  |  Info  |  * Initialise: SubWidgetManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_SubWidgetManager.cpp  |  49
+22:01:59  |  Core  |  Info  |  SubWidgetManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_SubWidgetManager.cpp  |  69
+22:01:59  |  Core  |  Info  |  * Initialise: SkinManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_SkinManager.cpp  |  53
+22:01:59  |  Core  |  Info  |  SkinManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_SkinManager.cpp  |  61
+22:01:59  |  Core  |  Info  |  * Initialise: FontManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_FontManager.cpp  |  48
+22:01:59  |  Core  |  Info  |  FontManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_FontManager.cpp  |  57
+22:01:59  |  Core  |  Info  |  * Initialise: ControllerManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ControllerManager.cpp  |  46
+22:01:59  |  Core  |  Info  |  ControllerManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ControllerManager.cpp  |  56
+22:01:59  |  Core  |  Info  |  * Initialise: PointerManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_PointerManager.cpp  |  60
+22:01:59  |  Core  |  Info  |  PointerManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_PointerManager.cpp  |  78
+22:01:59  |  Core  |  Info  |  * Initialise: ClipboardManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ClipboardManager.cpp  |  87
+22:01:59  |  Core  |  Info  |  ClipboardManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ClipboardManager.cpp  |  101
+22:01:59  |  Core  |  Info  |  * Initialise: LayoutManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LayoutManager.cpp  |  45
+22:01:59  |  Core  |  Info  |  LayoutManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LayoutManager.cpp  |  50
+22:01:59  |  Core  |  Info  |  * Initialise: DynLibManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_DynLibManager.cpp  |  41
+22:01:59  |  Core  |  Info  |  DynLibManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_DynLibManager.cpp  |  45
+22:01:59  |  Core  |  Info  |  * Initialise: PluginManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_PluginManager.cpp  |  45
+22:01:59  |  Core  |  Info  |  PluginManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_PluginManager.cpp  |  49
+22:01:59  |  Core  |  Info  |  * Initialise: LanguageManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LanguageManager.cpp  |  45
+22:01:59  |  Core  |  Info  |  LanguageManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_LanguageManager.cpp  |  49
+22:01:59  |  Core  |  Info  |  * Initialise: FactoryManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_FactoryManager.cpp  |  40
+22:01:59  |  Core  |  Info  |  FactoryManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_FactoryManager.cpp  |  42
+22:01:59  |  Core  |  Info  |  * Initialise: ToolTipManager  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ToolTipManager.cpp  |  48
+22:01:59  |  Core  |  Info  |  ToolTipManager successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ToolTipManager.cpp  |  60
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_Fonts.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  ResourceTrueTypeFont: Font 'DejaVuSansFont.15' using texture size 128 x 256.  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceTrueTypeFont.cpp  |  674
+22:01:59  |  Core  |  Info  |  ResourceTrueTypeFont: Font 'DejaVuSansFont.15' using real height 17 pixels.  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceTrueTypeFont.cpp  |  675
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_Images.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_CommonSkins.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  Register value : 'HCenter' = 0  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  238
+22:01:59  |  Core  |  Info  |  Register value : 'VCenter' = 0  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  239
+22:01:59  |  Core  |  Info  |  Register value : 'Center' = 0  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  240
+22:01:59  |  Core  |  Info  |  Register value : 'Left' = 2  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  241
+22:01:59  |  Core  |  Info  |  Register value : 'Right' = 4  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  242
+22:01:59  |  Core  |  Info  |  Register value : 'HStretch' = 6  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  243
+22:01:59  |  Core  |  Info  |  Register value : 'Top' = 8  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  244
+22:01:59  |  Core  |  Info  |  Register value : 'Bottom' = 16  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  245
+22:01:59  |  Core  |  Info  |  Register value : 'VStretch' = 24  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  246
+22:01:59  |  Core  |  Info  |  Register value : 'Stretch' = 30  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  247
+22:01:59  |  Core  |  Info  |  Register value : 'Default' = 10  |  c:\users\auniquemind\desktop\gct\voxilian\mygui_3.2.0\mygui_3.2.0\myguiengine\include\MyGUI_Align.h  |  248
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_BlueWhiteTheme.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_BlueWhiteImages.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_BlueWhiteSkins.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:01:59  |  Core  |  Info  |  Load ini file 'MyGUI_BlueWhiteTemplates.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:02:00  |  Core  |  Info  |  Load ini file 'MyGUI_Pointers.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:02:00  |  Core  |  Info  |  Load ini file 'MyGUI_Layers.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:02:00  |  Core  |  Info  |  Load ini file 'MyGUI_Settings.xml'  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_ResourceManager.cpp  |  130
+22:02:00  |  Core  |  Info  |  Gui successfully initialized  |  C:\Users\AuniqueMIND\Desktop\GCT\voxilian\MyGUI_3.2.0\MyGUI_3.2.0\MyGUIEngine\src\MyGUI_Gui.cpp  |  133

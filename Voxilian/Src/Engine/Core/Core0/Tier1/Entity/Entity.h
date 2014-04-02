@@ -32,8 +32,6 @@ public:
 	string name;
 	//The current entity type.
 	string type;
-	//The Console Variables.
-	vector<CVar> vars;
 	//The past types.
 	vector<string> types;
 	//The children elements.
@@ -42,14 +40,13 @@ public:
 	CScene* root;
 	CEntity* parent;
 	FMOD::Channel* sn_ch_Main;
-	vector<string> commands;
 	CEntity();
 	virtual void RegisterCurrent();
 	virtual void Init(string newname);
-	virtual void Frame();
+	virtual void Update();
+	virtual void Render();
 	virtual void Terminate();
 	virtual void SetType(string newtype);
-	virtual void AddCommand(string cmd);
 	bool HasType(string hastype);
 };
 

@@ -24,7 +24,7 @@ public:
 	vector<CCommandable> callbacks;
 	void Add(string command);
 	void Register(string command,void* func);
-	void Frame();
+	void Update();
 };
 extern CCommand Command;
 

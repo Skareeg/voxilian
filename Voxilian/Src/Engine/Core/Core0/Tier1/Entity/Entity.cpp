@@ -3,8 +3,12 @@
 
 CEntity::CEntity()
 {
+	isInit=false;
+	name="";
+	type="";
 	root=nullptr;
 	parent=nullptr;
+	sn_ch_Main=nullptr;
 }
 void CEntity::RegisterCurrent()
 {
@@ -15,11 +19,18 @@ void CEntity::Init(string newname)
 	name=newname;
 	SetType("CEntity");
 }
-void CEntity::Frame()
+void CEntity::Update()
 {
 	for(int i = 0;i<elements.size();i++)
 	{
-		elements[i]->Frame();
+		elements[i]->Update();
+	}
+}
+void CEntity::Render()
+{
+	for(int i = 0;i<elements.size();i++)
+	{
+		elements[i]->Render();
 	}
 }
 void CEntity::Terminate()
@@ -41,8 +52,4 @@ bool CEntity::HasType(string hastype)
 		}
 	}
 	return false;
-}
-void CEntity::AddCommand(string cmd)
-{
-	commands.push_back(cmd);
 }

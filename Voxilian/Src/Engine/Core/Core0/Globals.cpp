@@ -82,7 +82,7 @@ btQuaternion Function::QuatConjugate(btQuaternion& quat)
 string Function::String::CreateFromInt(int n)
 {
 	char ch[24];
-	_itoa(n,ch,10);
+	_itoa_s(n,ch,10);
 	string st = ch;
 	return st;
 }

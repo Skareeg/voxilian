@@ -21,6 +21,7 @@ public:
 	bool bad;
 	std::vector<CLCMD> logs;
 	ofstream files[10];
+	int lognumber;
 	CLog();
 	void Log(std::string log,int level);
 	void Send();

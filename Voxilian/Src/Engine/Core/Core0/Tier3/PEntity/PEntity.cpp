@@ -1,21 +1,17 @@
 #include "PEntity.h"
 CPEntity::CPEntity()
 {
-	CEntity::CEntity();
+	CMEntity::CMEntity();
 	motionstate = new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
-	transform=btTransform();
-	transform.setOrigin(btVector3(0,0,0));
 }
 CPEntity::CPEntity(btVector3& startposition)
 {
-	CEntity::CEntity();
+	CMEntity::CMEntity(startposition);
 	motionstate = new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),startposition));
-	transform=btTransform();
-	transform.setOrigin(startposition);
 }
 void CPEntity::Init(string newname)
 {
-	CEntity::Init(newname);
+	CMEntity::Init(newname);
 	SetType("CPEntity");
 }
 void CPEntity::SetPhysics(btCollisionShape* collisionshape,float mass)
@@ -26,8 +22,12 @@ void CPEntity::SetPhysics(btCollisionShape* collisionshape,float mass)
 	rigidbody = new btRigidBody(info);
 	rigidbody->activate(true);
 }
-void CPEntity::Frame()
+void CPEntity::Update()
 {
-	CEntity::Frame();
+	CMEntity::Update();
 	motionstate->getWorldTransform(transform);
+}
+void CPEntity::Render()
+{
+	CMEntity::Render();
 }

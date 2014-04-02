@@ -1,5 +1,18 @@
 #include "Input.h"
 
+void CMouse::SetPos(int mx, int my)
+{
+	glfwSetMousePos(mx,my);
+	deltaX=mx-posX;
+	deltaY=my-posY;
+	posX=mx;
+	posY=my;
+}
+
+CInput::CInput()
+{
+}
+
 void CInput::Init(float lockX,float lockY)
 {
 	terminated=false;
@@ -10,6 +23,11 @@ void CInput::Init(float lockX,float lockY)
 	startframe=true;
 	Mouse.lockX=lockX;
 	Mouse.lockY=lockY;
+	glfwSetKeyCallback(inputkeysfunc);
+	glfwSetCharCallback(inputcharsfunc);
+	glfwSetMouseButtonCallback(inputmousebuttonsfunc);
+	glfwSetMousePosCallback(inputmouseposfunc);
+	glfwSetMouseWheelCallback(inputmousewheelfunc);
 }
 
 void CInput::Update()
@@ -41,27 +59,7 @@ void CInput::Update()
 			}
 		}
 	}
-	int mx = 0;
-	int my = 0;
-	glfwGetMousePos(&mx,&my);
-	Mouse.deltaX=Mouse.posX-mx;
-	Mouse.deltaY=Mouse.posY-my;
-	if(startframe==true)
-	{
-		ResetMouse();
-		startframe=false;
-	}
-	if(lockmouse==true)
-	{
-		glfwSetMousePos(Mouse.lockX,Mouse.lockY);
-		Mouse.posX=Mouse.lockX;
-		Mouse.posY=Mouse.lockY;
-	}
-	else
-	{
-		Mouse.posX=mx;
-		Mouse.posY=my;
-	}
+	MouseGet();
 	Mouse.mouseleftp=false;
 	Mouse.mouseleftr=false;
 	if(Input.GetMouse(0)==true&&!Mouse.mouselefth)
@@ -99,7 +97,30 @@ void CInput::Update()
 		}
 	}
 }
-
+void CInput::MouseGet()
+{
+	int mx = 0;
+	int my = 0;
+	glfwGetMousePos(&mx,&my);
+	Mouse.deltaX=Mouse.posX-mx;
+	Mouse.deltaY=Mouse.posY-my;
+	if(startframe==true)
+	{
+		ResetMouse();
+		startframe=false;
+	}
+	if(lockmouse==true)
+	{
+		glfwSetMousePos(Mouse.lockX,Mouse.lockY);
+		Mouse.posX=Mouse.lockX;
+		Mouse.posY=Mouse.lockY;
+	}
+	else
+	{
+		Mouse.posX=mx;
+		Mouse.posY=my;
+	}
+}
 bool CInput::GetKeyPressed(int key)
 {
 	if(keys[key]==1)
@@ -110,7 +131,7 @@ bool CInput::GetKeyPressed(int key)
 }
 bool CInput::GetKeyDown(int key)
 {
-	if(keys[key]>0)
+	if(keys[key]==1||keys[key]==2)
 	{
 		return true;
 	}
@@ -184,6 +205,76 @@ void CInput::Terminate()
 		Log.Log("Input Terminated Successfully.",0);
 		terminated=true;
 	}
+}
+
+void CInput::LockMouse(bool lock)
+{
+	lockmouse=lock;
+}
+
+vector<InputCallObjPair> InputFuncs;
+
+void inputkeysfunc(int i,int j)
+{
+	InputStruct out;
+	out.i=i;
+	out.j=j;
+	out.type=InputEnum::KEY;
+	for(int k = 0;k<InputFuncs.size();k++)
+	{
+		out.object=InputFuncs[k].object;
+		InputFuncs[k].call(out);
+	}
+}
+void inputcharsfunc(int i,int j)
+{
+	InputStruct out;
+	out.i=i;
+	out.j=j;
+	out.type=InputEnum::CHAR;
+	for(int k = 0;k<InputFuncs.size();k++)
+	{
+		out.object=InputFuncs[k].object;
+		InputFuncs[k].call(out);
+	}
+}
+void inputmousebuttonsfunc(int i,int j)
+{
+	InputStruct out;
+	out.i=i;
+	out.j=j;
+	out.type=InputEnum::MB;
+	for(int k = 0;k<InputFuncs.size();k++)
+	{
+		out.object=InputFuncs[k].object;
+		InputFuncs[k].call(out);
+	}
+}
+void inputmouseposfunc(int i,int j)
+{
+	Input.MouseGet();
+	InputStruct out;
+	out.i=i;
+	out.j=j;
+	out.type=InputEnum::MP;
+	for(int k = 0;k<InputFuncs.size();k++)
+	{
+		out.object=InputFuncs[k].object;
+		InputFuncs[k].call(out);
+	}
+}
+void inputmousewheelfunc(int i)
+{
+	InputStruct out;
+	out.i=i;
+	out.type=InputEnum::MW;
+	for(int k = 0;k<InputFuncs.size();k++)
+	{
+		out.object=InputFuncs[k].object;
+		InputFuncs[k].call(out);
+	}
+	//Set it back to zero, because, for god knows why, "i" IS THE FREAKING POSITION VALUE!
+	glfwSetMouseWheel(0);
 }
 
 CInput Input;

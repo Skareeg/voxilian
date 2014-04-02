@@ -15,7 +15,8 @@ public:
 	void Init();
 	void Add(CEntity* element);
 	void Add(CEntity* e1,CEntity* e2);
-	void Frame();
+	void Update();
+	void Render();
 };
 
 class CManager
@@ -28,6 +29,7 @@ public:
 	void SetScene(CScene* setscene);
 	void SetScene(string scenename);
 	void Update();
+	void Render();
 };
 
 extern CManager SceneMgr;

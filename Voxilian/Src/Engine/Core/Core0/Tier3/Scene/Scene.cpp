@@ -3,6 +3,7 @@
 
 CScene::CScene()
 {
+	name="";
 }
 
 void CScene::Init()
@@ -20,8 +21,9 @@ void CScene::Add(CEntity* element)
 void CScene::Add(CEntity* e1,CEntity* e2)
 {
 	e1->root=this;
+	e1->parent=e2;
 	e2->root=this;
-	e1->elements.push_back(e2);
+	e2->elements.push_back(e1);
 }
 
 CManager::CManager()
@@ -35,9 +37,16 @@ CScene* CManager::CreateScene(string name)
 	scenes.push_back(s);
 	return s;
 }
-void CScene::Frame()
+void CScene::Update()
 {
 	btworld->stepSimulation(Graphics.deltaTime,10);
+}
+void CScene::Render()
+{
+	for(unsigned int i = 0;i<elements.size();i++)
+	{
+		elements[i]->Render();
+	}
 }
 
 void CManager::SetScene(CScene* setscene)
@@ -48,7 +57,7 @@ void CManager::SetScene(CScene* setscene)
 		prevsc=curscene->name;
 	}
 	curscene=setscene;
-	Log.Log("Scene has changed---"+prevsc+"->"+curscene->name+";",0);
+	Log.Log("Scene has changed: "+prevsc+"->"+curscene->name+";",0);
 }
 void CManager::SetScene(string scenename)
 {
@@ -70,11 +79,15 @@ void CManager::SetScene(string scenename)
 }
 void CManager::Update()
 {
-	curscene->Frame();
+	curscene->Update();
 	for(unsigned int i = 0;i<curscene->elements.size();i++)
 	{
-		curscene->elements[i]->Frame();
+		curscene->elements[i]->Update();
 	}
+}
+void CManager::Render()
+{
+	curscene->Render();
 }
 
 CManager SceneMgr;

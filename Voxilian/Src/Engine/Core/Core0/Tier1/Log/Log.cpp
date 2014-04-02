@@ -2,6 +2,7 @@
 
 CLog::CLog()
 {
+	lognumber = 0;
 	bad = false;
 	for(int i = 0;i<10;i++)
 	{
@@ -24,6 +25,19 @@ void CLog::Log(std::string log,int level)
 {
 	CLCMD lg = {log,level};
 	logs.push_back(lg);
+	if(!bad)
+	{
+		if(level>=0&&level<10)
+		{
+			files[level]<<lognumber<<":"<<log.c_str()<<"\n";
+			cout<<lognumber<<":"<<"W"<<level<<"->"<<log.c_str()<<"\n";
+			lognumber++;
+		}
+		else
+		{
+			Log("INCORRECT LOG LEVEL",0);
+		}
+	}
 }
 void CLog::Send()
 {
@@ -31,17 +45,12 @@ void CLog::Send()
 	{
 		string log = logs.at(0).log;
 		int level = logs.at(0).level;
-		if(!bad)
+		/*if(!bad)
 		{
 			if(level>=0&&level<10)
 			{
-				static int lognumber = 0;
 				files[level]<<lognumber<<":"<<log.c_str()<<"\n";
 				cout<<lognumber<<":"<<"W"<<level<<"->"<<log.c_str()<<"\n";
-				/*for(int i = 0;i<level;i++)
-				{
-					files[i]<<lognumber<<":"<<"{LogW"<<level<<"}\n";
-				}*/
 				lognumber++;
 			}
 			else
@@ -52,7 +61,7 @@ void CLog::Send()
 		else
 		{
 			cout<<"NO LOG AVAILABLE!\n";
-		}
+		}*/
 		logs.erase(logs.begin());
 	}
 }

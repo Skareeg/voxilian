@@ -17,10 +17,12 @@ void CAudio::Init(int maxchannels)
 	if(fresult!=FMOD_OK)
 	{
 		Log.Log("MAIN FMOD SYSTEM INIT FAILURE!",0);
+		isInit=false;
 	}
 	else
 	{
 		Log.Log("Audio system OK.",0);
+		isInit=true;
 	}
 }
 

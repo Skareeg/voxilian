@@ -44,20 +44,20 @@ public:
 	unsigned int font;
 	CText();
 	void Init(string newfont);
-	void DrawText(float px,float py,float depth,string text);
+	void Draw(float px,float py,float depth,string text);
 };
 
 class CGraphics
 {
 public:
 	bool terminated;
-	bool cursorVisible;
 	float deltaTime;
 	CCamera* camera;
 	bool isInit;
 	bool isWindow;
 	float resolution_x;
 	float resolution_y;
+	bool cursorvisible;
 	CDraw Draw;
 	CText Text;
 	CGraphics();
@@ -67,12 +67,15 @@ public:
 	unsigned int LoadTexture(std::string filename,bool minmagmaps,bool autotex);
 	void FreeTexture(unsigned int texture);
 	void ShowCursor(bool show);
+	bool CursorVisible();
 	void Orthographic();
 	void Perspective();
 	void Begin();
 	void End();
 	void SetCamera(CCamera* newcam);
 	void Terminate();
+	void EnableDepth();
+	void DisableDepth();
 };
 
 extern CGraphics Graphics;
